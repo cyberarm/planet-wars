@@ -2,8 +2,9 @@ class Ship < Chingu::GameObject
   trait :effect
   trait :bounding_circle
   trait :collision_detection
+  # trait :viewport
 
-  attr_accessor :boost, :max_boost, :health
+  attr_accessor :boost, :max_boost, :health, :speed, :boost_speed, :diamond, :gold, :oil
 
   def setup
     @health      = 100
@@ -12,15 +13,24 @@ class Ship < Chingu::GameObject
     @boost       = 0
     @max_boost   = 100
 
+    @diamond = 0
+    @gold    = 0
+    @oil     = 0
+
     @ship_check = 0
 
     @border= @options[:world]
     @image = Gosu::Image["ships/ship.png"]
+    # @particle=Chingu::Particle.new
     self.scale_out(0.1)
     @ship_size = 64/2
+
+    # viewport.lag  = 0.22
+    # viewport.game_area = [0, 0, 1000*3, 1000*3]
   end
 
   def update
+    # self.viewport.center_around(self)
     # rotation = Math.atan2(self.y - $window.mouse_y, self.x - $window.mouse_x)
     # 
     # self.x -= 1 * Math.cos(rotation)
