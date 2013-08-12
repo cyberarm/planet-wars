@@ -24,7 +24,7 @@ class Ship < Chingu::GameObject
 
     @border= @options[:world]
     @image = Gosu::Image["ships/ship.png"]
-    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 10, image: @particle_img, scale: 1.0,speed: 40,friction: 0.1,max_particles: 1000,interval: 0.01,fade: 100,angular_velocity: -2000..2000)
+    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 10, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 1000,interval: 0.003,fade: 100,angular_velocity: -200..200)
     self.scale_out(0.1)
     @ship_size = 64/2
   end
@@ -35,26 +35,18 @@ class Ship < Chingu::GameObject
   end
 
   def update
-
     @last_update_at ||= Gosu::milliseconds
     @particle.update ([Gosu::milliseconds - @last_update_at, 100].min * 0.001)
     @last_update_at = Gosu::milliseconds
     @particle.x = self.x
     @particle.y = self.y
 
-    # rotation = Math.atan2(self.y - $window.mouse_y, self.x - $window.mouse_x)
-    # self.x -= 1 * Math.cos(rotation)
-    # self.y -= 1 * Math.sin(rotation)
     key_check
     ship_check
   end
 
   # check movement
   def key_check
-    if $window.button_down?(Gosu::KbLeftControl)
-      self.stop
-    end
-
     if $window.button_down?(Gosu::KbUp) or $window.button_down?(Gosu::KbW)
       if self.y >= @border[2]+@ship_size
         if $window.button_down?(Gosu::KbLeftShift)

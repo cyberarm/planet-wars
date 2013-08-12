@@ -27,26 +27,31 @@ class Game < Chingu::GameState
 
   def draw
     super
-    @fps.draw
-    @ship_location.draw
-    @ship_boost.draw
-    @instructions.draw
-    @minimap.draw
-    @debug_text.draw
-    @paused_text.draw if @paused
+    unless @paused
+      @fps.draw
+      @ship_location.draw
+      @ship_boost.draw
+      @instructions.draw
+      @minimap.draw
+      @debug_text.draw
+    else
+      @paused_text.draw
+    end
   end
 
   def update
     super
-    MiniMap.all.first.update
-    @debug_text.text = "A:#{@ship.acceleration}; V:#{@ship.velocity};"
-    @fps.text = "FPS: #{$window.fps}"
-    @ship_location.text = "X: #{@ship.x} Y: #{@ship.y}"
-    @ship_boost.text = "Boost: #{@ship.boost}"
     self.viewport.center_around(@ship)
+    unless @paused
+      MiniMap.all.first.update
+      @debug_text.text = "A:#{@ship.acceleration}; V:#{@ship.velocity};"
+      @fps.text = "FPS: #{$window.fps}"
+      @ship_location.text = "X: #{@ship.x} Y: #{@ship.y}"
+      @ship_boost.text = "Boost: #{@ship.boost}"
 
-    planet_check
-    key_check
+      planet_check
+      key_check
+    end
   end
 
   def needs_cursor?
@@ -92,10 +97,12 @@ class Game < Chingu::GameState
       if @paused
         game_objects.each(&:unpause)
         puts "Unpaused"
+        @music.song.stop
         @paused = false
       else
         game_objects.each(&:pause)
         puts "Paused"
+        @music.song.pause
         @paused = true
       end
     end

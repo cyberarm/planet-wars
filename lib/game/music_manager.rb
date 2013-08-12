@@ -15,7 +15,7 @@ class MusicManager
 
       loop do
         sleep 1
-        if @song.playing? == false
+        if @song.paused? == false && @song.playing? == false
           @current += 1
           if @current >= @music.count
             @current = 0

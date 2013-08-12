@@ -6,7 +6,7 @@ class Text
     @size = options[:size] || 13
     @x = options[:x] || 0
     @y = options[:y] || 0
-    @z = options[:z] || 0
+    @z = options[:z] || 999
     @textobject = Gosu::Font.new($window, "./fonts/Alfphabet-IV.ttf", @size)
   end
 
