@@ -1,17 +1,20 @@
 class Ship < Chingu::GameObject
   trait :effect
+  trait :velocity
   trait :bounding_circle
   trait :collision_detection
-  # trait :viewport
 
   attr_accessor :boost, :max_boost, :health, :speed, :boost_speed, :diamond, :gold, :oil
 
   def setup
     @health      = 100
     @speed       = 3
-    @boost_speed = 2
+    @max_speed   = 20
     @boost       = 0
+    @boost_speed = 2
     @max_boost   = 100
+    @particle_img = TexPlay.create_image($window, 10, 10, color: :yellow)
+    self.max_velocity = @max_speed
 
     @diamond = 0
     @gold    = 0
@@ -21,34 +24,44 @@ class Ship < Chingu::GameObject
 
     @border= @options[:world]
     @image = Gosu::Image["ships/ship.png"]
-    # @particle=Chingu::Particle.new
+    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 10, image: @particle_img, scale: 1.0,speed: 40,friction: 0.1,max_particles: 1000,interval: 0.01,fade: 100,angular_velocity: -2000..2000)
     self.scale_out(0.1)
     @ship_size = 64/2
+  end
 
-    # viewport.lag  = 0.22
-    # viewport.game_area = [0, 0, 1000*3, 1000*3]
+  def draw
+    super
+    @particle.draw
   end
 
   def update
-    # self.viewport.center_around(self)
+
+    @last_update_at ||= Gosu::milliseconds
+    @particle.update ([Gosu::milliseconds - @last_update_at, 100].min * 0.001)
+    @last_update_at = Gosu::milliseconds
+    @particle.x = self.x
+    @particle.y = self.y
+
     # rotation = Math.atan2(self.y - $window.mouse_y, self.x - $window.mouse_x)
-    # 
     # self.x -= 1 * Math.cos(rotation)
     # self.y -= 1 * Math.sin(rotation)
     key_check
     ship_check
-    # collision_check
   end
 
+  # check movement
   def key_check
-    # check movement
+    if $window.button_down?(Gosu::KbLeftControl)
+      self.stop
+    end
+
     if $window.button_down?(Gosu::KbUp) or $window.button_down?(Gosu::KbW)
       if self.y >= @border[2]+@ship_size
         if $window.button_down?(Gosu::KbLeftShift)
-          self.y-=@speed+@boost_speed if self.boost >= 1
-          self.y-=@speed unless self.boost >= 1
+          self.move(0, -(@speed+@boost_speed)) if self.boost >= 1
+          self.move(0, -@speed) unless self.boost >= 1
         else
-          self.y-=@speed
+          self.move(0, -@speed)
         end
       end
       self.angle = (0)
@@ -57,10 +70,10 @@ class Ship < Chingu::GameObject
     if $window.button_down?(Gosu::KbDown) or $window.button_down?(Gosu::KbS)
       if self.y <= @border[3]-@ship_size
         if $window.button_down?(Gosu::KbLeftShift)
-          self.y+=@speed+@boost_speed if self.boost >= 1
-          self.y+=@speed unless self.boost >= 1
+          self.move(0, @speed+@boost_speed) if self.boost >= 1
+          self.move(0, @speed) unless self.boost >= 1
         else
-          self.y+=@speed
+          self.move(0, @speed)
         end
       end
       self.angle = (180)
@@ -69,10 +82,10 @@ class Ship < Chingu::GameObject
     if $window.button_down?(Gosu::KbRight) or $window.button_down?(Gosu::KbD)
       if self.x <= @border[1]-@ship_size
         if $window.button_down?(Gosu::KbLeftShift)
-          self.x+=@speed+@boost_speed if self.boost >= 1
-          self.x+=@speed unless self.boost >= 1
+          self.move(@speed+@boost_speed, 0) if self.boost >= 1
+          self.move(@speed, 0) unless self.boost >= 1
         else
-          self.x+=@speed
+          self.move(@speed, 0)
         end
       end
       self.angle = (90)

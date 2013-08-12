@@ -30,7 +30,7 @@ class Planet < Chingu::GameObject
     self.rotate(rand(120))
     
     @rate = rand(-3.0..3.0)
-    @text = Chingu::Text.new("", x: self.x, y: self.y, zorder: 1, size: 20)
+    @text = Text.new("", x: self.x, y: self.y, zorder: 999, size: 20)
   end
 
   def rotate_self
@@ -50,7 +50,8 @@ class Planet < Chingu::GameObject
 
   def collision_check
     if self.bounding_circle_collision?(Ship.all.first)
-      self.text.text = "#{name}\nHabitable: #{habitable}\nTemperature:\n  High:#{high_temp}\n  Low: #{low_temp}\nResources:\n  Diamond: #{diamond}\n  Gold: #{gold}\n  Oil: #{oil}"
+      # self.text.text = "#{name}\nHabitable: #{habitable}\nTemperature:\n  High:#{high_temp}\n  Low: #{low_temp}\nResources:\n  Diamond: #{diamond}\n  Gold: #{gold}\n  Oil: #{oil}"
+      self.text.text = "#{name}"
     else
       self.text.text = ''
     end

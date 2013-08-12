@@ -1,5 +1,5 @@
 class MusicManager
-  attr_accessor :stop, :current, :music
+  attr_accessor :song, :music
   def initialize
     @music = Dir["#{Dir.pwd}/music/*.ogg"]
     p @music
@@ -10,22 +10,28 @@ class MusicManager
 
   def play
     Thread.new do
-      @playing = Gosu::Sample.new(@music[@current]).play
+      @song = Gosu::Sample.new(@music[@current]).play
       puts "playing: #{File.basename(@music[@current])}"
 
       loop do
         sleep 1
-        if @playing.playing? == false
+        if @song.playing? == false
           @current += 1
           if @current >= @music.count
             @current = 0
           end
-          unless @stop
-            @playing = Gosu::Sample.new(@music[@current]).play
+          begin
+            @song = Gosu::Sample.new(@music[@current]).play
             puts "playing: #{File.basename(@music[@current])}"
+          rescue NoMethodError => e
+            puts e
           end
         end
       end
+    end
+
+    at_exit do
+      @song.stop
     end
   end
 end

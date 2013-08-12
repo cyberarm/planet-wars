@@ -1,6 +1,6 @@
 require "chingu"
-require "stringio"
-require "ruby-prof"
+require "ashton"
+# require "ruby-prof"
 require "texplay"
 require "set"
 
@@ -19,7 +19,9 @@ require_relative "lib/game/state/planet_view"
 
 require_relative "lib/objects/planet"
 require_relative "lib/objects/ship"
+require_relative "lib/objects/enemy"
 require_relative "lib/objects/minimap"
+require_relative "lib/objects/text"
 
 Thread.abort_on_exception = true
 
@@ -49,6 +51,6 @@ end
 #   end
 #   game.join
 # end
-
-printer = RubyProf::GraphHtmlPrinter.new(result)
-printer.print(File.open("#{Dir.pwd}/lib/dev_stats/ruby-prof.html", 'w'))
+# 
+# printer = RubyProf::GraphHtmlPrinter.new(result)
+# printer.print(File.open("#{Dir.pwd}/lib/dev_stats/ruby-prof.html", 'w'))
