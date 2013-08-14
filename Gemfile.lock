@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ashton (0.0.3alpha)
+      gosu (~> 0.7.45)
+      opengl (~> 0.8.0.pre1)
     chingu (0.8.1)
       crack
       gosu (>= 0.7.25)
@@ -8,11 +11,18 @@ GEM
     crack (0.3.2)
     gosu (0.7.47.1-x86-mingw32)
     mime-types (1.23)
+    ocra (1.3.1)
+    opengl (0.8.0.pre1-x86-mingw32)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    texplay (0.4.3-x86-mingw32)
+      gosu (>= 0.7.25)
 
 PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  ashton
   chingu
+  ocra
+  texplay

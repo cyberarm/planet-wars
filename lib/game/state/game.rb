@@ -3,8 +3,9 @@ class Game < Chingu::GameState
   trait :viewport
 
   def setup
-    Gosu::enable_undocumented_retrofication
-    @music = MusicManager.new unless ARGV.first == '-d'
+    self.input = {[:enter, :return] => :enter, :escape => :escape, :p => :pause_game}
+
+    @music = MusicManager.new unless ARGV.first == '-d' or defined?(@music)
     @paused = false
 
     WorldGen.new(40, 3000, 3000)
@@ -18,6 +19,8 @@ class Game < Chingu::GameState
     @paused_text   = Text.new("PAUSED", x:$window.width/2-200, y: $window.height/2, z: 1000, size: 100)
 
     @minimap = MiniMap.new
+    @boost_bar    = BoostBar.new
+    @health_bar   = HealthBar.new
 
     @planet_check = 0
 
@@ -25,12 +28,17 @@ class Game < Chingu::GameState
     viewport.game_area = [0, 0, 1000*3, 1000*3]
   end
 
+  def needs_cursor?
+    false
+  end
+
   def draw
     super
     unless @paused
       @fps.draw
       @ship_location.draw
-      @ship_boost.draw
+      @boost_bar.draw
+      @health_bar.draw
       @instructions.draw
       @minimap.draw
       @debug_text.draw
@@ -42,15 +50,35 @@ class Game < Chingu::GameState
   def update
     super
     self.viewport.center_around(@ship)
+    set_fps_text_data
     unless @paused
-      MiniMap.all.first.update
+      @minimap.update
+      @health_bar.update
+      @boost_bar.update
       @debug_text.text = "A:#{@ship.acceleration}; V:#{@ship.velocity};"
-      @fps.text = "FPS: #{$window.fps}"
       @ship_location.text = "X: #{@ship.x} Y: #{@ship.y}"
-      @ship_boost.text = "Boost: #{@ship.boost}"
 
       planet_check
-      key_check
+    end
+  end
+
+  def set_fps_text_data
+    fps = $window.fps
+    @fps.text = "FPS: #{fps}"
+    if fps >= 60
+      @fps.color = Gosu::Color::WHITE
+    end
+    if fps <= 57
+      @fps.color = Gosu::Color::GREEN
+    end
+    if fps <= 45
+      @fps.color = Gosu::Color::YELLOW
+    end
+    if fps <= 30
+      @fps.color = Gosu::Color::RED
+    end
+    if fps <= 15
+      @fps.color = Gosu::Color::FUCHSIA
     end
   end
 
@@ -59,52 +87,45 @@ class Game < Chingu::GameState
   end
 
   def planet_check
-    if @planet_check >= 3
+    unless @planet_checked
       Planet.each_collision(Planet) do |one, two|
         two.destroy
-        Planet.create(x: rand($window.width), y: rand($window.height), zorder: 0) unless $window.fps < 30
-      end
-
-    end
-
-    Planet.each_bounding_circle_collision(Ship.all.first) do |planet, ship|
-      if button_down?(Gosu::KbEnter) or button_down?(Gosu::KbReturn)
-        push_game_state(PlanetView.new(planet: planet))
       end
     end
 
-    @planet_check += 1
+    @planet_checked = true
   end
 
-  def key_check
-    if button_down?(Gosu::KbEscape)
-      close
-      exit
-    end
-
-    if button_down?(Gosu::KbU)
-      push_game_state(UpgradeShip)
+  def pause_game
+    if @paused
+      game_objects.each(&:unpause)
+      puts "Unpaused"
+      @music.song.stop
+      @paused = false
+    else
+      game_objects.each(&:pause)
+      puts "Paused"
+      @music.song.pause
+      @paused = true
     end
   end
 
-  def button_down?(id)
-    $window.button_down?(id)
+  def enter
+    Planet.each_bounding_circle_collision(@ship) do |planet, ship|
+      push_game_state(PlanetView.new(planet: planet))
+    end
   end
 
-  def button_up(id)
-    case id
-    when Gosu::KbP
-      if @paused
-        game_objects.each(&:unpause)
-        puts "Unpaused"
-        @music.song.stop
-        @paused = false
-      else
-        game_objects.each(&:pause)
-        puts "Paused"
-        @music.song.pause
-        @paused = true
-      end
-    end
+  def escape
+    close
+    @ship.destroy
+    Planet.destroy_all
+    Enemy.destroy_all
+    @music.stop = true if @music
+    push_game_state(MainMenu)
+  end
+
+  def upgrade
+    push_game_state(UpgradeShip)
   end
 end

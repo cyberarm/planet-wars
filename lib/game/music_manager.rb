@@ -1,7 +1,7 @@
 class MusicManager
-  attr_accessor :song, :music
+  attr_accessor :song, :music, :stop
   def initialize
-    @music = Dir["#{Dir.pwd}/music/*.ogg"]
+    @music = Dir["#{AssetManager.music_path}/*.ogg"]
     p @music
     @current = 0
     @stop = false
@@ -15,6 +15,8 @@ class MusicManager
 
       loop do
         sleep 1
+        break if @stop
+        @song.stop if @stop
         if @song.paused? == false && @song.playing? == false
           @current += 1
           if @current >= @music.count

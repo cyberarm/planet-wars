@@ -3,6 +3,7 @@ class MiniMap < Chingu::GameObject
     @tick = 0
     self.x = $window.width-(30*5)
     self.y = 30*5
+    self.zorder = 999
     @ship = Ship.all.first
     # MiniMapGenerator.new([3000,3000], Planet.all, @ship)
   end

@@ -1,0 +1,5 @@
+---
+credits:
+  people: [{name: cyberarm, job: Lead Programmer},{name: cyberarm, job: Lead Artist}]
+  sprites: [{sprite: All sprites, name: cyberarm, license: (CC) Attribution-ShareAlike 3.0 Unported}]
+  music: [{name: Brave Soldiers, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported}, {name: Steeps of Destiny, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported}]

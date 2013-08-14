@@ -1,2 +1,5 @@
 .redcar
 ._redcar
+pkg
+*.exe
+*.html

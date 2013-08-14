@@ -7,6 +7,7 @@ class Planet < Chingu::GameObject
   attr_accessor :text, :gold, :diamond, :oil
 
   def setup
+    self.zorder = 150
     @name = NameGen.new.name
     case rand(1..2)
     when 1
@@ -24,8 +25,8 @@ class Planet < Chingu::GameObject
     @gold    = rand(0..400)
     @oil     = rand(0..400)
 
-    @image = Gosu::Image["planets/planet-0#{rand(1..2)}.png"] if habitable
-    @image = Gosu::Image["planets/planet-0#{rand(3..3)}.png"] unless habitable
+    @image = Gosu::Image["#{AssetManager.planets_path}/planet-0#{rand(1..2)}.png"] if habitable
+    @image = Gosu::Image["#{AssetManager.planets_path}/planet-0#{rand(3..3)}.png"] unless habitable
     self.scale_out(rand(0.5..0.9))
     self.rotate(rand(120))
     
