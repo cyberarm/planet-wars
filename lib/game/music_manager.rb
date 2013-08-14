@@ -2,6 +2,7 @@ class MusicManager
   attr_accessor :song, :music, :stop
   def initialize
     @music = Dir["#{AssetManager.music_path}/*.ogg"]
+    @music.shuffle!
     p @music
     @current = 0
     @stop = false
@@ -10,7 +11,7 @@ class MusicManager
 
   def play
     Thread.new do
-      @song = Gosu::Sample.new(@music[@current]).play
+      @song = Gosu::Sample[(@music[@current])].play
       puts "playing: #{File.basename(@music[@current])}"
 
       loop do
@@ -23,7 +24,7 @@ class MusicManager
             @current = 0
           end
           begin
-            @song = Gosu::Sample.new(@music[@current]).play
+            @song = Gosu::Sample[(@music[@current])].play
             puts "playing: #{File.basename(@music[@current])}"
           rescue NoMethodError => e
             puts e

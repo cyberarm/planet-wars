@@ -122,6 +122,7 @@ class Game < Chingu::GameState
     Planet.destroy_all
     Enemy.destroy_all
     @music.stop = true if @music
+    @music.song.stop if @music
     push_game_state(MainMenu)
   end
 

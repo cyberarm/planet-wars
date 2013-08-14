@@ -2,6 +2,8 @@ class PWText < Text
 end
 
 class Credits < GameUI
+  trait :timer
+
   def initialize(options={})
     options[:title] = "Credits"
     super
@@ -12,6 +14,10 @@ class Credits < GameUI
 
     @text=[]
     load_credit_data
+
+    after(3000) do
+      @scroll = true
+    end
   end
 
   def draw
@@ -19,12 +25,22 @@ class Credits < GameUI
     @text.each(&:draw)
   end
 
+  def update
+    super
+    if @scroll
+      @text.each do |t|
+        t.y-=0.3
+      end
+      push_game_state(MainMenu) if @text.last.y < 0
+    end
+  end
+
   def load_credit_data
     require "yaml"
     x    = 400
     y    = 10
     size = 40
-    data = YAML.load_file("./assets/data/credits.yml")
+    data = AssetManager.credits_data
 
     @text << PWText.new("People", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
     y+=size
@@ -56,6 +72,30 @@ class Credits < GameUI
       @text << PWText.new(song['composer'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
       y+=size
       @text << PWText.new(song['license'], x: x, y: y, size: size, color: Gosu::Color::GREEN)
+      y+=size
+    end
+
+    y+=size
+    @text << PWText.new("Fonts", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    y+=size
+    data['credits']['fonts'].each do |font|
+      @text << PWText.new(font['font'], x: x, y: y, size: size)
+      y+=size
+      @text << PWText.new(font['name'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
+      y+=size
+      @text << PWText.new(font['license'], x: x, y: y, size: size, color: Gosu::Color::GREEN)
+      y+=size
+    end
+
+    y+=size
+    @text << PWText.new("Libraries", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    y+=size
+    data['credits']['libraries'].each do |font|
+      @text << PWText.new(font['name'], x: x, y: y, size: size)
+      y+=size
+      @text << PWText.new(font['author'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
+      y+=size
+      @text << PWText.new(font['license'], x: x, y: y, size: size, color: Gosu::Color::GREEN)
       y+=size
     end
   end
