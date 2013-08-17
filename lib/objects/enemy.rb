@@ -3,7 +3,7 @@ class Enemy < Chingu::GameObject
   attr_accessor :marked, :move, :health
   trait :effect
   trait :timer
-  trait :bounding_circle, debug: true
+  trait :bounding_circle
   trait :collision_detection
   def setup
     self.zorder = 200

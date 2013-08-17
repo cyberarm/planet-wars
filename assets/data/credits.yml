@@ -13,6 +13,6 @@ credits:
           {font: Hobby Of Night, name: Fernando Haro, license: SIL Open Font License}]
 
   libraries: [{author: 'Julian Raschke, Jan Lücker and all contributors', name: Gosu, license: MIT license},
-          {author: ippa and contributors, name: Chingu, license: GNU LESSER GENERAL PUBLIC LICENSE},
-          {author: John Mair and contributors, name: TexPlay, license: Unknown},
-          {author: Bil Bas (Spooner) and contributors, name: Ashton, license: MIT license}]
+          {author: ippa and all contributors, name: Chingu, license: GNU LESSER GENERAL PUBLIC LICENSE},
+          {author: John Mair and all contributors, name: TexPlay, license: Unknown},
+          {author: Bil Bas (Spooner) and all contributors, name: Ashton, license: MIT license}]

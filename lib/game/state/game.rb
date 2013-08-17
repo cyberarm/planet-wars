@@ -3,22 +3,22 @@ class Game < Chingu::GameState
   trait :viewport
 
   def setup
-    self.input = {[:enter, :return] => :enter, :escape => :escape, :p => :pause_game}
+    self.input = {[:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
 
-    @music = MusicManager.new unless ARGV.first == '-d' or defined?(@music)
+    @music  = MusicManager.create unless ARGV.first == '-d' or defined?(@music)
     @paused = false
 
     WorldGen.new(40, 3000, 3000)
     @ship = Ship.create(x: 3000/2, y: 3000/2, zorder: 100, world: [0,3000,0,3000])#x-left, x-right, y-, y
 
     @fps           = Text.new('', x: 10, y: 0)
-    @ship_location = Text.new('', x: 10, y: 30)
-    @ship_boost    = Text.new('', x: 10, y: 60)
-    @instructions  = Text.new('(U)pgrade Ship, (Enter) Explore Planet, (M)anage all Planets.', x: 10, y: 90)
-    @debug_text    = Text.new("", x:10, y: 100)
+    @instructions  = Text.new('Upgrades', x: $window.width-(30*10), y: 400, size: 40)
+    @upgrade_speed_text  = Text.new('', x: $window.width-(30*10), y: 450, size: 11)
+    @upgrade_boost_text  = Text.new('', x: $window.width-(30*10), y: 460, size: 11)
+    @upgrade_boosc_text  = Text.new('', x: $window.width-(30*10), y: 470, size: 11)
     @paused_text   = Text.new("PAUSED", x:$window.width/2-200, y: $window.height/2, z: 1000, size: 100)
 
-    @minimap = MiniMap.new
+    @minimap      = MiniMap.new
     @boost_bar    = BoostBar.new
     @health_bar   = HealthBar.new
 
@@ -36,12 +36,13 @@ class Game < Chingu::GameState
     super
     unless @paused
       @fps.draw
-      @ship_location.draw
       @boost_bar.draw
       @health_bar.draw
       @instructions.draw
+      @upgrade_speed_text.draw
+      @upgrade_boost_text.draw
+      @upgrade_boosc_text.draw
       @minimap.draw
-      @debug_text.draw
     else
       @paused_text.draw
     end
@@ -55,8 +56,10 @@ class Game < Chingu::GameState
       @minimap.update
       @health_bar.update
       @boost_bar.update
-      @debug_text.text = "A:#{@ship.acceleration}; V:#{@ship.velocity};"
-      @ship_location.text = "X: #{@ship.x} Y: #{@ship.y}"
+
+      @upgrade_speed_text.text = "1. Speed: #{@ship.speed}"
+      @upgrade_boost_text.text = "2. Boost Speed: #{@ship.boost_speed}"
+      @upgrade_boosc_text.text = "3. Boost Capacity: #{@ship.max_boost}"
 
       planet_check
     end
@@ -99,12 +102,10 @@ class Game < Chingu::GameState
   def pause_game
     if @paused
       game_objects.each(&:unpause)
-      puts "Unpaused"
-      @music.song.stop
+      @music.song.play
       @paused = false
     else
       game_objects.each(&:pause)
-      puts "Paused"
       @music.song.pause
       @paused = true
     end
@@ -117,12 +118,11 @@ class Game < Chingu::GameState
   end
 
   def escape
-    close
     @ship.destroy
     Planet.destroy_all
     Enemy.destroy_all
-    @music.stop = true if @music
-    @music.song.stop if @music
+    @music.destroy if defined?(@music)
+    close
     push_game_state(MainMenu)
   end
 

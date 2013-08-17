@@ -33,7 +33,7 @@ module AssetManager
     end
 
     music.each do |song|
-      Gosu::Sample[song]
+      Gosu::Song[song]
     end
   end
 end

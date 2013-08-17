@@ -10,7 +10,7 @@ require_relative "lib/asset_manager"
 require_relative "lib/gameui/gameui"
 
 require_relative "lib/game/engine"
-require_relative "lib/game/notifications"
+require_relative "lib/game/notification"
 require_relative "lib/game/music_manager"
 require_relative "lib/game/name_gen"
 require_relative "lib/game/world_gen"

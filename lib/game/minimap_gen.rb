@@ -7,7 +7,7 @@ class MiniMapGenerator
     @planets = planets
     @enemies = enemies
     @ship    = ship
-    @image   = TexPlay.create_image($window, area[0]/100, area[1]/100)
+    @image   = TexPlay.create_image($window, area[0]/100, area[1]/100, caching: false)
     generate_image
     return @image
   end

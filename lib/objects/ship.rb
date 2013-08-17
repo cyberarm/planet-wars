@@ -10,19 +10,18 @@ class Ship < Chingu::GameObject
     @health      = 100
     @speed       = 3
     @old_speed   = 3
-    @max_speed   = 20
     @boost       = 0
-    @boost_speed = 2
+    @boost_speed = 1
     @max_boost   = 100
     @particle_img = TexPlay.create_image($window, 10, 10, color: :yellow)
 
     self.input = {
-      [:space] => :fire_weapon,
-      [:holding_left_shift, :holding_right_shift] => :boost_key,
-      [:holding_w,:holding_up] => :move_up,
-      [:holding_s,:holding_down] => :move_down,
-      [:holding_a,:holding_left] => :move_left,
-      [:holding_d,:holding_right] => :move_right}
+      [:space, :gp_0, :gp_5] => :fire_weapon,
+      [:holding_left_shift, :holding_right_shift, :holding_gp_4] => :boost_key,
+      [:holding_w,:holding_up, :holding_gp_up]       => :move_up,
+      [:holding_s,:holding_down, :holding_gp_down]   => :move_down,
+      [:holding_a,:holding_left, :holding_gp_left]   => :move_left,
+      [:holding_d,:holding_right, :holding_gp_right] => :move_right}
     self.zorder  = 300
     self.velocity_x     = 0
     self.velocity_y     = 0
@@ -39,6 +38,10 @@ class Ship < Chingu::GameObject
     @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 400,interval: 0.006,fade: 100,angular_velocity: -200..200)
     self.scale_out(0.1)
     @ship_size = 64/2
+
+    @lock_max_boost = 400
+    @lock_boost_speed = 3
+    @lock_speed = 5
   end
 
   def draw
@@ -53,10 +56,18 @@ class Ship < Chingu::GameObject
     @particle.x = self.x
     @particle.y = self.y
     ship_check
+    upgrade_check # Chingu WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
+    @speed = @old_speed
   end
 
   def hit
     @health-=10
+  end
+
+  def upgrade_check
+    upgrade_speed if $window.button_down?(Gosu::Kb1)
+    upgrade_boost_speed if $window.button_down?(Gosu::Kb2)
+    upgrade_boost_capacity if $window.button_down?(Gosu::Kb3)
   end
 
   def ship_check
@@ -71,6 +82,16 @@ class Ship < Chingu::GameObject
   end
 
   # Key checks
+  def upgrade_speed
+    @old_speed+=1 unless @old_speed >= @lock_speed
+  end
+  def upgrade_boost_speed
+    @boost_speed+=1 unless @boost_speed >= @lock_boost_speed
+  end
+  def upgrade_boost_capacity
+    @max_boost+=1 unless @max_boost >= @lock_max_boost
+  end
+
   def fire_weapon
     Bullet.create(x: self.x, y: self.y, z: 199, ship: self, created_by_enemy: false)
   end
@@ -83,12 +104,7 @@ class Ship < Chingu::GameObject
 
   def move_up
     if self.y >= @border[2]+@ship_size
-      # if $window.button_down?(Gosu::KbLeftShift)
-      #   self.move(0, -(@speed+@boost_speed)) if self.boost >= 1
-      #   self.move(0, -@speed) unless self.boost >= 1
-      # else
-        self.move(0, -@speed)
-      # end
+      self.move(0, -@speed)
     end
     self.angle = (0)
   end
@@ -109,12 +125,7 @@ class Ship < Chingu::GameObject
 
   def move_right
     if self.x <= @border[1]-@ship_size
-      if $window.button_down?(Gosu::KbLeftShift)
-        self.move(@speed+@boost_speed, 0) if self.boost >= 1
-        self.move(@speed, 0) unless self.boost >= 1
-      else
-        self.move(@speed, 0)
-      end
+      self.move(@speed, 0)
     end
     self.angle = (90)
   end
