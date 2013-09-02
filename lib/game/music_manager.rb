@@ -6,8 +6,8 @@ class MusicManager < Chingu::BasicGameObject
     @music = Dir["#{AssetManager.music_path}/*.ogg"]
     @list  = @music
     @music.shuffle!
-    p @music
     @current = 0
+    @toggle = true
     @song = nil
 
     play
@@ -20,7 +20,6 @@ class MusicManager < Chingu::BasicGameObject
         begin
           @song = Gosu::Song[(@music[@current])]
           @song.play
-          puts "playing: #{File.basename(@music[@current])}"
         rescue NoMethodError => e
           puts e
         end
@@ -31,10 +30,19 @@ class MusicManager < Chingu::BasicGameObject
   def play
     @song = Gosu::Song[(@music[@current])]
     @song.play
-    puts "playing: #{File.basename(@music[@current])}"
 
     at_exit do
       @song.stop if @song
+    end
+  end
+
+  def toggle
+    if @toggle
+      @song.pause
+      @toggle = false
+    else
+      @song.play
+      @toggle = true
     end
   end
 

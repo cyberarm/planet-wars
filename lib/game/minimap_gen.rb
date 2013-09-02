@@ -7,7 +7,7 @@ class MiniMapGenerator
     @planets = planets
     @enemies = enemies
     @ship    = ship
-    @image   = TexPlay.create_image($window, area[0]/100, area[1]/100, caching: false)
+    @image   = TexPlay.create_image($window, area[0]/100, area[1]/100)#, caching: false)
     generate_image
     return @image
   end
@@ -15,7 +15,8 @@ class MiniMapGenerator
   def generate_image
     @planets.each do |planet|
       if planet.habitable
-        @image.pixel(planet.x/100, planet.y/100, color: :blue)
+        @image.pixel(planet.x/100, planet.y/100, color: :blue) if planet.base.nil?
+        @image.pixel(planet.x/100, planet.y/100, color: :cyan) unless planet.base.nil?
       else
         @image.pixel(planet.x/100, planet.y/100, color: :yellow)
       end

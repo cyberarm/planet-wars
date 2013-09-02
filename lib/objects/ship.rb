@@ -1,13 +1,17 @@
 class Ship < Chingu::GameObject
+  trait :timer
   trait :effect
   trait :velocity
   trait :bounding_circle
   trait :collision_detection
 
-  attr_accessor :boost, :max_boost, :health, :speed, :boost_speed, :diamond, :gold, :oil
+  attr_accessor :boost, :max_boost, :health, :max_health, :dead, :speed, :boost_speed, :diamond, :gold, :oil
 
   def setup
+    @dead        = false
+    @warning     = false
     @health      = 100
+    @max_health  = 100
     @speed       = 3
     @old_speed   = 3
     @boost       = 0
@@ -28,25 +32,28 @@ class Ship < Chingu::GameObject
     self.max_velocity   = @speed
 
     @diamond = 0
-    @gold    = 0
+    @gold    = 1000
     @oil     = 0
 
     @ship_check = 0
 
     @border= @options[:world]
     @image = Gosu::Image["#{AssetManager.ships_path}/ship.png"]
-    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 400,interval: 0.006,fade: 100,angular_velocity: -200..200)
+    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 0.4,speed: 20,friction: 0.1,max_particles: 400,interval: 0.006,fade: 100,angular_velocity: -200..200)
     self.scale_out(0.1)
     @ship_size = 64/2
 
     @lock_max_boost = 400
     @lock_boost_speed = 3
     @lock_speed = 5
+
+    every(3000) {@warning = false}
   end
 
   def draw
     super
     @particle.draw
+    # Notification.all.each(&:update)
   end
 
   def update
@@ -57,6 +64,7 @@ class Ship < Chingu::GameObject
     @particle.y = self.y
     ship_check
     upgrade_check # Chingu WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
+    health_check
     @speed = @old_speed
   end
 
@@ -65,9 +73,26 @@ class Ship < Chingu::GameObject
   end
 
   def upgrade_check
-    upgrade_speed if $window.button_down?(Gosu::Kb1)
+    # upgrade_speed if $window.button_down?(Gosu::Kb1)
     upgrade_boost_speed if $window.button_down?(Gosu::Kb2)
     upgrade_boost_capacity if $window.button_down?(Gosu::Kb3)
+  end
+
+
+  def health_check
+    if @health <= 30
+      Notification.create(object: self, message: "Low Health (#{@health})", show_for: 500, blink: true, color: Gosu::Color::RED) unless @warning
+    end
+
+    if @health <= 0
+      die
+    end
+    @warning = true
+  end
+
+  def die
+    self.scale = 0.0
+    @dead = true
   end
 
   def ship_check

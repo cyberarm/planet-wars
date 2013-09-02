@@ -16,11 +16,12 @@ module AssetManager
   end
 
   def self.credits_data
+    @credits_data = Psych.load_file("./assets/data/credits.yml") unless defined?(@credits_data)
     @credits_data
   end
 
   def self.preload_assets
-    @credits_data = YAML.load_file("./assets/data/credits.yml")
+    @credits_data = Psych.load_file("./assets/data/credits.yml")
     images = []
     music  = []
     Dir[ships_path+'/*.png'].each {|image| images << image}

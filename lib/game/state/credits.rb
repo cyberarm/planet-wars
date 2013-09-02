@@ -29,15 +29,14 @@ class Credits < GameUI
     super
     if @scroll
       @text.each do |t|
-        t.y-=0.3
+        t.y-=0.6
       end
-      push_game_state(MainMenu) if @text.last.y < 0
+      push_game_state(MainMenu) if @text.last.y < -@text.last.height
     end
   end
 
   def load_credit_data
-    require "yaml"
-    x    = 400
+    x    = 340
     y    = 10
     size = 40
     data = AssetManager.credits_data

@@ -1,6 +1,6 @@
 class MultiPlayerMenu < GameUI
   def initialize options={}
-    options[:title] = "Multiplayer"
+    options[:title] = "#{GameInfo::NAME}//Multiplayer"
     super
     button "Join Game", tooltip: 'Join a game your friend is hosting' do
       # connect

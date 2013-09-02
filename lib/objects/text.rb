@@ -4,13 +4,22 @@ class Text
   def initialize(text, options={})
     @text = text || ""
     @size = options[:size] || 13
+    @font = options[:font] || "#{AssetManager.fonts_path}/Alfphabet-IV.ttf"
     @x = options[:x] || 0
     @y = options[:y] || 0
     @z = options[:z] || 999
     @factor_x = options[:factor_x] || 1
     @factor_y = options[:factor_y] || 1
-    @color = options[:color] || Gosu::Color::WHITE
-    @textobject = Gosu::Font.new($window, "#{AssetManager.fonts_path}/Alfphabet-IV.ttf", @size)
+    @color    = options[:color] || Gosu::Color::WHITE
+    @textobject = Gosu::Font[@font, @size]
+  end
+
+  def width
+    textobject.text_width(@text)
+  end
+
+  def height
+    textobject.height
   end
 
   def draw

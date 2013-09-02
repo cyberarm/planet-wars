@@ -4,7 +4,7 @@ class Planet < Chingu::GameObject
   trait :collision_detection
 
   attr_reader :name, :habitable, :high_temp, :low_temp
-  attr_accessor :text, :gold, :diamond, :oil
+  attr_accessor :text, :base, :gold, :diamond, :oil
 
   def setup
     self.zorder = 150
@@ -32,6 +32,8 @@ class Planet < Chingu::GameObject
     
     @rate = rand(-3.0..3.0)
     @text = Text.new("", x: self.x, y: self.y, zorder: 999, size: 20)
+  
+    @base = nil
   end
 
   def rotate_self
@@ -46,15 +48,20 @@ class Planet < Chingu::GameObject
   def update
     self.rotate_self
     collision_check
+    @base.update if @base.is_a?(Base)
   end
 
 
   def collision_check
-    if self.bounding_circle_collision?(Ship.all.first)
-      # self.text.text = "#{name}\nHabitable: #{habitable}\nTemperature:\n  High:#{high_temp}\n  Low: #{low_temp}\nResources:\n  Diamond: #{diamond}\n  Gold: #{gold}\n  Oil: #{oil}"
-      self.text.text = "#{name}"
+    unless @base.is_a?(Base)
+      if self.bounding_circle_collision?(Ship.all.first)
+        self.text.text = "#{name}"
+      else
+        self.text.text = ''
+      end
     else
-      self.text.text = ''
+      self.text.text = "#{name}"
+      self.text.color= Gosu::Color::GREEN
     end
   end
 

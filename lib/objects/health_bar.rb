@@ -30,8 +30,6 @@ class HealthBar < Chingu::GameObject
         end
         @h = h
       end
-
-      @tex_image.pixel(i,0, color: Gosu::Color::GRAY) if i > @h
     end
     return @tex_image
   end

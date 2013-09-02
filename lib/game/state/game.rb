@@ -3,9 +3,14 @@ class Game < Chingu::GameState
   trait :viewport
 
   def setup
-    self.input = {[:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
+    # clean up
+    Ship.destroy_all
+    Enemy.destroy_all
+    Planet.destroy_all
 
-    @music  = MusicManager.create unless ARGV.first == '-d' or defined?(@music)
+    # set controls
+    self.input = {[:m] => :mute, [:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
+
     @paused = false
 
     WorldGen.new(40, 3000, 3000)
@@ -16,6 +21,12 @@ class Game < Chingu::GameState
     @upgrade_speed_text  = Text.new('', x: $window.width-(30*10), y: 450, size: 11)
     @upgrade_boost_text  = Text.new('', x: $window.width-(30*10), y: 460, size: 11)
     @upgrade_boosc_text  = Text.new('', x: $window.width-(30*10), y: 470, size: 11)
+
+    @resource_text = Text.new('Resources', x: $window.width-(30*10), y: 480, size: 40)
+    @diamond_text  = Text.new('', x: $window.width-(30*10), y: 530, size: 11)
+    @gold_text     = Text.new('', x: $window.width-(30*10), y: 540, size: 11)
+    @oil_text      = Text.new('', x: $window.width-(30*10), y: 550, size: 11)
+
     @paused_text   = Text.new("PAUSED", x:$window.width/2-200, y: $window.height/2, z: 1000, size: 100)
 
     @minimap      = MiniMap.new
@@ -26,6 +37,10 @@ class Game < Chingu::GameState
 
     viewport.lag  = 0.22
     viewport.game_area = [0, 0, 1000*3, 1000*3]
+
+    every(1500) do
+      Enemy.spawn if Enemy.all.count <= 3
+    end
   end
 
   def needs_cursor?
@@ -42,6 +57,12 @@ class Game < Chingu::GameState
       @upgrade_speed_text.draw
       @upgrade_boost_text.draw
       @upgrade_boosc_text.draw
+
+      @resource_text.draw
+      @diamond_text.draw
+      @gold_text.draw
+      @oil_text.draw
+
       @minimap.draw
     else
       @paused_text.draw
@@ -51,8 +72,8 @@ class Game < Chingu::GameState
   def update
     super
     self.viewport.center_around(@ship)
-    set_fps_text_data
     unless @paused
+      set_fps_text_data
       @minimap.update
       @health_bar.update
       @boost_bar.update
@@ -61,7 +82,18 @@ class Game < Chingu::GameState
       @upgrade_boost_text.text = "2. Boost Speed: #{@ship.boost_speed}"
       @upgrade_boosc_text.text = "3. Boost Capacity: #{@ship.max_boost}"
 
+      @diamond_text.text = "Diamond: #{@ship.diamond}"
+      @gold_text.text    = "Gold: #{@ship.gold}"
+      @oil_text.text     = "Oil: #{@ship.oil}"
+
       planet_check
+    end
+    if @ship.dead
+      @ship.destroy
+      Planet.destroy_all
+      Enemy.destroy_all
+      close
+      push_game_state(GameOver)
     end
   end
 
@@ -102,12 +134,20 @@ class Game < Chingu::GameState
   def pause_game
     if @paused
       game_objects.each(&:unpause)
-      @music.song.play
+      $music_manager.song.play if defined?($music_manager)
       @paused = false
     else
       game_objects.each(&:pause)
-      @music.song.pause
+      $music_manager.song.pause if defined?($music_manager)
       @paused = true
+    end
+  end
+
+  def mute
+    if @paused
+      $music_manager.song.play if defined?($music_manager)
+    else
+      $music_manager.song.pause if defined?($music_manager)
     end
   end
 
@@ -121,7 +161,6 @@ class Game < Chingu::GameState
     @ship.destroy
     Planet.destroy_all
     Enemy.destroy_all
-    @music.destroy if defined?(@music)
     close
     push_game_state(MainMenu)
   end

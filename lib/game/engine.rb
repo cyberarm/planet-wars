@@ -1,7 +1,11 @@
 class Engine < Chingu::Window
   def initialize
     super(Gosu.screen_width, Gosu.screen_height, true)
+    # super(1280, 768, true)
     self.caption = "#{GameInfo::NAME} (#{GameInfo::VERSION}) [test: #{BUILD}] #{Gosu.language}"
+
+    $music_manager  = MusicManager.create
+    $music_manager.toggle if ARGV.join.include?('--mute')
 
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton0] = [:gp_0]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton1] = [:gp_1]
@@ -19,7 +23,8 @@ class Engine < Chingu::Window
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton13] = [:gp_13]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton14] = [:gp_14]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton15] = [:gp_15]
-    push_game_state(Boot)
+    push_game_state(Boot) unless ARGV[0] == '-d'
+    push_game_state(Game) if ARGV[0] == '-d'
   end
 
   def needs_cursor?

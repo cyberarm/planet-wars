@@ -1,9 +1,9 @@
 class NameGen
-  attr_accessor :name
+  attr_accessor :name, :letters, :numbers
   def initialize(length=8)
     @name   = ''
-    letters = ''
-    numbers = ''
+    @letters = ''
+    @numbers = ''
 
     @characters = {
       0  => 'A',
@@ -35,11 +35,11 @@ class NameGen
     }
 
     (length/2).times do
-      letters << @characters[rand(0..25)]
+      @letters << @characters[rand(0..25)]
     end
 
     (length/2).times do
-      numbers << rand(0..9).to_s
+      @numbers << rand(0..9).to_s
     end
 
     @name = "#{letters}-#{numbers}"
