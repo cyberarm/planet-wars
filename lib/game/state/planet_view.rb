@@ -55,20 +55,20 @@ class PlanetView < Chingu::GameState
     end
 
     if button_down?(Gosu::Kb2)
-      if @planet.base.is_a?(Base) && @ship.gold >= 200
+      if @planet.base.is_a?(Base) && @ship.oil >= 200
         @ship.oil-=200 unless @ship.health == @ship.max_health
         @ship.health=@ship.max_health
       end
     end
 
-    if button_down?(Gosu::Kb3)
-      @ship.gold+=@planet.gold
-      @planet.gold = 0
-      @ship.diamond+=@planet.diamond
-      @planet.diamond = 0
-      @ship.oil+=@planet.oil
-      @planet.oil = 0
-    end
+    # if button_down?(Gosu::Kb3)
+    #   @ship.gold+=@planet.gold
+    #   @planet.gold = 0
+    #   @ship.diamond+=@planet.diamond
+    #   @planet.diamond = 0
+    #   @ship.oil+=@planet.oil
+    #   @planet.oil = 0
+    # end
   end
 
   def button_down?(id)
