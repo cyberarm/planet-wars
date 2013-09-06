@@ -38,7 +38,7 @@ class Credits < GameUI
   def load_credit_data
     x    = 340
     y    = 10
-    size = 40
+    size = 30
     data = AssetManager.credits_data
 
     @text << PWText.new("People", x: x, y: y, size: size, color: Gosu::Color::YELLOW)

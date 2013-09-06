@@ -1,12 +1,12 @@
 class Engine < Chingu::Window
   def initialize
-    super(Gosu.screen_width, Gosu.screen_height, true)
-    # super(1280, 768, true)
+    super(Gosu.screen_width, Gosu.screen_height, true) unless ARGV.join.include?("--low")
+    super(Gosu.screen_width/4*3, Gosu.screen_height/4*3, true) if ARGV.join.include?("--low")
+    puts "LOW MODE Resolution: #{$window.width} x #{$window.height}" if ARGV.join.include?("--low")
+    # super(1280, 768, true) # Test screen size to ensure game works at that resolution
     self.caption = "#{GameInfo::NAME} (#{GameInfo::VERSION}) [build: #{BUILD}] #{Gosu.language}"
 
-    $music_manager  = MusicManager.create
-    $music_manager.toggle if ARGV.join.include?('--mute')
-
+    # Define GamePad inputs
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton0] = [:gp_0]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton1] = [:gp_1]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton2] = [:gp_2]
@@ -23,8 +23,9 @@ class Engine < Chingu::Window
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton13] = [:gp_13]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton14] = [:gp_14]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton15] = [:gp_15]
-    push_game_state(Boot) unless ARGV[0] == '-d'
-    push_game_state(Game) if ARGV[0] == '-d'
+
+    push_game_state(Boot) unless ARGV.join.include?('--debug')
+    push_game_state(Game) if ARGV.join.include?('--debug')
   end
 
   def needs_cursor?

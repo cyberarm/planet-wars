@@ -81,7 +81,7 @@ class Ship < Chingu::GameObject
 
   def health_check
     if @health <= 30
-      Notification.create(object: self, message: "Low Health (#{@health})", show_for: 500, color: Gosu::Color::RED) unless @warning
+      Notification.create(object: self, message: "Low Health", show_for: 500, color: Gosu::Color::RED) unless @warning
     end
 
     if @health <= 0

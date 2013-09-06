@@ -88,7 +88,6 @@ class Game < Chingu::GameState
       @ship.destroy
       Planet.destroy_all
       Enemy.destroy_all
-      close
       push_game_state(GameOver)
     end
   end
