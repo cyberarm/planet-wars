@@ -47,7 +47,7 @@ class Ship < Chingu::GameObject
     @lock_boost_speed = 3
     @lock_speed = 5
 
-    every(3000) {@warning = false}
+    every(500) {@warning = false}
   end
 
   def draw
@@ -63,7 +63,7 @@ class Ship < Chingu::GameObject
     @particle.x = self.x
     @particle.y = self.y
     ship_check
-    upgrade_check # Chingu WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
+    upgrade_check # Chingu Input, WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
     health_check
     @speed = @old_speed
   end
@@ -81,7 +81,7 @@ class Ship < Chingu::GameObject
 
   def health_check
     if @health <= 30
-      Notification.create(object: self, message: "Low Health (#{@health})", show_for: 500, blink: true, color: Gosu::Color::RED) unless @warning
+      Notification.create(object: self, message: "Low Health (#{@health})", show_for: 500, color: Gosu::Color::RED) unless @warning
     end
 
     if @health <= 0

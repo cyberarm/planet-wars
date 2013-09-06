@@ -1,4 +1,4 @@
-class Net
+class Network
   class Client
     attr_reader :host, :port, :id, :key, :connection
     include Celluloid::IO

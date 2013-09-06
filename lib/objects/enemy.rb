@@ -72,8 +72,7 @@ class Enemy < Chingu::GameObject
     @health-=10
   end
 
-  def self.spawn
-    planet = Planet.all[rand(Planet.all.count-1)]
-    Enemy.create(x: planet.x, y: planet.y) if planet.habitable == false
+  def self.spawn(portal)
+    Enemy.create(x: portal.x, y: portal.y)
   end
 end

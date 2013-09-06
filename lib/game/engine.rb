@@ -2,7 +2,7 @@ class Engine < Chingu::Window
   def initialize
     super(Gosu.screen_width, Gosu.screen_height, true)
     # super(1280, 768, true)
-    self.caption = "#{GameInfo::NAME} (#{GameInfo::VERSION}) [test: #{BUILD}] #{Gosu.language}"
+    self.caption = "#{GameInfo::NAME} (#{GameInfo::VERSION}) [build: #{BUILD}] #{Gosu.language}"
 
     $music_manager  = MusicManager.create
     $music_manager.toggle if ARGV.join.include?('--mute')

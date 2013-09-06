@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Bullet < Chingu::GameObject
   trait :timer
   trait :velocity

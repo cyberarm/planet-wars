@@ -7,13 +7,14 @@ class Notification < Chingu::GameObject
   end
 
   def setup
-    @ship     = Ship.all.first
-    @blink    = @options[:blink]
-    @object   = @options[:object] || Ship.all.first
-    @show     = true
-    @color    = @options[:color] || Gosu::Color::WHITE
-    @message  = Text.new(@options[:message], z: 999, size: 25, color: @color)
-    @show_for = @options[:show_for] || 3000
+    @blink     = @options[:blink]
+    @object    = @options[:object] || Ship.all.first
+    @show      = true
+    @color     = @options[:color] || Gosu::Color::WHITE
+    @message   = Text.new(@options[:message], z: 999, size: 25, color: @color)
+    @show_for  = @options[:show_for] || 3000
+    @message.x = @object.x-@message.width/2
+    @message.y = @object.y-100
 
     after(@show_for) do
       self.destroy

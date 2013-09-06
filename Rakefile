@@ -7,7 +7,7 @@
     verbose # Can be removed if you don't want to see all build messages.
 
     executable "planet-wars.rb"
-    files ["lib/**/*.*", "planets/*.png", "ships/*.png", "music/*.*", "fonts/*.*"]
+    files ["lib/**/*.*", "assets/**/*.*"]
     exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
 
     add_build :windows_folder do

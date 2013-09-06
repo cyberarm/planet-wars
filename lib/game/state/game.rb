@@ -37,10 +37,6 @@ class Game < Chingu::GameState
 
     viewport.lag  = 0.22
     viewport.game_area = [0, 0, 1000*3, 1000*3]
-
-    every(1500) do
-      Enemy.spawn if Enemy.all.count <= 3
-    end
   end
 
   def needs_cursor?

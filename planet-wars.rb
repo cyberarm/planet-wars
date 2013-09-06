@@ -23,7 +23,7 @@ require_relative "lib/game/world_gen"
 require_relative "lib/game/minimap_gen"
 
 require_relative "lib/objects/notification"
-require_relative "lib/objects/spawner"
+require_relative "lib/objects/portal"
 require_relative "lib/objects/target_area"
 require_relative "lib/objects/planet"
 require_relative "lib/objects/ship"
