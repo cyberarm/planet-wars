@@ -5,7 +5,7 @@ class MainMenu < GameUI
     super
 
     button("Single Player", tooltip: "play the game") do
-      push_game_state(Game)
+      push_game_state(ModeMenu)
     end
 
     button("Multiplayer", tooltip: "play the game with friends (Unavailable)") do

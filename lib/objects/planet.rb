@@ -29,10 +29,10 @@ class Planet < Chingu::GameObject
     @image = Gosu::Image["#{AssetManager.planets_path}/planet-0#{rand(3..3)}.png"] unless habitable
     self.scale_out(rand(0.5..0.9))
     self.rotate(rand(120))
-    
+
     @rate = rand(-3.0..3.0)
     @text = Text.new("", x: self.x, y: self.y, zorder: 999, size: 20)
-  
+
     @base = nil
   end
 
@@ -50,7 +50,6 @@ class Planet < Chingu::GameObject
     collision_check
     @base.update if @base.is_a?(Base)
   end
-
 
   def collision_check
     unless @base.is_a?(Base)

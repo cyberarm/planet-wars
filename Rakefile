@@ -2,8 +2,8 @@
   require 'bundler/setup' # Releasy requires require that your application uses bundler.
 
   Releasy::Project.new do
-    name "Planet Wars (Working Title)"
-    version "1.0.1"
+    name "Planet Wars"
+    version "1.0.2"
     verbose # Can be removed if you don't want to see all build messages.
 
     executable "planet-wars.rb"
@@ -16,5 +16,5 @@
       add_package :exe # Windows self-extracting archive.
     end
 
-    add_deploy :local # Only deploy locally.
+    # add_deploy :local # Only deploy locally.
   end

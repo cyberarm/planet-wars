@@ -4,7 +4,6 @@ require "ashton"
 require "securerandom"
 require "texplay"
 require "psych"
-require "set"
 
 require_relative "lib/version"
 require_relative "lib/asset_manager"
@@ -28,6 +27,7 @@ require_relative "lib/objects/target_area"
 require_relative "lib/objects/planet"
 require_relative "lib/objects/ship"
 require_relative "lib/objects/enemy"
+require_relative "lib/objects/empty"
 require_relative "lib/objects/bullet"
 require_relative "lib/objects/base"
 require_relative "lib/objects/minimap"
@@ -40,7 +40,9 @@ require_relative "lib/game/state/credits"
 require_relative "lib/game/state/mainmenu"
 require_relative "lib/game/state/multiplayer_menu"
 require_relative "lib/game/state/settings_menu"
+require_relative "lib/game/state/mode_menu"
 require_relative "lib/game/state/game"
+require_relative "lib/game/state/netgame"
 require_relative "lib/game/state/gameover"
 require_relative "lib/game/state/upgrade_ship"
 require_relative "lib/game/state/planet_view"
@@ -74,6 +76,6 @@ end
 #   end
 #   game.join
 # end
-# 
+#
 # printer = RubyProf::GraphHtmlPrinter.new(result)
 # printer.print(File.open("#{Dir.pwd}/lib/dev_stats/ruby-prof.html", 'w'))

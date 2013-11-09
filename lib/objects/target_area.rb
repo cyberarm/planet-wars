@@ -6,6 +6,7 @@ class TargetArea < Chingu::GameObject
 
   def setup
     @owner     = @options[:owner]
+    @target    = @options[:target]
     @in_range  = false
     @image     = TexPlay.create_image($window, 10, 10, color: Gosu::Color.argb(0,0,0,0))
     self.scale = 100.0
@@ -15,7 +16,7 @@ class TargetArea < Chingu::GameObject
     self.x = @owner.x
     self.y = @owner.y
 
-    if self.collision?(Ship.all.first)
+    if self.collision?(@target)
       @in_range = true
     else
       @in_range = false

@@ -1,3 +1,10 @@
+class Background < Chingu::GameObject
+  def setup
+    @image = Gosu::Image["assets/backgrounds/background-04.png"]
+    # @image = Gosu::Image["assets/backgrounds/PIA15415.jpg"]
+    self.scale = 2.0
+  end
+end
 class Game < Chingu::GameState
   trait :timer
   trait :viewport
@@ -7,13 +14,14 @@ class Game < Chingu::GameState
     Ship.destroy_all
     Enemy.destroy_all
     Planet.destroy_all
+    Background.create(x: 1500, y: 1500, zorder: -10)
 
     # set controls
     self.input = {[:m] => :mute, [:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
 
     @paused = false
 
-    WorldGen.new(40, 3000, 3000)
+    WorldGen.new(40, GameInfo::Config.number_of_portals, 3000, 3000)
     @ship = Ship.create(x: 3000/2, y: 3000/2, zorder: 100, world: [0,3000,0,3000])#x-left, x-right, y-, y
 
     @fps           = Text.new('', x: 10, y: 0)
@@ -21,6 +29,8 @@ class Game < Chingu::GameState
     @upgrade_speed_text  = Text.new('', x: $window.width-(30*10), y: 450, size: 11)
     @upgrade_boost_text  = Text.new('', x: $window.width-(30*10), y: 460, size: 11)
     @upgrade_boosc_text  = Text.new('', x: $window.width-(30*10), y: 470, size: 11)
+    @clock_start_time    = Time.now
+    @clock_text          = Text.new('', x: $window.width/2, size: 20)
 
     @resource_text = Text.new('Resources', x: $window.width-(30*10), y: 480, size: 40)
     @diamond_text  = Text.new('', x: $window.width-(30*10), y: 530, size: 11)
@@ -54,6 +64,8 @@ class Game < Chingu::GameState
       @upgrade_boost_text.draw
       @upgrade_boosc_text.draw
 
+      @clock_text.draw
+
       @resource_text.draw
       @diamond_text.draw
       @gold_text.draw
@@ -69,7 +81,7 @@ class Game < Chingu::GameState
     super
     self.viewport.center_around(@ship)
     unless @paused
-      set_fps_text_data
+      set_fps_text
       @minimap.update
       @health_bar.update
       @boost_bar.update
@@ -77,6 +89,8 @@ class Game < Chingu::GameState
       @upgrade_speed_text.text = "1. Speed: #{@ship.speed}"
       @upgrade_boost_text.text = "2. Boost Speed: #{@ship.boost_speed}"
       @upgrade_boosc_text.text = "3. Boost Capacity: #{@ship.max_boost}"
+
+      @clock_text.text = "#{Time.at(Time.now-@clock_start_time).utc.strftime('%H:%M:%S')}"
 
       @diamond_text.text = "Diamond: #{@ship.diamond}"
       @gold_text.text    = "Gold: #{@ship.gold}"
@@ -92,7 +106,7 @@ class Game < Chingu::GameState
     end
   end
 
-  def set_fps_text_data
+  def set_fps_text
     fps = $window.fps
     @fps.text = "FPS: #{fps}"
     if fps >= 60

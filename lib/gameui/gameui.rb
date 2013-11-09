@@ -1,11 +1,10 @@
-require "pp"
 require "chingu"
 
 class GameUI < Chingu::GameState
   include Chingu
   def initialize(options={})
     super
-    options[:title] ||= "Game Title"
+    options[:title] ||= "Planet Wars"
     options[:font]  ||= "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
     @font=options[:font]
     @elements = []

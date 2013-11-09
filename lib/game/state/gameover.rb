@@ -3,6 +3,8 @@ class GameOver < Chingu::GameState
 
   def setup
     @text = Text.new("Game Over", size: 200)
+    @text.x = $window.width/2-@text.width/2
+    @text.y = $window.height/2
     @color= 0
     @up = true
     self.input = {[:escape] => :skip}
@@ -14,9 +16,7 @@ class GameOver < Chingu::GameState
 
   def update
     @text.color = Gosu::Color.rgb(@color, 0, 0)
-    @text.x = $window.width/2-@text.width/2
-    @text.y = $window.height/2
-    @color+=1 if @up
+    @color+=2 if @up
     @color-=1 unless @up
     @up = false if @color >= 200
 

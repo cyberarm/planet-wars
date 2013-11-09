@@ -45,4 +45,12 @@ class Notification < Chingu::GameObject
     @message.x = @object.x-@message.width/2
     @message.y = @object.y-100
   end
+
+  def text=(string)
+    @options[:message] == string
+  end
+
+  def end
+    self.destroy
+  end
 end

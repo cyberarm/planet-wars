@@ -6,7 +6,7 @@ class Portal < Chingu::GameObject
     @image = Gosu::Image["#{AssetManager.portal_path}/portal.png"]
     self.alpha = 0
     every(1500) do
-      Enemy.spawn(self) if Enemy.all.count <= 3
+      Enemy.spawn(self) if Enemy.all.count <= GameInfo::Config.number_of_enemies
     end
 
     every(4000) do
@@ -25,8 +25,8 @@ class Portal < Chingu::GameObject
     fade_out(3) unless @spawn
     fade_in(3) if @spawn
 
-    @spawn = true if Enemy.all.count <= 3
-    @spawn = false unless Enemy.all.count <= 3
+    @spawn = true if self.alpha <= 255 && Enemy.all.count <= GameInfo::Config.number_of_enemies
+    @spawn = false unless Enemy.all.count <= GameInfo::Config.number_of_enemies
 
     self.scale = 2.0
   end
