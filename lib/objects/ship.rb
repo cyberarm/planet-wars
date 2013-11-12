@@ -68,8 +68,8 @@ class Ship < Chingu::GameObject
     @speed = @old_speed
   end
 
-  def hit
-    @health-=10
+  def hit(damage)
+    @health-=damage
   end
 
   def upgrade_check

@@ -2,12 +2,15 @@ class GameOver < Chingu::GameState
   trait :timer
 
   def setup
-    @text = Text.new("Game Over", size: 200)
+    @text = Text.new("Game Over", size: 200, color: Gosu::Color::BLACK)
     @text.x = $window.width/2-@text.width/2
     @text.y = $window.height/2
     @color= 0
     @up = true
     self.input = {[:escape] => :skip}
+
+    Planet.destroy_all
+    Enemy.destroy_all
   end
 
   def draw

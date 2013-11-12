@@ -47,7 +47,7 @@ class Notification < Chingu::GameObject
   end
 
   def text=(string)
-    @options[:message] == string
+    @options[:message] = string
   end
 
   def end

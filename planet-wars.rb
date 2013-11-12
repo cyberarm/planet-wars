@@ -64,18 +64,26 @@ rescue => e
     file.write BUILD
   end
 end
+# if ARGV.join.include?('--debug')
+  # at_exit do
+    # puts "==== Garbage Collector ===="
+    # GC.stat.each do |key, value|
+      # puts "#{key}: #{value}"
+    # end
+  # end
+# end
 
 # result = RubyProf.profile do |prof|
-#   prof.eliminate_methods!([/Integer#times/])
-#   prof.eliminate_methods!([/Array#each/])
-#   prof.eliminate_methods!([/Kernel#loop/])
-#   prof.eliminate_methods!([/Kernel#sleep/])
-#   prof.eliminate_methods!([/Class#new/])
-#   game = Thread.new do
+  # prof.eliminate_methods!([/Integer#times/])
+  # prof.eliminate_methods!([/Array#each/])
+  # prof.eliminate_methods!([/Kernel#loop/])
+  # prof.eliminate_methods!([/Kernel#sleep/])
+  # prof.eliminate_methods!([/Class#new/])
+  # game = Thread.new do
     Engine.new.show
-#   end
-#   game.join
+  # end
+  # game.join
 # end
-#
+# 
 # printer = RubyProf::GraphHtmlPrinter.new(result)
 # printer.print(File.open("#{Dir.pwd}/lib/dev_stats/ruby-prof.html", 'w'))

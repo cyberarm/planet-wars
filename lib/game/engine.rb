@@ -5,6 +5,7 @@ class Engine < Chingu::Window
     puts "LOW MODE Resolution: #{$window.width} x #{$window.height}" if ARGV.join.include?("--low")
     # super(1280, 768, true) # Test screen size to ensure game works at that resolution
     self.caption = "#{GameInfo::NAME} (#{GameInfo::VERSION}) [build: #{BUILD}] #{Gosu.language}"
+    AssetManager.preload_assets
 
     # Define GamePad inputs
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton0] = [:gp_0]
@@ -23,6 +24,9 @@ class Engine < Chingu::Window
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton13] = [:gp_13]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton14] = [:gp_14]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton15] = [:gp_15]
+
+    $music_manager  = MusicManager.create(fps: 1)
+    $music_manager.toggle if ARGV.join.include?('--mute')
 
     push_game_state(Boot) unless ARGV.join.include?('--debug')
     push_game_state(Game) if ARGV.join.include?('--debug')

@@ -9,6 +9,7 @@ class Bullet < Chingu::GameObject
     @image = Gosu::Image[AssetManager.bullets_path+'/bullet.png']
     @ship  = @options[:ship]
     @created_by_enemy = @options[:created_by_enemy]
+    @damage=10.0
     @dead  = false
     set_velocity
 
@@ -16,6 +17,9 @@ class Bullet < Chingu::GameObject
   end
 
   def update
+    self.alpha-=2
+    self.die if alpha <= 10
+    @damage-=0.04
     check_collisions unless @dead
   end
 
@@ -45,12 +49,12 @@ class Bullet < Chingu::GameObject
     if created_by_enemy?
       self.each_collision(Ship) do |bullet, ship|
         self.die
-        ship.hit
+        ship.hit(@damage)
       end
     else
       self.each_collision(Enemy) do |bullet, enemy|
         self.die
-        enemy.hit
+        enemy.hit(@damage)
       end
     end
   end

@@ -48,8 +48,8 @@ class Enemy < Chingu::GameObject
     end
   end
 
-  def hit
-    @health-=10 if self.alpha >= 255
+  def hit(damage)
+    @health-=damage if self.alpha >= 255
   end
 
   def self.spawn(portal)

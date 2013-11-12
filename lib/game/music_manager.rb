@@ -1,35 +1,32 @@
 class MusicManager < Chingu::GameObject # Broken
-  trait :timer
   attr_accessor :song, :list
+
   def setup
-    super
+    @limiter = 0
     @music = Dir["#{AssetManager.music_path}/*.ogg"]
     @list  = @music
-    @music.shuffle!
+    10.times{@music.shuffle!}
     @current = 0
     @toggle = true
-    @song = nil
-    play
+    @song = Gosu::Song[(@music[@current])]
+    @song.play
   end
 
   def update
-    if @song.playing? == false && @song.paused?  == false
-      @current += 1
-      if @current >= @music.count
-        @current = 0
-      end
-      begin
+    if @limiter >= 60*3
+      if  @song.playing? == false && @song.paused? == false
+        @current += 1
+        if @current >= @music.count
+          @current = 0
+        end
+  
         @song = Gosu::Song[(@music[@current])]
         @song.play
-      rescue NoMethodError => e
-        puts e
       end
     end
-  end
 
-  def play
-    @song = Gosu::Song[(@music[@current])]
-    @song.play
+    @limiter= 0 if @limiter >= 60*3
+    @limiter+=1
   end
 
   def toggle

@@ -1,26 +1,20 @@
-require "chingu"
-
 class GameUI < Chingu::GameState
-  include Chingu
   def initialize(options={})
     super
     options[:title] ||= "Planet Wars"
-    options[:font]  ||= "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
-    @font=options[:font]
     @elements = []
     @rects    = []
-    @tooltip  = Chingu::Text.new("", x: 1, y: 80, size: 50, font: @font)
+    @tooltip  = Text.new("", x: 1, y: 80, size: 30)
     @post_ui_create = true
     @released_left_mouse_button = false
     @released_return = false
     @selected = nil
 
     @elements.push({
-      object: Chingu::Text.new("#{options[:title]}",
+      object: Text.new("#{options[:title]}",
       x: 90,
       y: 20,
-      size: 70,
-      font: @font)
+      size: 50)
       })
   end
 
@@ -92,20 +86,21 @@ class GameUI < Chingu::GameState
     @get_available_y = 100
     unless @rects.nil?
       @rects.each do |rect|
-        @get_available_y = rect[:y]+81
+        @get_available_y = rect[:y]+81-20
         if @get_available_y > $window.height
           warn "--WARNING: Button with text: \"#{text}\", is not visible."
         end
       end
     end
 
-    options[:color]       ||= Gosu::Color.rgba(255,120,0,255)
+    options[:color]       ||= Gosu::Color::WHITE
+    options[:background_color] ||= Gosu::Color.rgba(255,120,0,255)
     options[:hover_color] ||= Gosu::Color.rgba(255,80,0,255)
     options[:x]           ||= 100
     options[:y]           ||= @get_available_y
     @elements.push(
       text={
-        object: Chingu::Text.new("#{text}", x: options[:x], y: options[:y], size: 50, font: @font)
+        object: Text.new("#{text}", x: options[:x], y: options[:y], size: 30, color: options[:color])
       }
     )
     
@@ -115,8 +110,8 @@ class GameUI < Chingu::GameState
         y: options[:y]-10,
         width: text[:object].width+20,
         height: text[:object].height+20,
-        color: options[:color],
-        old_color: options[:color],
+        color: options[:background_color],
+        old_color: options[:background_color],
         hover_color: options[:hover_color],
         block: block,
         tooltip: options[:tooltip]

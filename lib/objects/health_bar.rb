@@ -20,7 +20,7 @@ class HealthBar < Chingu::GameObject
     @health = calc_health_percentage
     @tex_image = TexPlay.create_image($window,30,1)
     30.times do |i|
-      @health.times do |h|
+      @health.to_i.times do |h|
         if @health.to_i >= 20
           @tex_image.pixel(h,0, color: :green)
         elsif @health.to_i >= 10

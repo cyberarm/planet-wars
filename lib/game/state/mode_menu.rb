@@ -3,25 +3,25 @@ class ModeMenu < GameUI
     options[:title] = "#{GameInfo::NAME}//Difficulty"
     super
 
-    button "Easy", color: Gosu::Color::GREEN, hover_color: Gosu::Color.argb(100, 0,255,0) do
+    button "Easy", tooltip: "6 Enemies 2 Portals", color: Gosu::Color::GREEN do
       GameInfo::Config.number_of_enemies=6
       GameInfo::Config.number_of_portals=2
       push_game_state(Game)
     end
 
-    button "Medium", color: Gosu::Color::BLUE, hover_color: Gosu::Color.argb(100, 0,0,255) do
+    button "Medium", tooltip: "12 Enemies 3 Portals", color: Gosu::Color::BLUE do
       GameInfo::Config.number_of_enemies=12
       GameInfo::Config.number_of_portals=3
       push_game_state(Game)
     end
 
-    button "Hard", color: Gosu::Color::RED, hover_color: Gosu::Color.argb(100, 255,0,0) do
+    button "Hard", tooltip: "18 Enemies 5 Portals", color: Gosu::Color::RED do
       GameInfo::Config.number_of_enemies=18
       GameInfo::Config.number_of_portals=5
       push_game_state(Game)
     end
 
-    button "Impossible", color: Gosu::Color.argb(100, 225,225,225), hover_color: Gosu::Color.argb(25, 225,225,225) do
+    button "Impossible", tooltip: "36 Enemies 10 Portals", color: Gosu::Color::BLACK do
       GameInfo::Config.number_of_enemies=36
       GameInfo::Config.number_of_portals=10
       push_game_state(Game)

@@ -100,8 +100,6 @@ class Game < Chingu::GameState
     end
     if @ship.dead
       @ship.destroy
-      Planet.destroy_all
-      Enemy.destroy_all
       push_game_state(GameOver)
     end
   end
