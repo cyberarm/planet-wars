@@ -8,10 +8,10 @@ require "psych"
 require_relative "lib/version"
 require_relative "lib/asset_manager"
 
-require_relative "lib/net/server/config"
-require "gameoverseer"
-require_relative "lib/net/net_client"
-require_relative "lib/net/net_server"
+# require_relative "lib/net/server/config"
+# require "gameoverseer"
+# require_relative "lib/net/net_client"
+# require_relative "lib/net/net_server"
 
 require_relative "lib/gameui/gameui"
 

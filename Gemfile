@@ -8,4 +8,4 @@ gem "releasy"
 gem "psych"
 gem "texplay"
 gem "ashton"
-gem "gameoverseer"
+# gem "gameoverseer", :git => 'http://github.com/cyberarm/gameoverseer.git'
