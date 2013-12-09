@@ -29,7 +29,7 @@ class Game < Chingu::GameState
     @upgrade_speed_text  = Text.new('', x: $window.width-(30*10), y: 450, size: 11)
     @upgrade_boost_text  = Text.new('', x: $window.width-(30*10), y: 460, size: 11)
     @upgrade_boosc_text  = Text.new('', x: $window.width-(30*10), y: 470, size: 11)
-    @clock_start_time    = Time.now
+    @clock_start_time    = Time.now#GameInfo::Config.game_time
     @clock_text          = Text.new('', x: $window.width/2, size: 20)
 
     @resource_text = Text.new('Resources', x: $window.width-(30*10), y: 480, size: 40)

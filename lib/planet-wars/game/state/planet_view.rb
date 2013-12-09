@@ -3,7 +3,8 @@ class PlanetView < Chingu::GameState
     @ship   = Ship.all.first
     @planet = @options[:planet]
     @planet.text.text = ''
-    @instructions = Text.new("(Esc) Back, 1. Build Base", x: 10, size: 25)
+    @tick = 0 # Prevent jumping from Game to Here back to Game immediately
+    @instructions = Text.new("(Enter) Back, 1. Build Base", x: 10, size: 25)
     @name   = Text.new("#{@planet.name}", x: 10, y: 50, size: 25)
     @base   = Text.new('', x: 10, y: 120, size: 25)
     @details= Text.new('', x: 10, y: 140, size: 25)
@@ -23,7 +24,7 @@ class PlanetView < Chingu::GameState
   end
 
   def update
-    @instructions.text = "(Esc) Back, 1. Build Base, 2. Repair ship" if @planet.base.is_a?(Base)
+    @instructions.text = "(Enter) Back, 1. Build Base, 2. Repair ship" if @planet.base.is_a?(Base)
 
     if @planet.habitable && @planet.base == nil
       @base.text = "No Base On This Planet"
@@ -35,12 +36,13 @@ class PlanetView < Chingu::GameState
       @base.text = "Can Not Build A Base On This Planet"
     end
 
-    key_check
+    key_check if @tick >= 30
     @details.text = "Habitable: #{@planet.habitable}, Gold: #{@planet.gold}, Diamond: #{@planet.diamond}, Oil: #{@planet.oil}"
+    @tick+=1
   end
 
   def key_check
-    if button_down?(Gosu::KbEscape) or button_down?(Gosu::KbBackspace)
+    if button_down?(Gosu::KbReturn) or button_down?(Gosu::KbEnter)
       push_game_state(previous_game_state, setup: false)
     end
 

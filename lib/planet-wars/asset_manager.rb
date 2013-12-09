@@ -14,6 +14,9 @@ module AssetManager
   def self.music_path
     "./assets/music"
   end
+  def self.sounds_path
+    "./assets/sounds"
+  end
   def self.fonts_path
     "./assets/fonts"
   end

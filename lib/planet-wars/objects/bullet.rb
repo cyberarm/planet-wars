@@ -7,6 +7,7 @@ class Bullet < Chingu::GameObject
   def setup
     self.zorder = 200
     @image = Gosu::Image[AssetManager.bullets_path+'/bullet.png']
+    Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play
     @ship  = @options[:ship]
     @created_by_enemy = @options[:created_by_enemy]
     @damage=10.0
@@ -43,17 +44,20 @@ class Bullet < Chingu::GameObject
     self.velocity_x = 0
     self.velocity_y = 0
     self.destroy
+    @options = nil
   end
 
   def check_collisions
     if created_by_enemy?
       self.each_collision(Ship) do |bullet, ship|
         self.die
+        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)
         ship.hit(@damage)
       end
     else
       self.each_collision(Enemy) do |bullet, enemy|
         self.die
+        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)
         enemy.hit(@damage)
       end
     end

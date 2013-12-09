@@ -44,6 +44,7 @@ class Enemy < Chingu::GameObject
   def check_health
     if @health <= 0
       Empty.create(x: self.x, y: self.y)
+      Gosu::Sample["#{AssetManager.sounds_path}/explosion.ogg"].play
       self.destroy
     end
   end
