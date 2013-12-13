@@ -7,5 +7,5 @@ gem "releasy"
 # gem "ruby-prof"
 gem "psych"
 gem "texplay"
-gem "ashton"
+gem "ashton", :git => "git@github.com:charlescui/ashton.git"
 # gem "gameoverseer", :git => 'http://github.com/cyberarm/gameoverseer.git'
