@@ -25,6 +25,6 @@ See how long you can survive.
 * `--debug` jumps the game straight to the `Game` game state
 
 ## Road map
-Online high scores - Time survived
-Multiplayer - Death match with up to 4 players
-Multiplayer - Co-op with up to 4 players
+* Online high scores - Time survived
+* Multiplayer - Death match with up to 4 players
+* Multiplayer - Co-op with up to 4 players
