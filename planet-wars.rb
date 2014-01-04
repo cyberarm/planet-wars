@@ -24,6 +24,7 @@ require_relative "lib/planet-wars/game/minimap_gen"
 require_all "lib/planet-wars/achievements"
 
 require_relative "lib/planet-wars/objects/notification"
+require_relative "lib/planet-wars/objects/background"
 require_relative "lib/planet-wars/objects/portal"
 require_relative "lib/planet-wars/objects/target_area"
 require_relative "lib/planet-wars/objects/planet"
@@ -37,6 +38,9 @@ require_relative "lib/planet-wars/objects/text"
 require_relative "lib/planet-wars/objects/boost_bar"
 require_relative "lib/planet-wars/objects/health_bar"
 
+require_all "lib/planet-wars/game/state/helpers"
+
+require_relative "lib/planet-wars/game/state/confirm"
 require_relative "lib/planet-wars/game/state/boot"
 require_relative "lib/planet-wars/game/state/credits"
 require_relative "lib/planet-wars/game/state/mainmenu"
@@ -46,7 +50,6 @@ require_relative "lib/planet-wars/game/state/mode_menu"
 require_relative "lib/planet-wars/game/state/game"
 require_relative "lib/planet-wars/game/state/netgame"
 require_relative "lib/planet-wars/game/state/gameover"
-require_relative "lib/planet-wars/game/state/upgrade_ship"
 require_relative "lib/planet-wars/game/state/planet_view"
 
 Thread.abort_on_exception = true

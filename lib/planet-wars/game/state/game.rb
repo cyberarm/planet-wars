@@ -1,50 +1,29 @@
-class Background < Chingu::GameObject
-  def setup
-    @image = Gosu::Image["assets/backgrounds/background-04.png"]
-    # @image = Gosu::Image["assets/backgrounds/PIA15415.jpg"]
-    self.scale = 2.0
-  end
-end
 class Game < Chingu::GameState
   trait :timer
   trait :viewport
+  include GameMethods
 
   def setup
     # clean up
-    Ship.destroy_all
-    Enemy.destroy_all
-    Planet.destroy_all
-    Background.create(x: 1500, y: 1500, zorder: -10)
+    Ship.destroy_all;Enemy.destroy_all;Planet.destroy_all;Background.create(x: 1500, y: 1500, zorder: -10)
 
     # set controls
     self.input = {[:m] => :mute, [:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
 
-    @paused = false
-
     WorldGen.new(40, GameInfo::Config.number_of_portals, 3000, 3000)
     @ship = Ship.create(x: 3000/2, y: 3000/2, zorder: 100, world: [0,3000,0,3000])#x-left, x-right, y-, y
 
+    @game_hud = GameHUD.new
+    @game_upgrade_hud = GameUpgradeHUD.new(@ship)
+    @game_resources_hud = GameResourcesHUD.new(@ship)
+
     @fps           = Text.new('', x: 10, y: 0)
-    @instructions  = Text.new('Upgrades', x: $window.width-(30*10), y: 400, size: 40)
-    @upgrade_speed_text  = Text.new('', x: $window.width-(30*10), y: 450, size: 11)
-    @upgrade_boost_text  = Text.new('', x: $window.width-(30*10), y: 460, size: 11)
-    @upgrade_boosc_text  = Text.new('', x: $window.width-(30*10), y: 470, size: 11)
     @clock_start_time    = Time.now#GameInfo::Config.game_time
     @clock_text          = Text.new('', x: $window.width/2, size: 20)
-
-    @resource_text = Text.new('Resources', x: $window.width-(30*10), y: 480, size: 40)
-    @diamond_text  = Text.new('', x: $window.width-(30*10), y: 530, size: 11)
-    @gold_text     = Text.new('', x: $window.width-(30*10), y: 540, size: 11)
-    @oil_text      = Text.new('', x: $window.width-(30*10), y: 550, size: 11)
-
     @paused_text   = Text.new("PAUSED", x:$window.width/2-200, y: $window.height/2, z: 1000, size: 100)
 
-    @minimap      = MiniMap.new
-    @boost_bar    = BoostBar.new
-    @health_bar   = HealthBar.new
-
     @planet_check = 0
-
+    @paused = false
     viewport.lag  = 0.22
     viewport.game_area = [0, 0, 1000*3, 1000*3]
   end
@@ -57,21 +36,12 @@ class Game < Chingu::GameState
     super
     unless @paused
       @fps.draw
-      @boost_bar.draw
-      @health_bar.draw
-      @instructions.draw
-      @upgrade_speed_text.draw
-      @upgrade_boost_text.draw
-      @upgrade_boosc_text.draw
-
       @clock_text.draw
 
-      @resource_text.draw
-      @diamond_text.draw
-      @gold_text.draw
-      @oil_text.draw
+      @game_hud.draw
+      @game_upgrade_hud.draw
+      @game_resources_hud.draw
 
-      @minimap.draw
     else
       @paused_text.draw
     end
@@ -81,20 +51,12 @@ class Game < Chingu::GameState
     super
     self.viewport.center_around(@ship)
     unless @paused
-      set_fps_text
-      @minimap.update
-      @health_bar.update
-      @boost_bar.update
-
-      @upgrade_speed_text.text = "1. Speed: #{@ship.speed}"
-      @upgrade_boost_text.text = "2. Boost Speed: #{@ship.boost_speed}"
-      @upgrade_boosc_text.text = "3. Boost Capacity: #{@ship.max_boost}"
-
+      set_fps_text(@fps)
       @clock_text.text = "#{Time.at(Time.now-@clock_start_time).utc.strftime('%H:%M:%S')}"
 
-      @diamond_text.text = "Diamond: #{@ship.diamond}"
-      @gold_text.text    = "Gold: #{@ship.gold}"
-      @oil_text.text     = "Oil: #{@ship.oil}"
+      @game_hud.update
+      @game_upgrade_hud.update
+      @game_resources_hud.update
 
       planet_check
     end
@@ -104,26 +66,7 @@ class Game < Chingu::GameState
     end
   end
 
-  def set_fps_text
-    fps = $window.fps
-    @fps.text = "FPS: #{fps}"
-    if fps >= 60
-      @fps.color = Gosu::Color::WHITE
-    end
-    if fps <= 57
-      @fps.color = Gosu::Color::GREEN
-    end
-    if fps <= 45
-      @fps.color = Gosu::Color::YELLOW
-    end
-    if fps <= 30
-      @fps.color = Gosu::Color::RED
-    end
-    if fps <= 15
-      @fps.color = Gosu::Color::FUCHSIA
-    end
-  end
-
+  # Additional methods
   def needs_cursor?
     true
   end
@@ -165,14 +108,14 @@ class Game < Chingu::GameState
   end
 
   def escape
-    @ship.destroy
-    Planet.destroy_all
-    Enemy.destroy_all
-    close
-    push_game_state(MainMenu)
-  end
-
-  def upgrade
-    push_game_state(UpgradeShip)
+    if @confirmed_exit
+      @ship.destroy
+      Planet.destroy_all
+      Enemy.destroy_all
+      close
+      push_game_state(MainMenu)
+    else
+      ask("Are you sure you want to leave?")
+    end
   end
 end
