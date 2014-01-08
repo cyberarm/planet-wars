@@ -16,6 +16,7 @@ class Enemy < Chingu::GameObject
     @dy = 0
     every(1000) do
       Bullet.create(x: self.x, y: self.y, z: 199, created_by_enemy: true, velocity_x: @dx*3, velocity_y: @dy*3) if @target.in_range && self.alpha >= 255
+      # GameInfo::Config.bullet_shot if @target.in_range && self.alpha >= 255
     end
   end
 
@@ -45,6 +46,7 @@ class Enemy < Chingu::GameObject
     if @health <= 0
       Empty.create(x: self.x, y: self.y)
       Gosu::Sample["#{AssetManager.sounds_path}/explosion.ogg"].play
+      GameInfo::Config.killed
       self.destroy
     end
   end

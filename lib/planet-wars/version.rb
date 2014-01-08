@@ -11,6 +11,15 @@ class GameInfo
       @kills+=1
     end
 
+     def self.bullets_fired
+      @bullets = 0 unless defined?(@bullets)
+      @bullets
+    end
+
+    def self.bullet_shot
+      @bullets+=1
+    end
+
     def self.game_time
       @time = Time.now unless defined?(@time)
       return @time

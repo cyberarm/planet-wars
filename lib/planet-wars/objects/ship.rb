@@ -119,6 +119,7 @@ class Ship < Chingu::GameObject
 
   def fire_weapon
     Bullet.create(x: self.x, y: self.y, z: 199, ship: self, created_by_enemy: false)
+    GameInfo::Config.bullet_shot
   end
 
   def boost_key
