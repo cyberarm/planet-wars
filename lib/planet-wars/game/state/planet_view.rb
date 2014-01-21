@@ -36,14 +36,14 @@ class PlanetView < Chingu::GameState
       @base.text = "Can Not Build A Base On This Planet"
     end
 
-    key_check if @tick >= 30
+    key_check
     @details.text = "Habitable: #{@planet.habitable}, Gold: #{@planet.gold}, Diamond: #{@planet.diamond}, Oil: #{@planet.oil}"
     @tick+=1
   end
 
   def key_check
     if button_down?(Gosu::KbReturn) or button_down?(Gosu::KbEnter)
-      push_game_state(previous_game_state, setup: false)
+      push_game_state(previous_game_state, setup: false) if @tick >= 30
     end
 
     if button_down?(Gosu::Kb1)

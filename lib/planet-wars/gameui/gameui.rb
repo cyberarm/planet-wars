@@ -1,10 +1,12 @@
 class GameUI < Chingu::GameState
   def initialize(options={})
     super
+    @options = options
     options[:title] ||= "Planet Wars"
+    options[:font] ||= "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
     @elements = []
     @rects    = []
-    @tooltip  = Text.new("", x: 1, y: 80, size: 30)
+    @tooltip  = Text.new("", x: 1, y: 80, size: 32, font: options[:font])
     @post_ui_create = true
     @released_left_mouse_button = false
     @released_return = false
@@ -14,6 +16,7 @@ class GameUI < Chingu::GameState
       object: Text.new("#{options[:title]}",
       x: 90,
       y: 20,
+      font: options[:font],
       size: 50)
       })
   end
@@ -100,7 +103,7 @@ class GameUI < Chingu::GameState
     options[:y]           ||= @get_available_y
     @elements.push(
       text={
-        object: Text.new("#{text}", x: options[:x], y: options[:y], size: 30, color: options[:color])
+        object: Text.new("#{text}", x: options[:x], y: options[:y], size: 32, color: options[:color], font: @options[:font])
       }
     )
     

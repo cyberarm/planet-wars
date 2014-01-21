@@ -8,6 +8,7 @@ class GameInfo
     end
 
     def self.killed
+      kills
       @kills+=1
     end
 
@@ -17,6 +18,7 @@ class GameInfo
     end
 
     def self.bullet_shot
+      bullets_fired
       @bullets+=1
     end
 

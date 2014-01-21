@@ -11,11 +11,14 @@ class Enemy < Chingu::GameObject
     @speed = 2
     @health= 40
     @image = Gosu::Image["#{AssetManager.ships_path}/enemy.png"]
-    @target = TargetArea.create(owner: self, target: Ship.all.first)
+    @target = Target.create(x: 0, y: 0)
+    @target_area = TargetArea.create(owner: self, target: @target)
+    @tick = 0
     @dx = 0
     @dy = 0
+
     every(1000) do
-      Bullet.create(x: self.x, y: self.y, z: 199, created_by_enemy: true, velocity_x: @dx*3, velocity_y: @dy*3) if @target.in_range && self.alpha >= 255
+      Bullet.create(x: self.x, y: self.y, z: 199, created_by_enemy: true, velocity_x: @dx*3, velocity_y: @dy*3) if @target_area.in_range && self.alpha >= 255
       # GameInfo::Config.bullet_shot if @target.in_range && self.alpha >= 255
     end
   end
@@ -26,19 +29,22 @@ class Enemy < Chingu::GameObject
 
   def update
     self.alpha+=2
+    @tick+=1
     rotate(rand(0.0..1.0))
-    if defined?(@ship) && self.alpha >= 255
-      @dx = @ship.x - self.x
-      @dy = @ship.y - self.y
+    if defined?(@target_area) && self.alpha >= 255
+      @dx = @target.x - self.x
+      @dy = @target.y - self.y
       length = Math.sqrt( @dx*@dx + @dy*@dy )
       @dx /= length; @dy /= length
       @dx *= @speed; @dy *= @speed
       self.x += @dx
       self.y += @dy
-    else
-      @ship  = Ship.all.first
     end
 
+    if @tick >= 10
+      @tick = 0
+      @target.x,@target.y = Ship.all.first.x,Ship.all.first.y
+    end
     check_health
   end
 

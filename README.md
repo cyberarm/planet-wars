@@ -7,7 +7,7 @@ A space shooter-like game
 * First, clone or download this repository (and extract the archive)
 * Second, enter the downloaded folder, and run `bundle install` to install the games dependacies semi-automatically
 * Third, run `ruby planet-wars.rb`
-You should now be able to play.
+You should now be playing the game, enjoy.
 
 ## Gameplay
 After selecting your choice of difficultly, your ship is placed in the middle of hostile point in space where enemies constantly spawn.
@@ -21,7 +21,7 @@ See how long you can survive.
 
 ## Commandline Arguments
 * `--low` runs the game at 3/4 the size of the screen
-* `--mute` starts the game with music paused (can be resumed from the settings menu)
+* `--mute` starts the game with music paused (can be resumed from the settings menu or by pressing 'm')
 * `--debug` jumps the game straight to the `Game` game state
 
 ## Road map

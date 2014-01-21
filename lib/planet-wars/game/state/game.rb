@@ -14,9 +14,12 @@ class Game < Chingu::GameState
     @ship = Ship.create(x: 3000/2, y: 3000/2, zorder: 100, world: [0,3000,0,3000])#x-left, x-right, y-, y
 
     @game_hud = GameHUD.new
+    @game_controls    = GameControls.new
     @game_overlay_hud = GameOverlayHUD.new
     @game_upgrade_hud = GameUpgradeHUD.new(@ship)
     @game_resources_hud = GameResourcesHUD.new(@ship)
+    NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
+    NotificationManager.add("Press 'H' to show help", Gosu::Color::GRAY)
 
     @fps           = Text.new('', x: 10, y: 0)
     @clock_start_time    = Time.now#GameInfo::Config.game_time
@@ -40,6 +43,7 @@ class Game < Chingu::GameState
       @clock_text.draw
 
       @game_hud.draw
+      @game_controls.draw
       @game_overlay_hud.draw
       @game_upgrade_hud.draw
       @game_resources_hud.draw
@@ -57,6 +61,7 @@ class Game < Chingu::GameState
       @clock_text.text = "#{Time.at(Time.now-@clock_start_time).utc.strftime('%H:%M:%S')}"
 
       @game_hud.update
+      @game_controls.update
       @game_overlay_hud.update
       @game_upgrade_hud.update
       @game_resources_hud.update
@@ -111,14 +116,13 @@ class Game < Chingu::GameState
   end
 
   def escape
-    if @confirmed_exit
+    ask("Are you sure you want to leave?") do
       @ship.destroy
-      Planet.destroy_all
+      Planet.destroy_all  
       Enemy.destroy_all
+      NotificationManager.destroy_all
       close
       push_game_state(MainMenu)
-    else
-      ask("Are you sure you want to leave?")
     end
   end
 end

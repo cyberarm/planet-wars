@@ -1,8 +1,9 @@
 class Text
-  attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color
+  attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :options
   attr_reader :textobject
   def initialize(text, options={})
     @text = text || ""
+    @options = options
     @size = options[:size] || 13
     @font = options[:font] || "#{AssetManager.fonts_path}/Alfphabet-IV.ttf"
     @x = options[:x] || 0

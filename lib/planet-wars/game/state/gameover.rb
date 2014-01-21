@@ -11,6 +11,7 @@ class GameOver < Chingu::GameState
 
     Planet.destroy_all
     Enemy.destroy_all
+    NotificationManager.destroy_all
   end
 
   def draw

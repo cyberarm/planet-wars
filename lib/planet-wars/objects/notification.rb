@@ -1,56 +1,33 @@
-class Notification < Chingu::GameObject
-  trait :effect
-  trait :timer
+class NotificationManager < Chingu::GameObject
+  Z = 999
 
-  def initialize(options={})
-    super
-  end
-
+  attr_accessor :slot
   def setup
-    @blink     = @options[:blink]
-    @object    = @options[:object] || Ship.all.first
-    @show      = true
-    @color     = @options[:color] || Gosu::Color::WHITE
-    @message   = Text.new(@options[:message], z: 999, size: 25, color: @color)
-    @show_for  = @options[:show_for] || 3000
-    @message.x = @object.x-@message.width/2
-    @message.y = @object.y-100
-
-    after(@show_for) do
-      self.destroy
-    end
-
-    if @blink
-      every(500) do
-        toggle
-      end
-    end
+    @slot = []
   end
 
-  def toggle
-    if @show
-      @show = false
-    else
-      @show = true
-    end
+  def self.add(text, color=Gosu::Color::WHITE, active=180)
+    note = NotificationManager.all
+    note = note.last
+    note.slot << Text.new(text, active: active, color: color, size: 40, x: 100, zorder: Z, tick: 0)
   end
 
   def draw
-    super
-    @message.draw if @show
+    @slot.reverse.each do |note|
+      note.draw
+    end
   end
 
   def update
-    @message.text = "#{@options[:message]}"
-    @message.x = @object.x-@message.width/2
-    @message.y = @object.y-100
-  end
-
-  def text=(string)
-    @options[:message] = string
-  end
-
-  def end
-    self.destroy
+    n = 0
+    @slot.each do |note|
+      note.y = note.size*n
+      note.options[:tick]+=1
+      if note.options[:tick] >= note.options[:active]
+        @slot.delete(note)
+      else
+        n+=1
+      end
+    end
   end
 end

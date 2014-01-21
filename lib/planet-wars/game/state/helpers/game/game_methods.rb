@@ -20,7 +20,8 @@ module GameMethods
     end
   end
 
-  def ask(string)
-    push_game_state(Confirm.new(text: string))
+  def ask(string, &blk)
+    push_game_state(Confirm.new(text: string, block: blk)) if blk
+    push_game_state(Confirm.new(text: string, block: blk)) unless blk
   end
 end
