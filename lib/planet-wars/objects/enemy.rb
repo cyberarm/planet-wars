@@ -12,7 +12,7 @@ class Enemy < Chingu::GameObject
     @health= 40
     @image = Gosu::Image["#{AssetManager.ships_path}/enemy.png"]
     @target = Target.create(x: 0, y: 0)
-    @target_area = TargetArea.create(owner: self, target: @target)
+    @target_area = TargetArea.create(owner: self, target: @target, size: 235.0)
     @tick = 0
     @dx = 0
     @dy = 0
@@ -31,7 +31,7 @@ class Enemy < Chingu::GameObject
     self.alpha+=2
     @tick+=1
     rotate(rand(0.0..1.0))
-    if defined?(@target_area) && self.alpha >= 255
+    if defined?(@target_area) && @target_area.in_range && self.alpha >= 255
       @dx = @target.x - self.x
       @dy = @target.y - self.y
       length = Math.sqrt( @dx*@dx + @dy*@dy )

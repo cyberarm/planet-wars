@@ -7,9 +7,11 @@ class TargetArea < Chingu::GameObject
   def setup
     @owner     = @options[:owner]
     @target    = @options[:target]
+    @size      = @options[:size]
     @in_range  = false
     @image     = TexPlay.create_image($window, 10, 10, color: Gosu::Color.argb(0,0,0,0))
-    self.scale = 100.0
+    self.scale = @size if @size
+    self.scale = 100.0 unless @size
   end
 
   def update
