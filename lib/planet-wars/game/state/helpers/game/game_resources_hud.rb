@@ -15,8 +15,8 @@ class GameResourcesHUD
   end
 
   def update
-    @diamond_text.text = "Diamond: #{@ship.diamond}"
-    @gold_text.text    = "Gold: #{@ship.gold}"
-    @oil_text.text     = "Oil: #{@ship.oil}"
+    @diamond_text.text = "Diamond: #{@ship.diamond.to_f.round(2)}"
+    @gold_text.text    = "Gold: #{@ship.gold.to_f.round(2)}"
+    @oil_text.text     = "Oil: #{@ship.oil.to_f.round(2)}"
   end
 end

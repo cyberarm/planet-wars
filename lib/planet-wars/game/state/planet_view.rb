@@ -37,7 +37,7 @@ class PlanetView < Chingu::GameState
     end
 
     key_check
-    @details.text = "Habitable: #{@planet.habitable}, Gold: #{@planet.gold}, Diamond: #{@planet.diamond}, Oil: #{@planet.oil}"
+    @details.text = "Habitable: #{@planet.habitable}, Diamond: #{@planet.diamond.to_f.round(2)}, Gold: #{@planet.gold.to_f.round(2)}, Oil: #{@planet.oil.to_f.round(2)}"
     @tick+=1
   end
 
