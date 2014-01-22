@@ -1,8 +1,9 @@
-class MusicManager < Chingu::GameObject # Broken
+class MusicManager < Chingu::GameObject
   attr_accessor :song, :list
 
   def setup
     @limiter = 0
+    @music_data = AssetManager.credits_data['credits']['music']
     @music = Dir["#{AssetManager.music_path}/*.ogg"]
     @list  = @music
     10.times{@music.shuffle!}
@@ -10,6 +11,7 @@ class MusicManager < Chingu::GameObject # Broken
     @toggle = true
     @song = Gosu::Song[(@music[@current])]
     @song.play
+    NotificationManager.add("Now play: #{title}, by: #{composer}") rescue NoMethodError
   end
 
   def update
@@ -22,6 +24,7 @@ class MusicManager < Chingu::GameObject # Broken
   
         @song = Gosu::Song[(@music[@current])]
         @song.play
+        NotificationManager.add("Now play: #{title}, by: #{composer}") rescue NoMethodError
       end
     end
 
@@ -36,6 +39,22 @@ class MusicManager < Chingu::GameObject # Broken
     else
       @song.play
       @toggle = true
+    end
+  end
+
+  def title
+    @music_data.select do |song|
+      if @music[@current].downcase.include?(song['name'].downcase)
+        return song['name']
+      end
+    end
+  end
+
+  def composer 
+    @music_data.select do |song|
+      if @music[@current].downcase.include?(song['name'].downcase)
+        return song['composer']
+      end
     end
   end
 

@@ -9,7 +9,7 @@ class NotificationManager < Chingu::GameObject
   def self.add(text, color=Gosu::Color::WHITE, active=180)
     note = NotificationManager.all
     note = note.last
-    note.slot << Text.new(text, active: active, color: color, size: 40, x: 100, zorder: Z, tick: 0)
+    note.slot << Text.new(text, active: active, color: color, size: 23, x: 100, zorder: Z, tick: 0)
   end
 
   def draw
