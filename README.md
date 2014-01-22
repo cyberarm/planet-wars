@@ -2,7 +2,7 @@
 A space shooter-like game
 
 ## How to install:
-(Assuming you have Ruby and Bundler installed)
+(Assuming you have Ruby 1.9.3 and Bundler installed)
 
 * First, clone or download this repository (and extract the archive)
 * Second, enter the downloaded folder, and run `bundle install` to install the games dependacies semi-automatically
