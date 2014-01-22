@@ -28,3 +28,14 @@ See how long you can survive.
 * Online high scores - Time survived
 * Multiplayer - Death match with up to 4 players
 * Multiplayer - Co-op with up to 4 players
+
+## Asset Copyright
+* All Sprites - Cyberarm - (CC) Attribution-ShareAlike 3.0 Unported License
+* All Music - Alexandr Zhelanov - (CC) Attribution 3.0 Unported License
+* Font: Alfphabet IV - Pierre Huyghebaert and Ludivine Loiseau - SIL Open Font License
+* Font: Hobby Of Night - Fernando Haro - SIL Open Font License
+* Sound: Achievement Unlocked - Kastenfrosch* - (CC) 0
+* Sound: Explosion - PSYCHO BOOMER* - (CC) Zero
+* Sound: Hit - Keatonmcq* - (CC) Zero
+* Sound: Laser - fins* - (CC) Zero
+(* FreeSound username)
