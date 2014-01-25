@@ -11,7 +11,7 @@ class MusicManager < Chingu::GameObject
     @toggle = true
     @song = Gosu::Song[(@music[@current])]
     @song.play
-    NotificationManager.add("Now play: #{title}, by: #{composer}") rescue NoMethodError
+    NotificationManager.add("Now playing: #{title}, by: #{composer}") rescue NoMethodError
   end
 
   def update
@@ -24,7 +24,7 @@ class MusicManager < Chingu::GameObject
   
         @song = Gosu::Song[(@music[@current])]
         @song.play
-        NotificationManager.add("Now play: #{title}, by: #{composer}") rescue NoMethodError
+        NotificationManager.add("Now playing: #{title}, by: #{composer}") rescue NoMethodError
       end
     end
 
