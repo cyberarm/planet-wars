@@ -17,7 +17,7 @@ class Technician < Achievement
   end
 
   def points
-    25
+    10
   end
 
   def repair_count
