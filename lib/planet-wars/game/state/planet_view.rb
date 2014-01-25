@@ -57,9 +57,10 @@ class PlanetView < Chingu::GameState
     end
 
     if button_down?(Gosu::Kb2)
-      if @planet.base.is_a?(Base) && @ship.oil >= 200
-        @ship.oil-=200 unless @ship.health == @ship.max_health
+      if @planet.base.is_a?(Base) && @ship.oil >= 200 && @ship.health != @ship.max_health
+        @ship.oil-=200# unless @ship.health == @ship.max_health
         @ship.health=@ship.max_health
+        GameInfo::Config.repaired
       end
     end
 

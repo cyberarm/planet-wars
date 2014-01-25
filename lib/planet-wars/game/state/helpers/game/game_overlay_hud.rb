@@ -6,8 +6,9 @@ class GameOverlayHUD
     @bases = 1
     @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 200, zorder: 1001, size: 20), name: "Bases Built", block: :bases}
     @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 220, zorder: 1001, size: 20), name: "Available Planets", block: :available_planets}
-    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 240, zorder: 1001, size: 20), name: "Enemies Kills", block: :enemies_killed}
+    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 240, zorder: 1001, size: 20), name: "Enemies Killed", block: :enemies_killed}
     @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 260, zorder: 1001, size: 20), name: "Bullets Fired", block: :bullets_fired}
+    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 280, zorder: 1001, size: 20), name: "Ship Repaired", block: :ship_repaired}
   end
 
   def draw
@@ -58,5 +59,9 @@ class GameOverlayHUD
 
   def bullets_fired
     GameInfo::Config.bullets_fired
+  end
+
+  def ship_repaired
+    GameInfo::Config.repairs
   end
 end

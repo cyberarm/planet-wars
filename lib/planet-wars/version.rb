@@ -12,6 +12,16 @@ class GameInfo
       @kills+=1
     end
 
+    def self.repairs
+      @repairs = 0 unless defined?(@repairs)
+      @repairs
+    end
+
+    def self.repaired
+      repairs
+      @repairs+=1
+    end
+
      def self.bullets_fired
       @bullets = 0 unless defined?(@bullets)
       @bullets

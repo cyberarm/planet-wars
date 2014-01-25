@@ -1,5 +1,6 @@
-class Base
+class Base < Chingu::BasicGameObject
   def initialize(planet)
+    super()
     @tick = 0
     @ship = Ship.all.first
     @planet = planet

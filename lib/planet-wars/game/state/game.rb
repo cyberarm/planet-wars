@@ -20,6 +20,7 @@ class Game < Chingu::GameState
     @game_resources_hud = GameResourcesHUD.new(@ship)
     NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
     NotificationManager.add("Press 'H' to show help", Gosu::Color::GRAY)
+    AchievementManager.create
 
     @fps           = Text.new('', x: 10, y: 0)
     @clock_start_time    = Time.now#GameInfo::Config.game_time
