@@ -12,7 +12,7 @@ class Enemy < Chingu::GameObject
     @health= 40
     @image = Gosu::Image["#{AssetManager.ships_path}/enemy.png"]
     @target = Target.create(x: 0, y: 0)
-    @target_area = TargetArea.create(owner: self, target: @target, size: 235.0)
+    @target_area = TargetArea.create(owner: self, target: @target, size: 255.0)
     @tick = 0
     @dx = 0
     @dy = 0

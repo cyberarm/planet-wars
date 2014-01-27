@@ -1,5 +1,4 @@
 class Bullet < Chingu::GameObject
-  trait :timer
   trait :velocity
   trait :bounding_circle
   trait :collision_detection
@@ -13,15 +12,13 @@ class Bullet < Chingu::GameObject
     @damage=10.0
     @dead  = false
     set_velocity
-
-    after(2000) {die}
   end
 
   def update
     self.alpha-=2
-    self.die if alpha <= 10
+    self.die if alpha <= 0
     @damage-=0.04
-    check_collisions unless @dead
+    check_collisions
   end
 
   def set_velocity
@@ -40,11 +37,7 @@ class Bullet < Chingu::GameObject
   end
 
   def die
-    @dead = true
-    self.velocity_x = 0
-    self.velocity_y = 0
     self.destroy
-    @options = nil
   end
 
   def check_collisions
