@@ -2,6 +2,11 @@ require "releasy"
 require 'bundler/setup' # Releasy requires require that your application uses bundler.
 require_relative "lib/planet-wars/version"
 
+task :profile do
+  `ruby-prof planet-wars.rb -p graph_html -f lib/planet-wars/dev_stats/ruby-prof.html`
+end
+
+
 Releasy::Project.new do
   name GameInfo::NAME
   version GameInfo::VERSION
