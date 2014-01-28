@@ -3,8 +3,8 @@ class Planet < Chingu::GameObject
   trait :bounding_circle
   trait :collision_detection
 
-  attr_reader :name, :habitable, :high_temp, :low_temp
-  attr_accessor :text, :base, :gold, :diamond, :oil
+  attr_reader :name, :high_temp, :low_temp
+  attr_accessor :text, :habitable, :base, :gold, :diamond, :oil
 
   def setup
     self.zorder = 150

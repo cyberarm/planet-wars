@@ -32,10 +32,6 @@ class PlanetView < Chingu::GameState
       @base.text = "Base On This Planet"
     end
 
-    unless @planet.habitable
-      @base.text = "Can Not Build A Base On This Planet"
-    end
-
     key_check
     @details.text = "Habitable: #{@planet.habitable}, Diamond: #{@planet.diamond.to_f.round(2)}, Gold: #{@planet.gold.to_f.round(2)}, Oil: #{@planet.oil.to_f.round(2)}"
     @tick+=1
@@ -54,6 +50,16 @@ class PlanetView < Chingu::GameState
         @ship.diamond-=20 unless @planet.base.is_a?(Base)
         @planet.base = Base.new(@planet) unless @planet.base.is_a?(Base)
       end
+
+      if !@planet.habitable && @ship.gold >= 400
+        @ship.gold-=400 unless @planet.base.is_a?(Base)
+        @planet.base = Base.new(@planet) unless @planet.base.is_a?(Base)
+        @planet.habitable = true
+      elsif !@planet.habitable && @ship.diamond >= 40
+        @ship.diamond-=40 unless @planet.base.is_a?(Base)
+        @planet.base = Base.new(@planet) unless @planet.base.is_a?(Base)
+        @planet.habitable = true
+      end
     end
 
     if button_down?(Gosu::Kb2)
@@ -63,15 +69,6 @@ class PlanetView < Chingu::GameState
         GameInfo::Config.repaired
       end
     end
-
-    # if button_down?(Gosu::Kb3)
-    #   @ship.gold+=@planet.gold
-    #   @planet.gold = 0
-    #   @ship.diamond+=@planet.diamond
-    #   @planet.diamond = 0
-    #   @ship.oil+=@planet.oil
-    #   @planet.oil = 0
-    # end
   end
 
   def button_down?(id)

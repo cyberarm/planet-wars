@@ -121,6 +121,8 @@ class Game < Chingu::GameState
       @ship.destroy
       Planet.destroy_all  
       Enemy.destroy_all
+      Portal.destroy_all
+      Background.destroy_all
       NotificationManager.destroy_all
       close
       push_game_state(MainMenu)
