@@ -63,7 +63,7 @@ class Ship < Chingu::GameObject
     @particle.x = self.x
     @particle.y = self.y
     ship_check
-    upgrade_check # Chingu Input, WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
+    # upgrade_check # Chingu Input, WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
     health_check
     @speed = @old_speed
   end
@@ -72,11 +72,11 @@ class Ship < Chingu::GameObject
     @health-=damage
   end
 
-  def upgrade_check
+  # def upgrade_check
     # upgrade_speed if $window.button_down?(Gosu::Kb1)
-    upgrade_boost_speed if $window.button_down?(Gosu::Kb2)
-    upgrade_boost_capacity if $window.button_down?(Gosu::Kb3)
-  end
+    # upgrade_boost_speed if $window.button_down?(Gosu::Kb2)
+    # upgrade_boost_capacity if $window.button_down?(Gosu::Kb3)
+  # end
 
 
   def health_check
@@ -108,13 +108,22 @@ class Ship < Chingu::GameObject
 
   # Key checks
   def upgrade_speed
-    @old_speed+=1 unless @old_speed >= @lock_speed
+    if Base.all.count > 0 && self.gold >= 200
+      @old_speed+=1 unless @old_speed >= @lock_speed
+      self.gold-=200 unless @old_speed >= @lock_speed
+    end
   end
   def upgrade_boost_speed
-    @boost_speed+=1 unless @boost_speed >= @lock_boost_speed
+    if Base.all.count > 0 && self.gold >= 100
+      @boost_speed+=1 unless @boost_speed >= @lock_boost_speed
+      self.gold-=100 unless @max_boost >= @lock_max_boost
+    end
   end
   def upgrade_boost_capacity
-    @max_boost+=1 unless @max_boost >= @lock_max_boost
+    if Base.all.count > 0 && self.gold >= 100
+      @max_boost+=50 unless @max_boost >= @lock_max_boost
+      self.gold-=100 unless @max_boost >= @lock_max_boost
+    end
   end
 
   def fire_weapon

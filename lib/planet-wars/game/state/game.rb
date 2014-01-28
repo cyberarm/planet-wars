@@ -126,4 +126,10 @@ class Game < Chingu::GameState
       push_game_state(MainMenu)
     end
   end
+
+  def button_up(id)
+    @ship.upgrade_speed if id == (Gosu::Kb1)
+    @ship.upgrade_boost_speed if id == (Gosu::Kb2)
+    @ship.upgrade_boost_capacity if id == (Gosu::Kb3)
+  end
 end
