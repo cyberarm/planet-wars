@@ -9,7 +9,7 @@ end
 
 Releasy::Project.new do
   name GameInfo::NAME
-  version GameInfo::VERSION
+  version "#{GameInfo::VERSION}-#{File.open("lib/planet-wars/dev_stats/build.dat").read}"
   verbose # Can be removed if you don't want to see all build messages.
 
   executable "planet-wars.rb"
