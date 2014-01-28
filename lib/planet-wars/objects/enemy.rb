@@ -61,6 +61,11 @@ class Enemy < Chingu::GameObject
     @health-=damage if self.alpha >= 255
   end
 
+  def destroy
+    super
+    @target_area.destroy
+  end
+
   def self.spawn(portal)
     Enemy.create(x: portal.x, y: portal.y)
   end
