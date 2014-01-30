@@ -8,13 +8,15 @@ class Bullet < Chingu::GameObject
     @image = Gosu::Image[AssetManager.bullets_path+'/bullet.png']
     Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play
     @ship  = @options[:ship]
-    @created_by_enemy = @options[:created_by_enemy]
+    @speed = 10
     @damage=10.0
     @dead  = false
+    @alive_tick = 0
     set_velocity
   end
 
   def update
+    @alive_tick+=1
     self.alpha-=2
     self.die if alpha <= 0
     @damage-=0.04
@@ -22,7 +24,7 @@ class Bullet < Chingu::GameObject
   end
 
   def set_velocity
-    unless @created_by_enemy
+    if @ship
       case @ship.angle
       when 0
         self.velocity_y=-10
@@ -41,22 +43,18 @@ class Bullet < Chingu::GameObject
   end
 
   def check_collisions
-    if created_by_enemy?
+    if @alive_tick >= 20
       self.each_collision(Ship) do |bullet, ship|
         self.die
         Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)
         ship.hit(@damage)
       end
-    else
+      
       self.each_collision(Enemy) do |bullet, enemy|
         self.die
         Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)
         enemy.hit(@damage)
       end
     end
-  end
-
-  def created_by_enemy?
-    @created_by_enemy
   end
 end

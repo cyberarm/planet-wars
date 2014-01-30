@@ -2,7 +2,6 @@ class Enemy < Chingu::GameObject
   attr_reader :health
   attr_accessor :move, :health
   trait :effect
-  trait :timer
   trait :bounding_circle
   trait :collision_detection
   def setup
@@ -11,16 +10,12 @@ class Enemy < Chingu::GameObject
     @speed = 2
     @health= 40
     @image = Gosu::Image["#{AssetManager.ships_path}/enemy.png"]
-    @target = Target.create(x: 0, y: 0)
+    @target = Target.create(x: 0, y: 0) unless Target.all.first.is_a?(Target)
+    @target = Target.all.first if Target.all.first.is_a?(Target)
     @target_area = TargetArea.create(owner: self, target: @target, size: 255.0)
     @tick = 0
     @dx = 0
     @dy = 0
-
-    every(1000) do
-      Bullet.create(x: self.x, y: self.y, z: 199, created_by_enemy: true, velocity_x: @dx*3, velocity_y: @dy*3) if @target_area.in_range && self.alpha >= 255
-      # GameInfo::Config.bullet_shot if @target.in_range && self.alpha >= 255
-    end
   end
 
   def draw
@@ -29,7 +24,6 @@ class Enemy < Chingu::GameObject
 
   def update
     self.alpha+=2
-    @tick+=1
     rotate(rand(0.0..1.0))
     if defined?(@target_area) && @target_area.in_range && self.alpha >= 255
       @dx = @target.x - self.x
@@ -41,10 +35,12 @@ class Enemy < Chingu::GameObject
       self.y += @dy
     end
 
-    if @tick >= 10
+    if @tick >= 60
       @tick = 0
-      @target.x,@target.y = Ship.all.first.x,Ship.all.first.y
+      Bullet.create(x: self.x, y: self.y, z: 199, velocity_x: @dx*3, velocity_y: @dy*3) if @target_area.in_range && self.alpha >= 255
     end
+
+    @tick+=1
     check_health
   end
 
