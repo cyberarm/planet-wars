@@ -17,8 +17,6 @@ After selecting your choice of difficultly, your ship is placed in the middle of
 You can visit planets by pressing enter when on top of a planet, while visiting a planet you can build a base.
 Bases act as mines, collecting available resources on the planet, bases also act as a repair station, allowing your ship to be repaired.
 
-After running out of resources its only a matter of time before your overwelled.
-
 See how long you can survive.
 
 ## Commandline Arguments
