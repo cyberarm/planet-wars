@@ -53,7 +53,6 @@ class Ship < Chingu::GameObject
   def draw
     super
     @particle.draw
-    # Notification.all.each(&:update)
   end
 
   def update
@@ -63,7 +62,6 @@ class Ship < Chingu::GameObject
     @particle.x = self.x
     @particle.y = self.y
     ship_check
-    # upgrade_check # Chingu Input, WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
     health_check
     mover
     set_active_speed
@@ -74,12 +72,6 @@ class Ship < Chingu::GameObject
   def hit(damage)
     @health-=damage
   end
-
-  # def upgrade_check
-    # upgrade_speed if $window.button_down?(Gosu::Kb1)
-    # upgrade_boost_speed if $window.button_down?(Gosu::Kb2)
-    # upgrade_boost_capacity if $window.button_down?(Gosu::Kb3)
-  # end
 
 
   def health_check

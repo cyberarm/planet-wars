@@ -1,7 +1,7 @@
 class Asteroid < Chingu::GameObject
   trait :effect
   trait :velocity
-  trait :bounding_circle, debug: true
+  trait :bounding_circle
   trait :collision_detection
 
   def setup

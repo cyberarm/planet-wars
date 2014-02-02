@@ -42,15 +42,7 @@ class GameOverlayHUD
   end
 
   def available_planets
-    planets = []
-    Planet.all.select do |planet|
-       unless planet.base
-         if planet.habitable
-           planets << planet
-         end
-       end
-     end
-    planets.count
+    Planet.all.count
   end
 
   def enemies_killed
