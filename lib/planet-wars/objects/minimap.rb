@@ -5,13 +5,12 @@ class MiniMap < Chingu::GameObject
     self.y = 30*5
     self.zorder = 999
     @ship = Ship.all.first
-    # MiniMapGenerator.new([3000,3000], Planet.all, @ship)
   end
 
   def update
     self.factor = 10
     if @tick >= 10
-      map = MiniMapGenerator.new([3000,3000], Planet.all, Enemy.all, Ship.all.first)
+      map = MiniMapGenerator.new([3000,3000], Planet.all, Enemy.all, Asteroid.all, Ship.all.first)
       self.image = map.image.retrofy
       @tick = 0
     end

@@ -11,12 +11,10 @@ class Bullet < Chingu::GameObject
     @speed = 10
     @damage=10.0
     @dead  = false
-    @alive_tick = 0
     set_velocity
   end
 
   def update
-    @alive_tick+=1
     self.alpha-=2
     self.die if alpha <= 0
     @damage-=0.04
@@ -25,16 +23,9 @@ class Bullet < Chingu::GameObject
 
   def set_velocity
     if @ship
-      case @ship.angle
-      when 0
-        self.velocity_y=-10
-      when 180
-        self.velocity_y=10
-      when 270
-        self.velocity_x=-10
-      when 90
-        self.velocity_x=10
-      end
+      direction = (@ship.angle - 90.0) * (Math::PI / 180.0)
+      self.velocity_x = @speed*Math.cos(direction)
+      self.velocity_y = @speed*Math.sin(direction)
     end
   end
 
@@ -43,13 +34,13 @@ class Bullet < Chingu::GameObject
   end
 
   def check_collisions
-    if @alive_tick >= 20
+    unless @ship
       self.each_collision(Ship) do |bullet, ship|
         self.die
         Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)
         ship.hit(@damage)
       end
-      
+    else
       self.each_collision(Enemy) do |bullet, enemy|
         self.die
         Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)

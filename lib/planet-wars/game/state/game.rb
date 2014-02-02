@@ -21,6 +21,7 @@ class Game < Chingu::GameState
     NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
     NotificationManager.add("Press 'H' to show help", Gosu::Color::GRAY)
     AchievementManager.create
+    HazardManager.create
 
     @fps           = Text.new('', x: 10, y: 0)
     @clock_start_time    = Time.now#GameInfo::Config.game_time
@@ -123,6 +124,9 @@ class Game < Chingu::GameState
       Enemy.destroy_all
       Portal.destroy_all
       Background.destroy_all
+      Target.destroy_all
+      Asteroid.destroy_all
+      HazardManager.destroy_all
       NotificationManager.destroy_all
       close
       push_game_state(MainMenu)

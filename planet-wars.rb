@@ -15,6 +15,7 @@ require_relative "lib/planet-wars/gameui/gameui"
 
 require_relative "lib/planet-wars/game/engine"
 require_relative "lib/planet-wars/game/achievement_manager"
+require_relative "lib/planet-wars/game/hazard_manager"
 require_relative "lib/planet-wars/game/music_manager"
 require_relative "lib/planet-wars/game/name_gen"
 require_relative "lib/planet-wars/game/world_gen"

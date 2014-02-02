@@ -13,6 +13,9 @@ class GameOver < Chingu::GameState
     Enemy.destroy_all
     Portal.destroy_all
     Background.destroy_all
+    Target.destroy_all
+    Asteroid.destroy_all
+    HazardManager.destroy_all
     NotificationManager.destroy_all
   end
 

@@ -18,14 +18,10 @@ class Enemy < Chingu::GameObject
     @dy = 0
   end
 
-  def draw
-    super
-  end
-
   def update
     self.alpha+=2
     rotate(rand(0.0..1.0))
-    if defined?(@target_area) && @target_area.in_range && self.alpha >= 255
+    if defined?(@target_area) && self.alpha >= 255 #&& @target_area.in_range
       @dx = @target.x - self.x
       @dy = @target.y - self.y
       length = Math.sqrt( @dx*@dx + @dy*@dy )

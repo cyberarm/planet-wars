@@ -1,11 +1,12 @@
 class MiniMapGenerator
   attr_reader :image
-  def initialize(area, planets, enemies, ship)
+  def initialize(area, planets, enemies, asteroid, ship)
     #area = [play area width, play area height]
     #objects = [Planets, Stars]
     @area    = area
     @planets = planets
     @enemies = enemies
+    @asteroids=asteroid
     @ship    = ship
     @image   = TexPlay.create_image($window, area[0]/100, area[1]/100)#, caching: false)
     generate_image
@@ -24,6 +25,10 @@ class MiniMapGenerator
 
     @enemies.each do |enemy|
       @image.pixel(enemy.x/100, enemy.y/100, color: :red)
+    end
+
+    @asteroids.each do |asteroid|
+      @image.pixel(asteroid.x/100, asteroid.y/100, color: :black)
     end
 
     @image.pixel(@ship.x/100, @ship.y/100, color: :green)

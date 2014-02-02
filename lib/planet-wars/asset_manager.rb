@@ -8,6 +8,9 @@ module AssetManager
   def self.planets_path
     "./assets/planets"
   end
+  def self.asteroids_path
+    "./assets/asteroids"
+  end
   def self.bullets_path
     "./assets/bullets"
   end

@@ -1,22 +1,25 @@
 class Ship < Chingu::GameObject
   trait :timer
   trait :effect
-  trait :velocity
   trait :bounding_circle
   trait :collision_detection
 
   attr_accessor :boost, :max_boost, :health, :max_health, :dead, :speed, :boost_speed, :diamond, :gold, :oil
 
   def setup
+    @moving      = false
     @dead        = false
     @warning     = false
     @health      = 100
     @max_health  = 100
     @speed       = 3
     @old_speed   = 3
+    @active_speed= 0
+    @speed_rate  = 0.05
     @boost       = 0
     @boost_speed = 1
     @max_boost   = 100
+    @rotaion_speed=2.5
     @particle_img = TexPlay.create_image($window, 10, 10, color: :yellow)
 
     self.input = {
@@ -27,9 +30,6 @@ class Ship < Chingu::GameObject
       [:holding_a,:holding_left, :holding_gp_left]   => :move_left,
       [:holding_d,:holding_right, :holding_gp_right] => :move_right}
     self.zorder  = 300
-    self.velocity_x     = 0
-    self.velocity_y     = 0
-    self.max_velocity   = @speed
 
     @diamond = 0
     @gold    = 1000
@@ -65,7 +65,10 @@ class Ship < Chingu::GameObject
     ship_check
     # upgrade_check # Chingu Input, WHY U NO WORK WITH NUMBERS!?!??!?!?!?!
     health_check
+    mover
+    set_active_speed
     @speed = @old_speed
+    @moving = false
   end
 
   def hit(damage)
@@ -106,6 +109,33 @@ class Ship < Chingu::GameObject
     @ship_check += 1
   end
 
+  def mover
+    _x = @active_speed * Math.cos((90.0 + angle) * Math::PI / 180)
+    _y = @active_speed * Math.sin((90.0 + angle) * Math::PI / 180)
+    self.x -= _x
+    self.y -= _y
+
+    if self.y >= @border[3]-@ship_size
+      self.y-=@speed
+    end
+    if self.x >= @border[1]-@ship_size
+      self.x-=@speed
+    end
+    if self.y <= @border[2]+@ship_size
+      self.y+=@speed
+    end
+    if self.x <= @border[0]+@ship_size
+      self.x+=@speed
+    end
+  end
+
+  def set_active_speed
+    unless @moving
+      @active_speed-=@speed_rate unless @active_speed <= @speed_rate
+      @active_speed+=@speed_rate unless @active_speed >= -@speed_rate
+    end
+  end
+
   # Key checks
   def upgrade_speed
     if Base.all.count > 0 && self.gold >= 200
@@ -138,30 +168,22 @@ class Ship < Chingu::GameObject
   end
 
   def move_up
-    if self.y >= @border[2]+@ship_size
-      self.move(0, -@speed)
-    end
-    self.angle = (0)
+    @moving = true
+    @active_speed+=@speed_rate
+    @active_speed=@speed if @active_speed >= @speed
   end
 
   def move_down
-    if self.y <= @border[3]-@ship_size
-      self.move(0, @speed)
-    end
-    self.angle = (180)
+    @moving = true
+    @active_speed-=@speed_rate
+    @active_speed=-@speed if @active_speed <= -@speed
   end
 
   def move_left
-    if self.x >= @border[0]+@ship_size
-      self.x-=@speed
-    end
-    self.angle = (270)
+    self.angle-=(@rotaion_speed)
   end
 
   def move_right
-    if self.x <= @border[1]-@ship_size
-      self.move(@speed, 0)
-    end
-    self.angle = (90)
+    self.angle+=(@rotaion_speed)
   end
 end
