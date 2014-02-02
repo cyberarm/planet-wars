@@ -9,6 +9,8 @@ A space shooter-like game
 * Third, run `ruby planet-wars.rb`
 You should now be playing the game, enjoy.
 
+Or, if you have Windows, you can download a fairly recent build of the game  from [here](https://drive.google.com/folderview?id=0B3Q9pldFQoK4NVByUzlHaGRGc3M&usp=sharing).
+
 ## Gameplay
 After selecting your choice of difficultly, your ship is placed in the middle of hostile point in space where enemies constantly spawn.
 
