@@ -9,13 +9,13 @@ A space shooter-like game
 * Third, run `ruby planet-wars.rb`
 You should now be playing the game, enjoy.
 
+Or, if you have Windows, you can download a fairly recent build of the game  from [here](https://drive.google.com/folderview?id=0B3Q9pldFQoK4NVByUzlHaGRGc3M&usp=sharing).
+
 ## Gameplay
 After selecting your choice of difficultly, your ship is placed in the middle of hostile point in space where enemies constantly spawn.
 
 You can visit planets by pressing enter when on top of a planet, while visiting a planet you can build a base.
 Bases act as mines, collecting available resources on the planet, bases also act as a repair station, allowing your ship to be repaired.
-
-After running out of resources its only a matter of time before your overwelled.
 
 See how long you can survive.
 
