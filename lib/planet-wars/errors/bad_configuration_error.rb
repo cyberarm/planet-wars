@@ -1,0 +1,2 @@
+class BadConfigurationError < StandardError
+end

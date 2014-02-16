@@ -1,5 +1,5 @@
 class GameInfo
-  VERSION = "ALPHA"
+  VERSION = "BETA"
   NAME    = "Planet Wars"
   module Config
     def self.kills

@@ -40,11 +40,11 @@ class Asteroid < Chingu::GameObject
 
   def check_for_collisions
     self.each_collision(Ship) do |a,t|
-      t.hit(@damage)
+      t.hit(@damage, self)
     end
 
     self.each_collision(Enemy) do |a,t|
-      t.hit(@damage)
+      t.hit(@damage, self)
     end
   end
 

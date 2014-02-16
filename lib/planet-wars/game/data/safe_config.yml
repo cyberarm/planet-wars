@@ -1,4 +1,5 @@
 ---
+# backup of config.yml in the event that config.yml is overwritten.
 config:
   asset_pack: default
   music: true

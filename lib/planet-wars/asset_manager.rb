@@ -1,8 +1,6 @@
 module AssetManager
   def self.asset_pack
-    # TODO: Add ConfigManager
-    @config_data = Psych.load_file("./lib/planet-wars/game/data/config.yml")
-    @config_data["config"]["asset_pack"]
+    ConfigManager.config["asset_pack"]
   end
   def self.portal_path
     "./assets/#{asset_pack}/portal"

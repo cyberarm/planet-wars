@@ -1,10 +1,13 @@
 class Engine < Chingu::Window
   def initialize
-    super(Gosu.screen_width, Gosu.screen_height, true) unless ARGV.join.include?("--low")
-    super(Gosu.screen_width/4*3, Gosu.screen_height/4*3, true) if ARGV.join.include?("--low")
-    puts "LOW MODE Resolution: #{$window.width} x #{$window.height}" if ARGV.join.include?("--low")
-    # super(1280, 768, true) # Test screen size to ensure game works at that resolution
-    self.caption = "#{GameInfo::NAME} (#{GameInfo::VERSION}) [build: #{BUILD}] #{Gosu.language}"
+    width = Gosu.screen_width if ConfigManager.config["screen"]["width"] == 'max'
+    width = ConfigManager.config["screen"]["width"] if ConfigManager.config["screen"]["width"].is_a?(Integer)
+
+    height= Gosu.screen_height if ConfigManager.config["screen"]["height"] == 'max'
+    height= ConfigManager.config["screen"]["height"] if ConfigManager.config["screen"]["height"].is_a?(Integer)
+
+    super(width, height, ConfigManager.config["screen"]["fullscreen"])
+    self.caption = "#{GameInfo::NAME} #{GameInfo::VERSION} [build: #{BUILD}] #{Gosu.language}"
     AssetManager.preload_assets
 
     # Define GamePad inputs

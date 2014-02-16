@@ -43,13 +43,14 @@ class Enemy < Chingu::GameObject
   def check_health
     if @health <= 0
       Empty.create(x: self.x, y: self.y)
-      Gosu::Sample["#{AssetManager.sounds_path}/explosion.ogg"].play
-      GameInfo::Config.killed
+      Gosu::Sample["#{AssetManager.sounds_path}/explosion.ogg"].play if ConfigManager.config["sounds"]
+      GameInfo::Config.killed if @object.is_a?(Bullet)
       self.destroy
     end
   end
 
-  def hit(damage)
+  def hit(damage, object)
+    @object = object
     @health-=damage if self.alpha >= 255
   end
 

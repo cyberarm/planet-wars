@@ -32,6 +32,6 @@ class AchievementManager < Chingu::GameObject
 
   def passed(achievement)
     NotificationManager.add("Achievement Unlocked: #{achievement.message.capitalize}", Gosu::Color::GREEN, 300)
-    Gosu::Sample["#{AssetManager.sounds_path}/achievement_unlocked.ogg"].play
+    Gosu::Sample["#{AssetManager.sounds_path}/achievement_unlocked.ogg"].play if ConfigManager.config["sounds"]
   end
 end

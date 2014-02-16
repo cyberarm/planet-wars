@@ -1,4 +1,5 @@
 class GameUI < Chingu::GameState
+  attr_accessor :selected
   def initialize(options={})
     super
     @options = options

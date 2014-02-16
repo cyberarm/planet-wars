@@ -3,8 +3,26 @@ class SettingsMenu < GameUI
     options[:title] = "#{GameInfo::NAME}//Settings"
     super
 
-    button("Music", tooltip: "Play/Stop music"){$music_manager.toggle} if defined?($music_manager)
-    button("Sound", tooltip: "Enable/Disable sound effects (Unavailable)"){}
+    button("Music", tooltip: "Play/Stop music (#{if ConfigManager.config["music"]; 'ON';else 'OFF';end})") do
+      if ConfigManager.config["music"]
+        ConfigManager.update("music", false)
+        selected[:tooltip] = "Music is OFF"
+      else
+        ConfigManager.update("music", true)
+        selected[:tooltip] = "Music is ON"
+      end
+    end
+
+    button("Sound", tooltip: "Enable/Disable sound effects (#{if ConfigManager.config["sounds"]; 'ON';else 'OFF';end})") do
+      if ConfigManager.config["sounds"]
+        ConfigManager.update("sounds", false)
+        selected[:tooltip] = "sound effects are OFF"
+      else
+        ConfigManager.update("sounds", true)
+        selected[:tooltip] = "sound effects are ON"
+      end
+    end
+
     button("Back"){push_game_state(MainMenu)}
   end
 end

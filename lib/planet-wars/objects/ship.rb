@@ -69,10 +69,10 @@ class Ship < Chingu::GameObject
     @moving = false
   end
 
-  def hit(damage)
+  def hit(damage, object)
+    @object = object
     @health-=damage
   end
-
 
   def health_check
     if @health <= 30

@@ -3,8 +3,11 @@ require "ashton"
 require "securerandom"
 require "texplay"
 
+require_all "lib/planet-wars/errors"
+
 require_relative "lib/planet-wars/version"
 require_relative "lib/planet-wars/asset_manager"
+require_relative "lib/planet-wars/config_manager"
 
 # require_relative "lib/planet-wars/net/server/config"
 # require "gameoverseer"
@@ -65,4 +68,11 @@ if ARGV.join.include?('--debug')
   end
 end
 
-Engine.new.show
+begin
+  Engine.new.show
+rescue => e
+  require "pry"
+  puts e
+  puts e.backtrace
+  binding.pry
+end

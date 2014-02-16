@@ -6,7 +6,7 @@ class Bullet < Chingu::GameObject
   def setup
     self.zorder = 200
     @image = Gosu::Image[AssetManager.bullets_path+'/bullet.png']
-    Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play
+    Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play if ConfigManager.config["sounds"]
     @ship  = @options[:ship]
     @speed = 10
     @damage=10.0
@@ -37,14 +37,14 @@ class Bullet < Chingu::GameObject
     unless @ship
       self.each_collision(Ship) do |bullet, ship|
         self.die
-        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)
-        ship.hit(@damage)
+        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.config["sounds"]
+        ship.hit(@damage, self)
       end
     else
       self.each_collision(Enemy) do |bullet, enemy|
         self.die
-        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1)
-        enemy.hit(@damage)
+        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.config["sounds"]
+        enemy.hit(@damage, self)
       end
     end
   end
