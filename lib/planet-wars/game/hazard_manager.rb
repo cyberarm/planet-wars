@@ -7,7 +7,7 @@ class HazardManager < Chingu::GameObject
   def update
     @tick+=1
     if @tick >= 750
-      create_hazard
+      create_hazard if ConfigManager.config["hazards"]
       @tick = 0
     end
   end

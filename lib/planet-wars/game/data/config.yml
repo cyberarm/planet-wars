@@ -3,6 +3,7 @@ config:
   asset_pack: default
   music: true
   sounds: true
+  hazards: false
   screen:
     width: max
     height: max

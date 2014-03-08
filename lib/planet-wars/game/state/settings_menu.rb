@@ -23,6 +23,16 @@ class SettingsMenu < GameUI
       end
     end
 
+    button("Hazards", tooltip: "Enable/Disable hazards (#{if ConfigManager.config["hazards"]; 'ON';else 'OFF';end})") do
+      if ConfigManager.config["hazards"]
+        ConfigManager.update("hazards", false)
+        selected[:tooltip] = "Hazards are OFF"
+      else
+        ConfigManager.update("hazards", true)
+        selected[:tooltip] = "Hazards are ON"
+      end
+    end
+
     button("Back"){push_game_state(MainMenu)}
   end
 end
