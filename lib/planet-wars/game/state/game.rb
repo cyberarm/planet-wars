@@ -24,8 +24,6 @@ class Game < Chingu::GameState
     HazardManager.create
 
     @fps           = Text.new('', x: 10, y: 0)
-    @clock_start_time    = Time.now#GameInfo::Config.game_time
-    @clock_text          = Text.new('', x: $window.width/2, size: 20)
     @paused_text   = Text.new("PAUSED", x:$window.width/2-200, y: $window.height/2, z: 1000, size: 100)
 
     @planet_check = 0
@@ -42,7 +40,6 @@ class Game < Chingu::GameState
     super
     unless @paused
       @fps.draw
-      @clock_text.draw
 
       @game_hud.draw
       @game_controls.draw
@@ -60,7 +57,6 @@ class Game < Chingu::GameState
     self.viewport.center_around(@ship)
     unless @paused
       set_fps_text(@fps)
-      @clock_text.text = "#{Time.at(Time.now-@clock_start_time).utc.strftime('%H:%M:%S')}"
 
       @game_hud.update
       @game_controls.update

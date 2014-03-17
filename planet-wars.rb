@@ -2,6 +2,7 @@ require "chingu"
 require "ashton"
 require "securerandom"
 require "texplay"
+require "time"
 
 require_all "lib/planet-wars/errors"
 
@@ -44,6 +45,7 @@ require_relative "lib/planet-wars/game/state/planet_view"
 
 Thread.abort_on_exception = true
 Gosu::enable_undocumented_retrofication
+puts "-"
 
 begin
   build = Integer(open("#{Dir.pwd}/lib/planet-wars/dev_stats/build.dat").read)
