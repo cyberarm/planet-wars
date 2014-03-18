@@ -37,6 +37,7 @@ require_relative "lib/planet-wars/game/state/credits"
 require_relative "lib/planet-wars/game/state/mainmenu"
 require_relative "lib/planet-wars/game/state/multiplayer_menu"
 require_relative "lib/planet-wars/game/state/settings_menu"
+require_relative "lib/planet-wars/game/state/asset_pack_menu"
 require_relative "lib/planet-wars/game/state/mode_menu"
 require_relative "lib/planet-wars/game/state/game"
 require_relative "lib/planet-wars/game/state/netgame"
@@ -45,7 +46,6 @@ require_relative "lib/planet-wars/game/state/planet_view"
 
 Thread.abort_on_exception = true
 Gosu::enable_undocumented_retrofication
-puts "-"
 
 begin
   build = Integer(open("#{Dir.pwd}/lib/planet-wars/dev_stats/build.dat").read)

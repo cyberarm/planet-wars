@@ -2,6 +2,9 @@ module AssetManager
   def self.asset_pack
     ConfigManager.config["asset_pack"]
   end
+  def self.asset_packs
+    Dir.glob("./assets/*")
+  end
   def self.portal_path
     "./assets/#{asset_pack}/portal"
   end

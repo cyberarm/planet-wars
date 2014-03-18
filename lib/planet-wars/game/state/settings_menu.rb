@@ -33,6 +33,10 @@ class SettingsMenu < GameUI
       end
     end
 
+    button("Asset Packs", tooltip: "Change look and feel of game") do
+      push_game_state AssetPackMenu
+    end
+
     button("Back"){push_game_state(MainMenu)}
   end
 end
