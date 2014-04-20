@@ -6,6 +6,11 @@ class Game < Chingu::GameState
   def setup
     # clean up
     Ship.destroy_all;Enemy.destroy_all;Planet.destroy_all;Background.create(x: 1500, y: 1500, zorder: -10)
+    unless defined?($music_manager)
+      $music_manager  = MusicManager.create
+    end
+    $music_manager.song.play unless $music_manager.play_songs?
+    p $music_manager.song
 
     # set controls
     self.input = {[:m] => :mute, [:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
@@ -101,9 +106,9 @@ class Game < Chingu::GameState
 
   def mute
     if @paused
-      $music_manager.song.play if defined?($music_manager)
+      $music_manager.song.play
     else
-      $music_manager.song.pause if defined?($music_manager)
+      $music_manager.song.pause
     end
   end
 
@@ -116,7 +121,7 @@ class Game < Chingu::GameState
   def escape
     ask("Are you sure you want to leave?") do
       @ship.destroy
-      Planet.destroy_all  
+      Planet.destroy_all
       Enemy.destroy_all
       Portal.destroy_all
       Background.destroy_all
@@ -124,6 +129,7 @@ class Game < Chingu::GameState
       Asteroid.destroy_all
       HazardManager.destroy_all
       NotificationManager.destroy_all
+      $music_manager.song.pause
       close
       push_game_state(MainMenu)
     end

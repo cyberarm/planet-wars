@@ -5,7 +5,8 @@ class Credits < GameUI
   trait :timer
 
   def initialize(options={})
-    options[:title] = "Credits"
+    options[:title] = "#{GameInfo::NAME}//Credits"
+    options[:title_size] = 30
     super
 
     button "Back" do

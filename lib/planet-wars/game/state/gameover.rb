@@ -3,8 +3,13 @@ class GameOver < Chingu::GameState
 
   def setup
     @text = Text.new("Game Over", size: 200, color: Gosu::Color::BLACK)
+    @time = Text.new("You survived for: #{GameInfo::Config.game_time_processed}", size: 50, color: Gosu::Color::BLACK)
+
     @text.x = $window.width/2-@text.width/2
     @text.y = $window.height/2
+
+    @time.x = $window.width/2-@time.width/2
+    @time.y = $window.height/2-70
     @color= 0
     @up = true
     self.input = {[:escape] => :skip}
@@ -21,10 +26,12 @@ class GameOver < Chingu::GameState
 
   def draw
     @text.draw
+    @time.draw
   end
 
   def update
     @text.color = Gosu::Color.rgb(@color, 0, 0)
+    @time.color = Gosu::Color.rgb(0, 0, @color)
     @color+=2 if @up
     @color-=1 unless @up
     @up = false if @color >= 200

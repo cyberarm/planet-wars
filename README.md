@@ -20,7 +20,6 @@ Bases act as mines, collecting available resources on the planet, bases also act
 See how long you can survive.
 
 ## Commandline Arguments
-* `--low` runs the game at 3/4 the size of the screen
 * `--mute` starts the game with music paused (can be resumed from the settings menu or by pressing 'm')
 * `--debug` jumps the game straight to the `Game` game state
 
@@ -38,7 +37,7 @@ See how long you can survive.
 
 * Font: Hobby Of Night - Fernando Haro - SIL Open Font License
 
-* Sound: Achievement Unlocked - Kastenfrosch* - (CC) 0
+* Sound: Achievement Unlocked - Kastenfrosch* - (CC) Zero
 
 * Sound: Explosion - PSYCHO BOOMER* - (CC) Zero
 

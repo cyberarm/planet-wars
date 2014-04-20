@@ -4,6 +4,7 @@ class GameUI < Chingu::GameState
     super
     @options = options
     options[:title] ||= "Planet Wars"
+    options[:title_size] ||= 50
     options[:font] ||= "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
     @elements = []
     @rects    = []
@@ -18,7 +19,7 @@ class GameUI < Chingu::GameState
       x: 90,
       y: 20,
       font: options[:font],
-      size: 50)
+      size: options[:title_size])
       })
   end
 

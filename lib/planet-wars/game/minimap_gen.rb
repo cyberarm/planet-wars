@@ -28,7 +28,7 @@ class MiniMapGenerator
     end
 
     @asteroids.each do |asteroid|
-      @image.pixel(asteroid.x/100, asteroid.y/100, color: :black)
+      @image.pixel(asteroid.x/100, asteroid.y/100, color: :white)
     end
 
     @image.pixel(@ship.x/100, @ship.y/100, color: :green)

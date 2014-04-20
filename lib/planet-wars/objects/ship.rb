@@ -32,14 +32,14 @@ class Ship < Chingu::GameObject
     self.zorder  = 300
 
     @diamond = 0
-    @gold    = 1000
+    @gold    = 400
     @oil     = 0
 
     @ship_check = 0
 
     @border= @options[:world]
     @image = Gosu::Image["#{AssetManager.ships_path}/ship.png"]
-    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 0.4,speed: 20,friction: 0.1,max_particles: 1200,interval: 0.006,fade: 100,angular_velocity: -200..200)
+    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 1200,interval: 0.006,fade: 100,angular_velocity: -200..200)
     self.scale_out(0.1)
     @ship_size = 64/2
 

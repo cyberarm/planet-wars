@@ -10,25 +10,30 @@ class MusicManager < Chingu::GameObject
     @current = 0
     @toggle = true
     @song = Gosu::Song[(@music[@current])]
-    @song.play
-    NotificationManager.add("Now playing: #{title}, by: #{composer}") rescue NoMethodError
+    if play_songs?
+      @song.play
+      NotificationManager.add("Now playing: #{title}, by: #{composer}") rescue NoMethodError
+    end
   end
 
   def update
-    if @limiter >= 60*3
-      if  @song.playing? == false && @song.paused? == false
+    if @limiter >= 120
+      if !@song.playing? && !@song.paused?
         @current += 1
         if @current >= @music.count
           @current = 0
         end
-  
+
         @song = Gosu::Song[(@music[@current])]
-        @song.play
-        NotificationManager.add("Now playing: #{title}, by: #{composer}") rescue NoMethodError
+
+        if play_songs?
+          @song.play
+          NotificationManager.add("Now playing: #{title}, by: #{composer}") rescue NoMethodError
+        end
       end
     end
 
-    @limiter= 0 if @limiter >= 60*3
+    @limiter= 0 if @limiter >= 120
     @limiter+=1
   end
 
@@ -56,6 +61,10 @@ class MusicManager < Chingu::GameObject
         return song['composer']
       end
     end
+  end
+
+  def play_songs?
+    ConfigManager.config["music"]
   end
 
   def destroy

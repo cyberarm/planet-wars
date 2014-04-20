@@ -42,6 +42,16 @@ class GameInfo
       return @time
     end
 
+    def self.game_time_processed
+      @game_time_processed = Time.now unless defined?(@game_time_processed)
+      return @game_time_processed
+    end
+
+    def self.game_time_processed=(i)
+      @game_time_processed = i
+      return @game_time_processed
+    end
+
     def self.number_of_enemies
       @number = 3 unless defined?(@number)
       @number

@@ -49,7 +49,7 @@ class Asteroid < Chingu::GameObject
   end
 
   def destroy_self?
-    unless self.x.between?(0, 3000) && self.y.between?(0, 3000)
+    unless self.x.between?(-512, 3512) && self.y.between?(-512, 3512)
       self.destroy
     end
   end

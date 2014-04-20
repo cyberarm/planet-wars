@@ -1,6 +1,6 @@
 class AssetPackMenu < GameUI
   def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Settings//Asset_Packs"
+    options[:title] = "#{GameInfo::NAME}//Settings//Asset Packs"
     super
     @asset_packs = AssetManager.asset_packs
     @asset_packs.each do |asset_pack|

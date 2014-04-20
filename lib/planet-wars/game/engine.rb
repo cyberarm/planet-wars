@@ -28,9 +28,6 @@ class Engine < Chingu::Window
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton14] = [:gp_14]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton15] = [:gp_15]
 
-    $music_manager  = MusicManager.create(fps: 1)
-    $music_manager.toggle if ARGV.join.include?('--mute')
-
     push_game_state(Boot) unless ARGV.join.include?('--debug')
     push_game_state(Game) if ARGV.join.include?('--debug')
   end

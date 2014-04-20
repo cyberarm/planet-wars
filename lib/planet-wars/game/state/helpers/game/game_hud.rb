@@ -24,6 +24,7 @@ class GameHUD
       @clock_counter=0
     end
     time = Time.at((@clock_time)).gmtime.strftime('%R:%S')
+    GameInfo::Config.game_time_processed=time
     @clock_text.text = "#{time}"
     @minimap.update
     @health_bar.update
