@@ -11,6 +11,7 @@ class Confirm < GameUI
       push_game_state(previous_game_state, setup: false)
     end
   end
+
   def draw
     super
     previous_game_state.draw

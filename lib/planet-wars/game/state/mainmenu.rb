@@ -1,7 +1,8 @@
 class MainMenu < GameUI
   trait :timer
   def initialize(options={})
-    options[:title] = "Planet Wars" # Set menu header
+    $music_manager.song.pause if defined?($music_manager) # Can not figure out why music starts playing here when it is paused...
+    options[:title] = "Planet Wars"
     super
 
     button("Single Player", tooltip: "play the game") do

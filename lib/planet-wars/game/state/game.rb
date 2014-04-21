@@ -8,9 +8,9 @@ class Game < Chingu::GameState
     Ship.destroy_all;Enemy.destroy_all;Planet.destroy_all;Background.create(x: 1500, y: 1500, zorder: -10)
     unless defined?($music_manager)
       $music_manager  = MusicManager.create
+    else
+      $music_manager.song.play unless $music_manager.play_songs?
     end
-    $music_manager.song.play unless $music_manager.play_songs?
-    p $music_manager.song
 
     # set controls
     self.input = {[:m] => :mute, [:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
@@ -105,7 +105,7 @@ class Game < Chingu::GameState
   end
 
   def mute
-    if @paused
+    if $music_manager.song.paused?
       $music_manager.song.play
     else
       $music_manager.song.pause
