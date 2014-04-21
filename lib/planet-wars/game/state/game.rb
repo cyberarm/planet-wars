@@ -5,6 +5,7 @@ class Game < Chingu::GameState
 
   def setup
     # clean up
+    $window.show_cursor = false
     Ship.destroy_all;Enemy.destroy_all;Planet.destroy_all;Background.create(x: 1500, y: 1500, zorder: -10)
     unless defined?($music_manager)
       $music_manager  = MusicManager.create

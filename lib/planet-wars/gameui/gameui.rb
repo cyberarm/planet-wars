@@ -3,6 +3,7 @@ class GameUI < Chingu::GameState
   def initialize(options={})
     super
     @options = options
+    $window.show_cursor = true
     options[:title] ||= "Planet Wars"
     options[:title_size] ||= 50
     options[:font] ||= "#{AssetManager.fonts_path}/Hobby-of-night.ttf"

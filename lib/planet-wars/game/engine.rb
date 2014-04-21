@@ -1,5 +1,8 @@
 class Engine < Chingu::Window
+  attr_accessor :show_cursor
+
   def initialize
+    @show_cursor = false
     width = Gosu.screen_width if ConfigManager.config["screen"]["width"] == 'max'
     width = ConfigManager.config["screen"]["width"] if ConfigManager.config["screen"]["width"].is_a?(Integer)
 
@@ -33,6 +36,6 @@ class Engine < Chingu::Window
   end
 
   def needs_cursor?
-    false
+    @show_cursor
   end
 end

@@ -8,6 +8,7 @@ class Confirm < GameUI
       push_game_state(MainMenu) unless options[:block]
     end
     button "No", tooltip: "Return to Game" do
+      $window.show_cursor = false
       push_game_state(previous_game_state, setup: false)
     end
   end
