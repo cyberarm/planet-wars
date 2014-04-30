@@ -1,12 +1,15 @@
 require "chingu"
 require "ashton"
+require "humanize"
 require "securerandom"
 require "texplay"
 require "time"
 
 require_all "lib/planet-wars/errors"
 
+require_all "lib/planet-wars/game_info"
 require_relative "lib/planet-wars/version"
+require_relative "lib/planet-wars/game_info"
 require_relative "lib/planet-wars/asset_manager"
 require_relative "lib/planet-wars/config_manager"
 
@@ -31,20 +34,15 @@ require_all "lib/planet-wars/game/achievements"
 
 require_all "lib/planet-wars/game/state/helpers"
 
-require_relative "lib/planet-wars/game/state/confirm"
 require_relative "lib/planet-wars/game/state/boot"
-require_relative "lib/planet-wars/game/state/credits"
-require_relative "lib/planet-wars/game/state/mainmenu"
-require_relative "lib/planet-wars/game/state/multiplayer_menu"
-require_relative "lib/planet-wars/game/state/settings_menu"
-require_relative "lib/planet-wars/game/state/asset_pack_menu"
-require_relative "lib/planet-wars/game/state/mode_menu"
 require_relative "lib/planet-wars/game/state/game"
 require_relative "lib/planet-wars/game/state/netgame"
 require_relative "lib/planet-wars/game/state/gameover"
 require_relative "lib/planet-wars/game/state/planet_view"
 
-Thread.abort_on_exception = true
+require_all "lib/planet-wars/game/state/menus"
+
+Thread.abort_on_exception = true if ARGV.join.include?('--debug')
 Gosu::enable_undocumented_retrofication
 
 begin

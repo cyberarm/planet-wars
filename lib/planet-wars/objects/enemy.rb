@@ -44,7 +44,7 @@ class Enemy < Chingu::GameObject
     if @health <= 0
       Empty.create(x: self.x, y: self.y)
       Gosu::Sample["#{AssetManager.sounds_path}/explosion.ogg"].play if ConfigManager.config["sounds"]
-      GameInfo::Config.killed if @object.is_a?(Bullet)
+      GameInfo::Kills.killed if @object.is_a?(Bullet)
       self.destroy
     end
   end

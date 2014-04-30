@@ -1,6 +1,6 @@
-class ModeMenu < GameUI
+class SurvivalMenu < GameUI
   def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Difficulty"
+    options[:title] = "#{GameInfo::NAME}//Survival"
     super
 
     button "Easy", tooltip: "6 Enemies 2 Portals", color: Gosu::Color::GREEN do

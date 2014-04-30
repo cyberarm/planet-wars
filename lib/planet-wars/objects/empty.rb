@@ -1,7 +1,7 @@
 class Empty < Chingu::GameObject
   def setup
     self.zorder = 299
-    @particle_img = TexPlay.create_image($window, 4, 4, color: :yellow)
+    @particle_img = TexPlay.create_image($window, 10, 10, color: :yellow)
     @particle_color = 255
     @particle=Ashton::ParticleEmitter.new(self.x, self.y,
       199, image: @particle_img, scale: 1.0,speed: 100,

@@ -46,7 +46,7 @@ class GameOverlayHUD
   end
 
   def enemies_killed
-    GameInfo::Config.kills
+    GameInfo::Kills.kills
   end
 
   def bullets_fired

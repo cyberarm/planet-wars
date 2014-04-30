@@ -21,6 +21,6 @@ class THKills < Achievement
   end
 
   def kill_count
-    GameInfo::Config.kills
+    GameInfo::Kills.kills
   end
 end

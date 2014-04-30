@@ -22,7 +22,6 @@ class GameOver < Chingu::GameState
     Asteroid.destroy_all
     HazardManager.destroy_all
     NotificationManager.destroy_all
-    $music_manager.song.pause
   end
 
   def draw
@@ -31,6 +30,7 @@ class GameOver < Chingu::GameState
   end
 
   def update
+    fade_out_music
     @text.color = Gosu::Color.rgb(@color, 0, 0)
     @time.color = Gosu::Color.argb(@color, 255, 255, 255)
     @color+=2 if @up
@@ -39,6 +39,7 @@ class GameOver < Chingu::GameState
 
     if @up == false && @color <= 0
       close
+      $music_manager.song.stop
       push_game_state(MainMenu)
     end
   end
@@ -46,5 +47,9 @@ class GameOver < Chingu::GameState
   def skip
     close
     push_game_state(MainMenu)
+  end
+
+  def fade_out_music
+    $music_manager.song.volume=($music_manager.song.volume-0.0035)
   end
 end
