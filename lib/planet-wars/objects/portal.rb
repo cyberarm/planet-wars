@@ -6,7 +6,7 @@ class Portal < Chingu::GameObject
     @image = Gosu::Image["#{AssetManager.portal_path}/portal.png"]
     self.alpha = 0
     every(1500) do
-      Enemy.spawn(self) if @ready && Enemy.all.count <= GameInfo::Config.number_of_enemies
+      spawn_enemy
     end
 
     every(4000) do
@@ -31,9 +31,42 @@ class Portal < Chingu::GameObject
       @ready = true
     end
 
-    @spawn = true if self.alpha <= 255 && Enemy.all.count <= GameInfo::Config.number_of_enemies
-    @spawn = false unless Enemy.all.count <= GameInfo::Config.number_of_enemies
+    if GameInfo::Mode.mode == "wave"
+      @spawn = true if self.alpha <= 255 && GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies
+      @spawn = false unless GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies
+    else
+      @spawn = true if self.alpha <= 255 && Enemy.all.count <= GameInfo::Config.number_of_enemies
+      @spawn = false unless Enemy.all.count <= GameInfo::Config.number_of_enemies
+    end
 
-    self.scale = 2.0
+    #self.scale = 2.0
+  end
+
+  def spawn_enemy
+    if GameInfo::Mode.mode == "wave"
+      if @ready && wave_processor
+        if GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies
+          Enemy.spawn(self)
+          GameInfo::Mode.wave_enemies_spawned+=1
+        end
+      end
+    else
+      Enemy.spawn(self) if @ready && Enemy.all.count <= GameInfo::Config.number_of_enemies
+    end
+  end
+
+  def wave_processor
+    if GameInfo::Mode.wave_enemies_spawned <= 10 && !GameInfo::Mode.wave_spawned?
+      GameInfo::Mode.wave_spawned = true if Enemy.all.count >= 10
+      true
+    else
+      if GameInfo::Mode.wave_spawned? && Enemy.all.count <= 0
+        GameInfo::Mode.current_wave+=1 # TODO: Game Won, if wave == MAX_WAVES+1.
+        GameInfo::Mode.wave_enemies_spawned = 0
+        GameInfo::Mode.wave_spawned = false
+      else
+        false
+      end
+    end
   end
 end

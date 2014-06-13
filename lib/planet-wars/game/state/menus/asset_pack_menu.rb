@@ -6,7 +6,7 @@ class AssetPackMenu < GameUI
     @asset_packs.each do |asset_pack|
       next unless Dir.exists?(asset_pack)
       button "#{File.basename(asset_pack)}" do
-        ConfigManager.update("assetpack", File.basename(asset_pack))
+        ConfigManager.update("asset_pack", File.basename(asset_pack))
         selected[:tooltip] = "assetpack changed."
       end
     end

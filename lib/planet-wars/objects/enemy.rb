@@ -5,7 +5,7 @@ class Enemy < Chingu::GameObject
   trait :bounding_circle
   trait :collision_detection
   def setup
-    self.zorder = 200
+    self.zorder = 300
     self.alpha = 0
     @speed = 2
     @health= 40

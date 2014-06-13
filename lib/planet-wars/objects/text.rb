@@ -8,7 +8,7 @@ class Text
     @font = options[:font] || "#{AssetManager.fonts_path}/Alfphabet-IV.ttf"
     @x = options[:x] || 0
     @y = options[:y] || 0
-    @z = options[:z] || 999
+    @z = options[:z] || 1025
     @factor_x = options[:factor_x] || 1
     @factor_y = options[:factor_y] || 1
     @color    = options[:color] || Gosu::Color::WHITE

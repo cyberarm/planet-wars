@@ -20,7 +20,7 @@ class Ship < Chingu::GameObject
     @boost_speed = 1
     @max_boost   = 100
     @rotaion_speed=2.5
-    @particle_img = TexPlay.create_image($window, 10, 10, color: :yellow)
+    @particle_img = TexPlay.create_image($window, 10, 10, color: :white)
 
     self.input = {
       [:space, :gp_0, :gp_5] => :fire_weapon,
@@ -29,7 +29,7 @@ class Ship < Chingu::GameObject
       [:holding_s,:holding_down, :holding_gp_down]   => :move_down,
       [:holding_a,:holding_left, :holding_gp_left]   => :move_left,
       [:holding_d,:holding_right, :holding_gp_right] => :move_right}
-    self.zorder  = 300
+    self.zorder  = 301
 
     @diamond = 0
     @gold    = 400
@@ -40,6 +40,7 @@ class Ship < Chingu::GameObject
     @border= @options[:world]
     @image = Gosu::Image["#{AssetManager.ships_path}/ship.png"]
     @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 1200,interval: 0.006,fade: 100,angular_velocity: -200..200)
+    @particle.color = Gosu::Color::YELLOW
     self.scale_out(0.1)
     @ship_size = 64/2
 
@@ -61,12 +62,15 @@ class Ship < Chingu::GameObject
     @last_update_at = Gosu::milliseconds
     @particle.x = self.x
     @particle.y = self.y
+    @particle.color = Gosu::Color.rgb(0, 140, 255) if @boosting
+    @particle.color = Gosu::Color::YELLOW unless @boosting
     ship_check
     health_check
     mover
     set_active_speed
     @speed = @old_speed
     @moving = false
+    @boosting = false
   end
 
   def hit(damage, object)
@@ -154,7 +158,7 @@ class Ship < Chingu::GameObject
   end
 
   def boost_key
-    @speed+=@boost_speed unless @speed+@boost_speed > @old_speed+@boost_speed if self.boost >= 1
+    @boosting = true && @speed+=@boost_speed unless @speed+@boost_speed > @old_speed+@boost_speed if self.boost >= 1
     @speed = @old_speed if self.boost <= 0
     self.boost -= 1 unless self.boost <= 0
   end

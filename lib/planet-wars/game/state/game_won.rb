@@ -1,8 +1,8 @@
-class GameOver < Chingu::GameState
+class GameWon < Chingu::GameState
   trait :timer
 
   def setup
-    @text = Text.new("Game Over", size: 200, color: Gosu::Color::BLACK)
+    @text = Text.new("Game Won", size: 200, color: Gosu::Color::BLACK)
     @time = Text.new("You survived for: #{GameInfo::Config.game_time_processed.strftime('%H hours, %M minutes, %S seconds.')}", size: 38, color: Gosu::Color::BLACK)
 
     @text.x = $window.width/2-@text.width/2
@@ -24,7 +24,7 @@ class GameOver < Chingu::GameState
 
   def update
     fade_out_music
-    @text.color = Gosu::Color.rgb(@color, 0, 0)
+    @text.color = Gosu::Color.rgb(0, @color, 0)
     @time.color = Gosu::Color.argb(@color, 255, 255, 255)
     @color+=2 if @up
     @color-=1 unless @up

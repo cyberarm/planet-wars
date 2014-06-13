@@ -24,7 +24,7 @@ class Game < Chingu::GameState
     @game_overlay_hud = GameOverlayHUD.new
     @game_upgrade_hud = GameUpgradeHUD.new(@ship)
     @game_resources_hud = GameResourcesHUD.new(@ship)
-    # @game_message       = Text.new('', y: $window.height/2, size: 70)
+
     NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
     NotificationManager.add("Press 'H' to show help", Gosu::Color::GRAY)
     AchievementManager.create
@@ -53,7 +53,6 @@ class Game < Chingu::GameState
       @game_overlay_hud.draw
       @game_upgrade_hud.draw
       @game_resources_hud.draw
-      # @game_message.draw
 
     else
       @paused_text.draw
@@ -71,7 +70,6 @@ class Game < Chingu::GameState
       @game_overlay_hud.update
       @game_upgrade_hud.update
       @game_resources_hud.update
-      # game_message_update
 
       planet_check
     end
@@ -79,6 +77,7 @@ class Game < Chingu::GameState
       @ship.destroy
       push_game_state(GameOver)
     end
+    push_game_state(GameWon) if GameInfo::Mode.mode == "wave" && GameInfo::Mode.current_wave >= GameInfo::Mode.waves+1
   end
 
   # Additional methods
@@ -125,23 +124,10 @@ class Game < Chingu::GameState
   def escape
     ask("Are you sure you want to leave?") do
       @ship.destroy
-      Planet.destroy_all
-      Enemy.destroy_all
-      Portal.destroy_all
-      Background.destroy_all
-      Target.destroy_all
-      Asteroid.destroy_all
-      HazardManager.destroy_all
-      NotificationManager.destroy_all
-      $music_manager.song.stop
+      GameMethods.end_cleanup
       close
       push_game_state(MainMenu)
     end
-  end
-
-  def game_message_update
-    # @game_message.text = "Wave #{19.humanize}."
-    # @game_message.x = $window.width/2-@game_message.width/2
   end
 
   def button_up(id)

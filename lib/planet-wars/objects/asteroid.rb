@@ -6,10 +6,11 @@ class Asteroid < Chingu::GameObject
 
   def setup
     @image = Gosu::Image["#{AssetManager.asteroids_path}/asteroid-01.png"]
+    trait_options[:bounding_circle][:scale] = 0.8
     @speed = 5
     @damage= 50
     @rotation = rand(-5..5)
-    self.zorder = 199
+    self.zorder = 300
     self.factor = rand(0.1..1.0)
     placer
     set_velocity
