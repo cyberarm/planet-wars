@@ -1,6 +1,11 @@
 module AssetManager
   def self.asset_pack
-    ConfigManager.config["asset_pack"]
+    if File.exists?("./assets/"+ConfigManager.config["asset_pack"]) && File.directory?("./assets/"+ConfigManager.config["asset_pack"])
+      ConfigManager.config["asset_pack"]
+    else
+      puts "AssetPackError: Asset pack \"#{ConfigManager.config["asset_pack"]}\", is missing, using \"default\" instead."
+      'default'
+    end
   end
   def self.asset_packs
     Dir.glob("./assets/*")

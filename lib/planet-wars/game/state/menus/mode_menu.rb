@@ -3,11 +3,11 @@ class ModeMenu < GameUI
     options[:title] = "#{GameInfo::NAME}//GameMode"
     super
 
-    button "Survival", tooltip: "Survive for as long as you can.", color: Gosu::Color::BLACK do
+    button "Survival", tooltip: "Survive for as long as you can." do
       push_game_state(SurvivalMenu)
     end
 
-    button "Wave", tooltip: "Complete all waves of increasing difficulty", color: Gosu::Color::GRAY do
+    button "Wave", tooltip: "Complete all waves of increasing difficulty" do
       push_game_state(WaveMenu)
     end
 

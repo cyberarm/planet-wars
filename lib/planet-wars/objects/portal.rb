@@ -5,6 +5,8 @@ class Portal < Chingu::GameObject
   def setup
     @image = Gosu::Image["#{AssetManager.portal_path}/portal.png"]
     self.alpha = 0
+    self.scale = 0.6
+
     every(1500) do
       spawn_enemy
     end
@@ -38,8 +40,6 @@ class Portal < Chingu::GameObject
       @spawn = true if self.alpha <= 255 && Enemy.all.count <= GameInfo::Config.number_of_enemies
       @spawn = false unless Enemy.all.count <= GameInfo::Config.number_of_enemies
     end
-
-    #self.scale = 2.0
   end
 
   def spawn_enemy
@@ -61,7 +61,7 @@ class Portal < Chingu::GameObject
       true
     else
       if GameInfo::Mode.wave_spawned? && Enemy.all.count <= 0
-        GameInfo::Mode.current_wave+=1 # TODO: Game Won, if wave == MAX_WAVES+1.
+        GameInfo::Mode.current_wave+=1
         GameInfo::Mode.wave_enemies_spawned = 0
         GameInfo::Mode.wave_spawned = false
       else

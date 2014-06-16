@@ -47,5 +47,11 @@ class Bullet < Chingu::GameObject
         enemy.hit(@damage, self)
       end
     end
+
+      self.each_collision(Asteroid) do |bullet, asteroid|
+        self.die
+        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.config["sounds"]
+        asteroid.hit(@damage, self)
+      end
   end
 end

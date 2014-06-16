@@ -69,11 +69,15 @@ if ARGV.join.include?('--debug')
   end
 end
 
-begin
+if ARGV.join.include?('--debug')
+  begin
+    Engine.new.show
+  rescue => e
+    require "pry"
+    puts e
+    puts e.backtrace
+    binding.pry
+  end
+else
   Engine.new.show
-rescue => e
-  require "pry"
-  puts e
-  puts e.backtrace
-  binding.pry
 end

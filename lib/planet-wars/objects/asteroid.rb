@@ -4,9 +4,12 @@ class Asteroid < Chingu::GameObject
   trait :bounding_circle
   trait :collision_detection
 
+  attr_accessor :health
+
   def setup
     @image = Gosu::Image["#{AssetManager.asteroids_path}/asteroid-01.png"]
     trait_options[:bounding_circle][:scale] = 0.8
+    @health= 200
     @speed = 5
     @damage= 50
     @rotation = rand(-5..5)
@@ -50,6 +53,7 @@ class Asteroid < Chingu::GameObject
   end
 
   def destroy_self?
+    self.destroy if self.health <= 0
     unless self.x.between?(-512, 3512) && self.y.between?(-512, 3512)
       self.destroy
     end
@@ -63,5 +67,9 @@ class Asteroid < Chingu::GameObject
       @dx *= @speed; @dy *= @speed
       self.velocity_x += @dx
       self.velocity_y += @dy
+  end
+
+  def hit(damage, bullet)
+    self.health-=damage
   end
 end

@@ -28,6 +28,13 @@ class WaveMenu < GameUI
       push_game_state(Game)
     end
 
+    button "20", tooltip: "20 waves" do
+      # set number of waves
+      GameInfo::Mode.waves=20
+      GameInfo::Config.number_of_enemies=10
+      GameInfo::Config.number_of_portals=3
+      push_game_state(Game)
+    end
 
     button "Back" do
       push_game_state(MainMenu)
