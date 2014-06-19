@@ -34,8 +34,8 @@ class Portal < Chingu::GameObject
     end
 
     if GameInfo::Mode.mode == "wave"
-      @spawn = true if self.alpha <= 255 && GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies
-      @spawn = false unless GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies
+      @spawn = false unless GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies && GameInfo::Mode.wave_spawned?
+      @spawn = true if self.alpha <= 255 && GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies && !GameInfo::Mode.wave_spawned?
     else
       @spawn = true if self.alpha <= 255 && Enemy.all.count <= GameInfo::Config.number_of_enemies
       @spawn = false unless Enemy.all.count <= GameInfo::Config.number_of_enemies
@@ -44,20 +44,21 @@ class Portal < Chingu::GameObject
 
   def spawn_enemy
     if GameInfo::Mode.mode == "wave"
-      if @ready && wave_processor
+      if wave_processor && @ready && @spawn
         if GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies
           Enemy.spawn(self)
-          GameInfo::Mode.wave_enemies_spawned+=1
         end
       end
     else
-      Enemy.spawn(self) if @ready && Enemy.all.count <= GameInfo::Config.number_of_enemies
+      Enemy.spawn(self) if @ready && @spawn && Enemy.all.count <= GameInfo::Config.number_of_enemies
     end
   end
 
   def wave_processor
-    if GameInfo::Mode.wave_enemies_spawned <= 10 && !GameInfo::Mode.wave_spawned?
-      GameInfo::Mode.wave_spawned = true if Enemy.all.count >= 10
+    GameInfo::Mode.wave_enemies_spawned=0 if Enemy.all.count == 0 && GameInfo::Mode.wave_spawned?
+
+    if GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies && !GameInfo::Mode.wave_spawned?
+      GameInfo::Mode.wave_spawned = true if Enemy.all.count >= GameInfo::Config.number_of_enemies
       true
     else
       if GameInfo::Mode.wave_spawned? && Enemy.all.count <= 0

@@ -14,7 +14,13 @@ class Game < Chingu::GameState
     end
 
     # set controls
-    self.input = {[:m] => :mute, [:enter, :return] => :enter, [:escape, :gp_6] => :escape, [:p, :gp_7] => :pause_game}
+    self.input = {
+      [:m] => :mute,
+      [:enter, :return] => :enter,
+      [:escape, :gp_6] => :escape,
+      [:p, :gp_7] => :pause_game,
+      [:c] => :debugging_waves
+    }
 
     WorldGen.new(40, GameInfo::Config.number_of_portals, 3000, 3000)
     @ship = Ship.create(x: 3000/2, y: 3000/2, zorder: 100, world: [0,3000,0,3000])#x-left, x-right, y-, y
@@ -128,6 +134,13 @@ class Game < Chingu::GameState
       close
       push_game_state(MainMenu)
     end
+  end
+
+  def debugging_waves
+    puts "E: #{Enemy.all.count}"
+    puts "GameInfo::Mode.wave_enemies_spawned: #{GameInfo::Mode.wave_enemies_spawned}"
+    puts "GameInfo::Mode.wave_spawned? #{GameInfo::Mode.wave_spawned?}"
+    puts "GameInfo::Mode.current_wave: #{GameInfo::Mode.current_wave}"
   end
 
   def button_up(id)

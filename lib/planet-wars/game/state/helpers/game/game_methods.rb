@@ -35,6 +35,7 @@ module GameMethods
     HazardManager.destroy_all
     NotificationManager.destroy_all
     $music_manager.song.stop
+
     GameInfo::Mode.wave_enemies_spawned=0
     GameInfo::Mode.wave_spawned = false
     GameInfo::Mode.current_wave = 1
