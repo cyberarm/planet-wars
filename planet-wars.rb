@@ -1,3 +1,5 @@
+require "bundler/setup"
+Bundler.require
 require "chingu"
 require "ashton"
 require "humanize"

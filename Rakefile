@@ -1,3 +1,4 @@
+require "ocra"
 require "releasy"
 require 'bundler/setup' # Releasy requires require that your application uses bundler.
 require_relative "lib/planet-wars/version"
