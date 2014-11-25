@@ -22,6 +22,7 @@ class GameUI < Chingu::GameState
       font: options[:font],
       size: options[:title_size])
       })
+    @background_image = Gosu::Image["#{AssetManager.background_path}/menu-background.png"]
   end
 
   def draw
@@ -34,6 +35,8 @@ class GameUI < Chingu::GameState
       fill_rect([rect[:x],rect[:y],rect[:width],rect[:height]],rect[:color],1024)
     end
     @tooltip.draw
+
+    @background_image.draw(0,0,-15)
   end
 
   def update
@@ -109,7 +112,7 @@ class GameUI < Chingu::GameState
         object: Text.new("#{text}", x: options[:x], y: options[:y], size: 32, color: options[:color], font: @options[:font])
       }
     )
-    
+
     @rects.push(
       {
         x: options[:x]-10,
