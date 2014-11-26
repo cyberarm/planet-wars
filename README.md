@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/cyberarm/planet-wars.png?label=ready&title=Ready)](https://waffle.io/cyberarm/planet-wars)
 # Planet Wars
 A space shooter-like game
 
