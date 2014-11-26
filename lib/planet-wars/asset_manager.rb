@@ -43,7 +43,7 @@ module AssetManager
     "./assets/#{asset_pack}/sounds"
   end
   def self.fonts_path
-    process("#{path}/assets/#{asset_pack}/fonts")
+    process("#{path}/assets/#{asset_pack}/fonts/")
   end
 
   def self.credits_data

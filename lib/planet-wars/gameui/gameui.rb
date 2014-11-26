@@ -6,7 +6,7 @@ class GameUI < Chingu::GameState
     $window.show_cursor = true
     options[:title] ||= "Planet Wars"
     options[:title_size] ||= 50
-    options[:font] ||= "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
+    options[:font] ||= "#{AssetManager.fonts_path}Hobby-of-night.ttf"
     @elements = []
     @rects    = []
     @tooltip  = Text.new("", x: 1, y: 80, size: 32, font: options[:font])

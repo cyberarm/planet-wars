@@ -6,7 +6,7 @@ gem "gosu", "~> 0.8.5"
 gem "chingu", "~> 0.9rc9"
 gem "rake", "0.9.2.2"
 gem "releasy"
-gem "texplay"
+gem "texplay", git: 'https://github.com/banister/texplay.git'
 gem "ashton", git: "https://github.com/Spooner/ashton.git"
 
 group :development do
