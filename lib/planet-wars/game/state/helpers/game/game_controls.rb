@@ -5,8 +5,8 @@ class GameControls
     You have about 10 seconds to prepare before you are\n
     attacked by alien ships.\n
     Controls:\n
-    WASD or Arrow keys - Movement\n
-    Space - Fire\n
+    Movement - WASD or Arrow keys\n
+    Fire - Spacebar\n
     Boost - Shift\n
     Visit planet - Enter\n
     Upgrade ship: 1, 2, or 3",
