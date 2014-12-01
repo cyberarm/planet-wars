@@ -3,10 +3,6 @@ module AssetManager
     "#{File.expand_path(File.dirname(__FILE__))}".sub('/lib/planet-wars', '')
   end
 
-  def self.process string
-    string.gsub('/', "\\") if !RUBY_PLATFORM.include?('darwin') && (RUBY_PLATFORM.include?('win') || RUBY_PLATFORM.include?('mingw'))
-  end
-
   def self.asset_pack
     if File.exists?("./assets/"+ConfigManager.config["asset_pack"]) && File.directory?("./assets/"+ConfigManager.config["asset_pack"])
       ConfigManager.config["asset_pack"]
@@ -43,7 +39,7 @@ module AssetManager
     "./assets/#{asset_pack}/sounds"
   end
   def self.fonts_path
-    process("#{path}/assets/#{asset_pack}/fonts/")
+    "./assets/#{asset_pack}/fonts"
   end
 
   def self.credits_data
