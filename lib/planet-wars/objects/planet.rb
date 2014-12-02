@@ -25,8 +25,16 @@ class Planet < Chingu::GameObject
     @gold    = rand(0..400)
     @oil     = rand(0..400)
 
-    @image = Gosu::Image["#{AssetManager.planets_path}/planet-0#{rand(1..2)}.png"] if habitable
-    @image = Gosu::Image["#{AssetManager.planets_path}/planet-0#{rand(3..3)}.png"] unless habitable
+    if habitable
+      planet_images = Dir["#{AssetManager.planets_path}/habitable/*.png"]
+      random = rand(planet_images.count)
+      @image = Gosu::Image["#{AssetManager.planets_path}/habitable/#{File.basename(planet_images[random])}"]
+    else
+      planet_images = Dir["#{AssetManager.planets_path}/uninhabitable/*.png"]
+      random = rand(planet_images.count)
+      @image = Gosu::Image["#{AssetManager.planets_path}/uninhabitable/#{File.basename(planet_images[random])}"]
+    end
+
     self.scale_out(rand(0.5..0.9))
     self.rotate(rand(120))
 
