@@ -5,7 +5,7 @@ class Text
     @text = text || ""
     @options = options
     @size = options[:size] || 13
-    @font = options[:font] || "#{AssetManager.fonts_path}Alfphabet-IV.ttf"
+    @font = options[:font] || "#{AssetManager.fonts_path}/Alfphabet-IV.ttf"
     @x = options[:x] || 0
     @y = options[:y] || 0
     @z = options[:z] || 1025
