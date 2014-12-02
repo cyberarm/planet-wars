@@ -10,7 +10,7 @@ class Enemy < Chingu::GameObject
     @speed = 2
     @health= 40
     GameInfo::Mode.wave_enemies_spawned+=1
-    @image = Gosu::Image["#{AssetManager.emenies_path}/enemy.png"]
+    @image = Gosu::Image["#{AssetManager.enemies_path}/enemy.png"]
     @target = Target.create(x: 0, y: 0) unless Target.all.first.is_a?(Target)
     @target = Target.all.first if Target.all.first.is_a?(Target)
     @target_area = TargetArea.create(owner: self, target: @target, size: 255.0)
