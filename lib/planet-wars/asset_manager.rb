@@ -11,10 +11,15 @@ module AssetManager
     if File.exists?("./assets/"+ConfigManager.config["asset_pack"]) && File.directory?("./assets/"+ConfigManager.config["asset_pack"])
       ConfigManager.config["asset_pack"]
     else
-      puts "AssetPackError: Asset pack \"#{ConfigManager.config["asset_pack"]}\", is missing, using \"default\" instead."
-      'default'
+      puts "AssetPackError: Asset pack '#{ConfigManager.config["asset_pack"]}', is missing, using '#{default_asset_pack}' instead."
+      default_asset_pack
     end
   end
+
+  def self.default_asset_pack
+    'default'
+  end
+
   def self.asset_packs
     Dir.glob("./assets/*")
   end
@@ -55,11 +60,11 @@ module AssetManager
     @credits_data = Psych.load_file("#{path}/assets/#{asset_pack}/data/credits.yml")
     images = []
     music  = []
-    Dir[portal_path+'/*.png'].each {|image| images << image}
-    Dir[ships_path+'/*.png'].each {|image| images << image}
-    Dir[planets_path+'/*.png'].each {|image| images << image}
-    Dir[bullets_path+'/*.png'].each {|image| images << image}
-    Dir[music_path+'/*.ogg'].each {|song| music << song}
+
+    [portal_path, ships_path, planets_path, bullets_path, music_path].each do |asset|
+      images << asset if asset.ends_with('.png')
+      music << asset if asset.ends_with('.ogg')
+    end
 
     images.each do |i|
       Gosu::Image[i]
