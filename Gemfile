@@ -11,6 +11,7 @@ gem "ashton", git: "https://github.com/Spooner/ashton.git"
 
 group :development do
   gem "ruby-prof"
+  gem "pry"
 end
 
 group :multiplayer do

@@ -31,6 +31,9 @@ module AssetManager
   def self.planets_path
     "./assets/#{asset_pack}/planets"
   end
+  def self.particles_path
+    "./assets/#{asset_pack}/particles"
+  end
   def self.asteroids_path
     "./assets/#{asset_pack}/asteroids"
   end
@@ -60,7 +63,7 @@ module AssetManager
     images = []
     music  = []
 
-    [portal_path, ships_path, enemies_path, planets_path, bullets_path, music_path].each do |asset|
+    [portal_path, particles_path, ships_path, enemies_path, planets_path, bullets_path, music_path].each do |asset|
       images << asset if asset.end_with?('.png')
       music << asset if asset.end_with?('.ogg')
     end

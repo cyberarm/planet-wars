@@ -39,3 +39,17 @@ class Engine < Chingu::Window
     @show_cursor
   end
 end
+
+module Ashton
+  class ParticleEmitter
+    # Allow setting image of Emitter
+    def rb_set_image=(value)
+      self.image=value
+    end
+
+    # Allow accessing image of Emitter
+    def rb_get_image
+      self.image
+    end
+  end
+end

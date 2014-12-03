@@ -1,8 +1,9 @@
 class Empty < Chingu::GameObject
   def setup
     self.zorder = 299
-    @particle_img = TexPlay.create_image($window, 10, 10, color: :yellow)
-    @particle_color = 255
+    @particle_img = Gosu::Image["#{AssetManager.particles_path}/explosion.png"]
+    @particle_alpha = 255
+    @particle_color = @particle_img.get_pixel(5,7)
     @particle=Ashton::ParticleEmitter.new(self.x, self.y,
       199, image: @particle_img, scale: 1.0,speed: 100,
       friction: 0.1,max_particles: 300,interval: 0.003,fade: 100,angular_velocity: 0.0)
@@ -20,8 +21,7 @@ class Empty < Chingu::GameObject
     @particle.x = self.x
     @particle.y = self.y
 
-    @particle.color=Gosu::Color.argb(@particle_color, 244,232,100)
-    @particle_color-=3
-    self.destroy if @particle_color <= -60
+    @particle_alpha-=3
+    self.destroy if @particle_alpha <= -60
   end
 end
