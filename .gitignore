@@ -6,3 +6,5 @@ pkg
 .project
 .bundle
 *.ep
+inkscape/*
+assets/scal/*

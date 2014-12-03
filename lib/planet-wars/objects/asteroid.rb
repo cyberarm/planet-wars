@@ -7,7 +7,9 @@ class Asteroid < Chingu::GameObject
   attr_accessor :health
 
   def setup
-    @image = Gosu::Image["#{AssetManager.asteroids_path}/asteroid-01.png"]
+    asteroid_images = Dir["#{AssetManager.asteroids_path}/*.png"]
+    random = rand(asteroid_images.count)
+    @image = Gosu::Image["#{AssetManager.asteroids_path}/#{File.basename(asteroid_images[random])}"]
     trait_options[:bounding_circle][:scale] = 0.8
     @health= 200
     @speed = 5
