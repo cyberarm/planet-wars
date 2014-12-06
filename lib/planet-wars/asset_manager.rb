@@ -59,13 +59,17 @@ module AssetManager
   end
 
   def self.preload_assets
-    @credits_data = Psych.load_file("#{path}/assets/#{asset_pack}/data/credits.yml")
+    credits_data
     images = []
     music  = []
 
     [portal_path, particles_path, ships_path, enemies_path, planets_path, bullets_path, music_path].each do |asset|
-      images << asset if asset.end_with?('.png')
-      music << asset if asset.end_with?('.ogg')
+      Dir["#{asset}/*.png"].each do |image|
+        images << image if image.end_with?('.png')
+      end
+      Dir["#{asset}/*.ogg"].each do |song|
+        music << song if song.end_with?('.ogg')
+      end
     end
 
     images.each do |i|

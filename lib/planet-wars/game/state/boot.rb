@@ -12,6 +12,11 @@ class Boot < Chingu::GameState
   end
 
   def update
+    if @num > 5 && !@assets_loaded # Render scene before preload
+      AssetManager.preload_assets
+      @assets_loaded = true
+    end
+
     push_game_state(MainMenu) if @num >= 120
     @num += 1
   end

@@ -11,7 +11,7 @@ class Engine < Chingu::Window
 
     super(width, height, ConfigManager.config["screen"]["fullscreen"])
     self.caption = "#{GameInfo::NAME} #{GameInfo::VERSION} [build: #{BUILD}] #{Gosu.language}"
-    AssetManager.preload_assets
+    AssetManager.preload_assets if ARGV.join.include?('--debug')
 
     # Define GamePad inputs
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton0] = [:gp_0]
