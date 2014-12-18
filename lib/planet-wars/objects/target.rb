@@ -1,16 +1,20 @@
 class Target < Chingu::GameObject
-  trait :bounding_circle
+  trait :bounding_box
   trait :collision_detection
   def setup
     @image = TexPlay.create_image($window,10,10)
-    @tick = 0
+    @target= @options[:target]
+    @tick  = 0
+    self.x = @target.x
+    self.y = @target.y
   end
 
   def update
-    @tick+=1
-    if @tick >= 10
-      @tick = 0
-      self.x,self.y = Ship.all.first.x,Ship.all.first.y
-    end
+      mover
+  end
+
+  def mover
+    self.x = @target.x
+    self.y = @target.y
   end
 end

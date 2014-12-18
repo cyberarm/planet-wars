@@ -5,6 +5,7 @@ class Ship < Chingu::GameObject
   trait :collision_detection
 
   attr_accessor :boost, :max_boost, :health, :max_health, :dead, :speed, :boost_speed, :diamond, :gold, :oil
+  attr_reader   :active_speed, :ship_size, :border
 
   def setup
     @moving      = false
@@ -129,7 +130,7 @@ class Ship < Chingu::GameObject
 
   def set_active_speed
     unless @moving
-      @active_speed-=@speed_rate unless @active_speed <= @speed_rate
+      @active_speed-=@speed_rate/6.0 unless @active_speed <= @speed_rate
       @active_speed+=@speed_rate unless @active_speed >= -@speed_rate
     end
   end

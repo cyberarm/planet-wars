@@ -1,9 +1,12 @@
 class Base < Chingu::BasicGameObject
-  def initialize(planet)
+  def initialize(planet, options={})
     super()
     @tick = 0
     @ship = Ship.all.first
     @planet = planet
+
+    @x = options[:x]
+    @y = options[:y]
   end
 
   def update
@@ -42,8 +45,12 @@ class Base < Chingu::BasicGameObject
   end
 
   def regenerate
-    @planet.diamond+=0.1
-    @planet.gold+=0.4
-    @planet.oil+=0.5
+    @planet.diamond+=rand(0.1..0.3)
+    @planet.gold+=rand(0.4..1.0)
+    @planet.oil+=rand(0.5..2.0)
+  end
+
+  def line(object, object2)
+    # $window.fill_rect(object.x, object.x+2, object2.x, object2.y, color: Gosu::Color::RED) # check this
   end
 end

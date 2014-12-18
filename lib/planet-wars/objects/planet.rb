@@ -39,7 +39,7 @@ class Planet < Chingu::GameObject
     self.rotate(rand(120))
 
     @rate = rand(-3.0..3.0)
-    @text = Text.new("", x: self.x, y: self.y, zorder: 999, size: 20)
+    @text = Text.new("", x: self.x-(self.width/4), y: self.y, zorder: 999, size: 20)
 
     @base = nil
   end

@@ -9,9 +9,8 @@ class MainMenu < GameUI
       push_game_state(ModeMenu)
     end
 
-    button("Multiplayer", tooltip: "play the game with friends (Unavailable)") do
+    button("Multiplayer", tooltip: "Play with an AI or a person") do
       push_game_state(MultiPlayerMenu)
-      puts "Functional Multiplayer is Not Available with this build."
     end
 
     button("Settings", tooltip: "Configure game") do

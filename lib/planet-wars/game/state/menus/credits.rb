@@ -1,4 +1,8 @@
 class PWText < Text
+  def initialize
+    super()
+    options['font'] = "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
+  end
 end
 
 class Credits < GameUI
@@ -38,7 +42,7 @@ class Credits < GameUI
 
   def load_credit_data
     x    = 340
-    y    = 10
+    y    = $window.height+10
     size = 30
     data = AssetManager.credits_data
 
@@ -47,55 +51,60 @@ class Credits < GameUI
     data['credits']['people'].each do |person|
       @text << PWText.new(person['job'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(person['name'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
+      @text << PWText.new(person['name'], x: x, y: y, size: size)
+      y+=size
       y+=size
     end
-    
+
     y+=size
-    @text << PWText.new("Sprites", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Sprites", x: x, y: y, size: size)
     y+=size
     data['credits']['sprites'].each do |artist|
       @text << PWText.new(artist['sprite'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(artist['name'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
+      @text << PWText.new(artist['name'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(artist['license'], x: x, y: y, size: size, color: Gosu::Color::GREEN)
+      @text << PWText.new(artist['license'], x: x, y: y, size: size)
+      y+=size
       y+=size
     end
 
     y+=size
-    @text << PWText.new("Music", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Music", x: x, y: y, size: size)
     y+=size
     data['credits']['music'].each do |song|
       @text << PWText.new(song['name'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(song['composer'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
+      @text << PWText.new(song['composer'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(song['license'], x: x, y: y, size: size, color: Gosu::Color::GREEN)
+      @text << PWText.new(song['license'], x: x, y: y, size: size)
+      y+=size
       y+=size
     end
 
     y+=size
-    @text << PWText.new("Fonts", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Fonts", x: x, y: y, size: size)
     y+=size
     data['credits']['fonts'].each do |font|
       @text << PWText.new(font['font'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(font['name'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
+      @text << PWText.new(font['name'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(font['license'], x: x, y: y, size: size, color: Gosu::Color::GREEN)
+      @text << PWText.new(font['license'], x: x, y: y, size: size)
+      y+=size
       y+=size
     end
 
     y+=size
-    @text << PWText.new("Libraries", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Libraries", x: x, y: y, size: size)
     y+=size
     data['credits']['libraries'].each do |font|
       @text << PWText.new(font['name'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(font['author'], x: x, y: y, size: size, color: Gosu::Color::BLUE)
+      @text << PWText.new(font['author'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(font['license'], x: x, y: y, size: size, color: Gosu::Color::GREEN)
+      @text << PWText.new(font['license'], x: x, y: y, size: size)
+      y+=size
       y+=size
     end
   end

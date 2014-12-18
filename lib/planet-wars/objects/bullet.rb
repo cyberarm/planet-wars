@@ -4,7 +4,7 @@ class Bullet < Chingu::GameObject
   trait :collision_detection
 
   def setup
-    self.zorder = 200
+    self.zorder = Float::INFINITY
     @image = Gosu::Image[AssetManager.bullets_path+'/bullet.png']
     Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play if ConfigManager.config["sounds"]
     @ship  = @options[:ship]
@@ -36,9 +36,11 @@ class Bullet < Chingu::GameObject
   def check_collisions
     unless @ship
       self.each_collision(Ship) do |bullet, ship|
-        self.die
-        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.config["sounds"]
-        ship.hit(@damage, self)
+        if true # TODO: Check pixel collision
+          self.die
+          Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.config["sounds"]
+          ship.hit(@damage, self)
+        end
       end
     else
       self.each_collision(Enemy) do |bullet, enemy|

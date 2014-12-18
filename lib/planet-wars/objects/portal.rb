@@ -65,6 +65,7 @@ class Portal < Chingu::GameObject
         GameInfo::Mode.current_wave+=1
         GameInfo::Mode.wave_enemies_spawned = 0
         GameInfo::Mode.wave_spawned = false
+        return true
       else
         false
       end

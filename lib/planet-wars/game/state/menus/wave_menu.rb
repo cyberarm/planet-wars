@@ -37,7 +37,7 @@ class WaveMenu < GameUI
     end
 
     button "Back" do
-      push_game_state(MainMenu)
+      push_game_state(ModeMenu)
     end
   end
 end

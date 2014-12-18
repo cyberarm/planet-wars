@@ -20,7 +20,7 @@ class MusicManager < Chingu::GameObject
     if @limiter >= 120
       if !@song.playing? && !@song.paused?
         @current += 1
-        if @current >= @music.count
+        if @current >= @music.count-1
           @current = 0
         end
 
@@ -55,7 +55,7 @@ class MusicManager < Chingu::GameObject
     end
   end
 
-  def composer 
+  def composer
     @music_data.select do |song|
       if @music[@current].downcase.include?(song['name'].downcase)
         return song['composer']

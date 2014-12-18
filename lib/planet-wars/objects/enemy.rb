@@ -11,7 +11,7 @@ class Enemy < Chingu::GameObject
     @health= 40
     GameInfo::Mode.wave_enemies_spawned+=1
     @image = Gosu::Image["#{AssetManager.enemies_path}/enemy.png"]
-    @target = Target.create(x: 0, y: 0) unless Target.all.first.is_a?(Target)
+    @target = Target.create(x: 0, y: 0, target: Ship.all.first) unless Target.all.first.is_a?(Target)
     @target = Target.all.first if Target.all.first.is_a?(Target)
     @target_area = TargetArea.create(owner: self, target: @target, size: 255.0)
     @tick = 0
@@ -22,7 +22,7 @@ class Enemy < Chingu::GameObject
   def update
     self.alpha+=2
     rotate(rand(0.0..1.0))
-    if defined?(@target_area) && self.alpha >= 255 #&& @target_area.in_range
+    if defined?(@target_area) && self.alpha >= 255
       @dx = @target.x - self.x
       @dy = @target.y - self.y
       length = Math.sqrt( @dx*@dx + @dy*@dy )
@@ -34,11 +34,18 @@ class Enemy < Chingu::GameObject
 
     if @tick >= 60
       @tick = 0
-      Bullet.create(x: self.x, y: self.y, z: 199, velocity_x: @dx*3, velocity_y: @dy*3) if @target_area.in_range && self.alpha >= 255
+      fire_bullet!
     end
 
     @tick+=1
     check_health
+  end
+
+  def fire_bullet!
+    velocity_x = @dx*3
+    velocity_y = @dy*3
+    distance   = Gosu.distance(self.x, self.y, @target.x, @target.y)
+    Bullet.create(x: self.x, y: self.y, z: 199, velocity_x: velocity_x, velocity_y: velocity_y) if @target_area.in_range && self.alpha >= 255 && distance >= 175
   end
 
   def check_health

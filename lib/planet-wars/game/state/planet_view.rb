@@ -45,19 +45,19 @@ class PlanetView < Chingu::GameState
     if button_down?(Gosu::Kb1)
       if @planet.habitable && @ship.gold >= 200
         @ship.gold-=200 unless @planet.base.is_a?(Base)
-        @planet.base = Base.new(@planet) unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
       elsif @planet.habitable && @ship.diamond >= 20
         @ship.diamond-=20 unless @planet.base.is_a?(Base)
-        @planet.base = Base.new(@planet) unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
       end
 
       if !@planet.habitable && @ship.gold >= 400
         @ship.gold-=400 unless @planet.base.is_a?(Base)
-        @planet.base = Base.new(@planet) unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
         @planet.habitable = true
       elsif !@planet.habitable && @ship.diamond >= 40
         @ship.diamond-=40 unless @planet.base.is_a?(Base)
-        @planet.base = Base.new(@planet) unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
         @planet.habitable = true
       end
     end
@@ -73,5 +73,9 @@ class PlanetView < Chingu::GameState
 
   def button_down?(id)
     $window.button_down?(id)
+  end
+
+  def created_base
+    Base.new(@planet, x: @planet.x, y: @planet.y)
   end
 end

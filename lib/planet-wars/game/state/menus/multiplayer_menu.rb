@@ -2,16 +2,15 @@ class MultiPlayerMenu < GameUI
   def initialize options={}
     options[:title] = "#{GameInfo::NAME}//Multiplayer"
     super
-    button "Join Game", tooltip: 'Join a game your friend is hosting (Unavailable)' do
-      # connect
-      # play!
+    button "Online Multiplayer", tooltip: 'play the game with friends (Unavailable)' do
+      puts "Functional Multiplayer is Not Available with this build."
+      push_game_state(OnlineMultiPlayerMenu)
     end
 
-    button "Host Game", tooltip: 'Host a game that your friends can join (Unavailable)' do
-      # start server
-      # connect
-      # play!
-      # push_game_state(NetGame.new(host: true, client: false))
+    button "Deathmatch", tooltip: 'Play against an AI ship' do
+    end
+
+    button "Cooperative", tooltip: 'Play with an AI ship against enemy ships' do
     end
 
     button "Back" do
