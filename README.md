@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/cyberarm/planet-wars.png?label=ready&title=Ready)](https://waffle.io/cyberarm/planet-wars)
+[![Dependency Status](https://gemnasium.com/cyberarm/planet-wars.svg)](https://gemnasium.com/cyberarm/planet-wars) [![Code Climate](https://codeclimate.com/github/cyberarm/planet-wars/badges/gpa.svg)](https://codeclimate.com/github/cyberarm/planet-wars) [![Stories in Ready](https://badge.waffle.io/cyberarm/planet-wars.png?label=ready&title=Ready)](https://waffle.io/cyberarm/planet-wars)
 # Planet Wars
 A space shooter-like game
 
