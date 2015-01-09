@@ -24,11 +24,12 @@ class GameHUD
   def update
     @clock_counter+=1
     if @clock_counter <= 60
-      @clock_time+=0.017
+      @clock_time+=0.01667
       @clock_counter=0
     end
     time = Time.at((@clock_time)).gmtime
-    GameInfo::Config.game_time_processed=time
+    # GameInfo::Config.game_time=time # Fix later
+    GameInfo::Config.game_time_processed=time # remove me later
     @clock_text.text = "#{time.strftime('%T')}"
     @minimap.update
     @health_bar.update

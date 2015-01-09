@@ -1,3 +1,6 @@
+# Portal
+# Spawns enemies and handles Waves.
+
 class Portal < Chingu::GameObject
   trait :timer
   trait :effect
@@ -35,22 +38,22 @@ class Portal < Chingu::GameObject
 
     if GameInfo::Mode.mode == "wave"
       @spawn = false unless GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies && GameInfo::Mode.wave_spawned?
-      @spawn = true if self.alpha <= 255 && GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies && !GameInfo::Mode.wave_spawned?
+      @spawn = true if GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies && !GameInfo::Mode.wave_spawned?
     else
-      @spawn = true if self.alpha <= 255 && Enemy.all.count <= GameInfo::Config.number_of_enemies
+      @spawn = true if Enemy.all.count <= GameInfo::Config.number_of_enemies
       @spawn = false unless Enemy.all.count <= GameInfo::Config.number_of_enemies
     end
   end
 
   def spawn_enemy
     if GameInfo::Mode.mode == "wave"
-      if wave_processor && @ready && @spawn
+      if wave_processor && @ready && self.alpha >= 255 && @spawn
         if GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies
           Enemy.spawn(self)
         end
       end
     else
-      Enemy.spawn(self) if @ready && @spawn && Enemy.all.count <= GameInfo::Config.number_of_enemies
+      Enemy.spawn(self) if @ready && self.alpha >= 255 && @spawn && Enemy.all.count <= GameInfo::Config.number_of_enemies
     end
   end
 
@@ -60,15 +63,13 @@ class Portal < Chingu::GameObject
     if GameInfo::Mode.wave_enemies_spawned <= GameInfo::Config.number_of_enemies && !GameInfo::Mode.wave_spawned?
       GameInfo::Mode.wave_spawned = true if Enemy.all.count >= GameInfo::Config.number_of_enemies
       true
-    else
-      if GameInfo::Mode.wave_spawned? && Enemy.all.count <= 0
-        GameInfo::Mode.current_wave+=1
+    elsif GameInfo::Mode.wave_spawned? && Enemy.all.count <= 0
+        GameInfo::Mode.current_wave+=1 # ISSUE: #44 found.
         GameInfo::Mode.wave_enemies_spawned = 0
         GameInfo::Mode.wave_spawned = false
-        return true
-      else
-        false
-      end
+        true
+    else
+      false
     end
   end
 end
