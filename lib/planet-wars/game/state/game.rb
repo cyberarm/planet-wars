@@ -137,7 +137,7 @@ class Game < Chingu::GameState
   end
 
   def debugging_waves
-    puts "E: #{Enemy.all.count}"
+    puts "Enemies active: #{Enemy.all.count}"
     puts "GameInfo::Mode.wave_enemies_spawned: #{GameInfo::Mode.wave_enemies_spawned}"
     puts "GameInfo::Mode.wave_spawned? #{GameInfo::Mode.wave_spawned?}"
     puts "GameInfo::Mode.current_wave: #{GameInfo::Mode.current_wave}"

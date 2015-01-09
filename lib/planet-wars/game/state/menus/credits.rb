@@ -1,6 +1,6 @@
 class PWText < Text
-  def initialize
-    super()
+  def initialize(string="", options={})
+    super(string, options)
     options['font'] = "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
   end
 end
@@ -46,6 +46,8 @@ class Credits < GameUI
     size = 30
     data = AssetManager.credits_data
 
+    @text << PWText.new(GameInfo::NAME, x: x, y: $window.height/2-40, size: 100)
+
     @text << PWText.new("People", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
     y+=size
     data['credits']['people'].each do |person|
@@ -57,7 +59,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Sprites", x: x, y: y, size: size)
+    @text << PWText.new("Sprites", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
     y+=size
     data['credits']['sprites'].each do |artist|
       @text << PWText.new(artist['sprite'], x: x, y: y, size: size)
@@ -70,7 +72,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Music", x: x, y: y, size: size)
+    @text << PWText.new("Music", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
     y+=size
     data['credits']['music'].each do |song|
       @text << PWText.new(song['name'], x: x, y: y, size: size)
@@ -83,7 +85,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Fonts", x: x, y: y, size: size)
+    @text << PWText.new("Fonts", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
     y+=size
     data['credits']['fonts'].each do |font|
       @text << PWText.new(font['font'], x: x, y: y, size: size)
@@ -96,7 +98,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Libraries", x: x, y: y, size: size)
+    @text << PWText.new("Libraries", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
     y+=size
     data['credits']['libraries'].each do |font|
       @text << PWText.new(font['name'], x: x, y: y, size: size)
