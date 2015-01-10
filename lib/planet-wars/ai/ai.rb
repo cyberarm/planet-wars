@@ -1,0 +1,2 @@
+class AI
+end
