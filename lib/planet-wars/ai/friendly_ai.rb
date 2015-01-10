@@ -1,0 +1,2 @@
+class FriendlyAI < AI
+end
