@@ -5,6 +5,7 @@ require "ashton"
 require "humanize"
 require "securerandom"
 require "texplay"
+require "finite_machine"
 require "time"
 
 require_all "lib/planet-wars/errors"
@@ -15,12 +16,9 @@ require_relative "lib/planet-wars/game_info"
 require_relative "lib/planet-wars/asset_manager"
 require_relative "lib/planet-wars/config_manager"
 
-# require_relative "lib/planet-wars/net/server/config"
-# require "gameoverseer"
-# require_relative "lib/planet-wars/net/net_client"
-# require_relative "lib/planet-wars/net/net_server"
-
 require_relative "lib/planet-wars/gameui/gameui"
+
+require_all "lib/planet-wars/ai"
 
 require_relative "lib/planet-wars/game/engine"
 require_relative "lib/planet-wars/game/achievement_manager"
@@ -73,8 +71,12 @@ end
 
 if ARGV.join.include?('--debug')
   begin
-    Engine.new.show
+    engine = Engine.new
+    engine.show
   rescue => e
+    while engine.class == Gosu
+      sleep 0.1
+    end
     require "pry"
     puts e
     puts e.backtrace

@@ -16,6 +16,7 @@ GEM
     cri (2.1.0)
     faster_xml_simple (0.5.0)
       libxml-ruby (>= 0.3.8.4)
+    finite_machine (0.10.0)
     gosu (0.8.6)
     gosu (0.8.6-x86-mingw32)
     httpclient (2.5.3.3)
@@ -69,6 +70,7 @@ PLATFORMS
 DEPENDENCIES
   ashton!
   chingu (~> 0.9rc9)
+  finite_machine
   gosu (~> 0.8.5)
   humanize
   ocra
