@@ -28,8 +28,8 @@ class Portal < Chingu::GameObject
 
   def update
     if @ready
-      fade_out(3) unless @spawn
-      fade_in(3) if @spawn
+      fade_out(3) unless @spawn or @despawn
+      fade_in(3) if @spawn or @despawn
     end
 
     if Time.now-GameInfo::Config.game_time > 10
@@ -43,6 +43,10 @@ class Portal < Chingu::GameObject
       @spawn = true if Enemy.all.count <= GameInfo::Config.number_of_enemies
       @spawn = false unless Enemy.all.count <= GameInfo::Config.number_of_enemies
     end
+  end
+
+  def despawn(boolean)
+    @despawn = boolean
   end
 
   def spawn_enemy
