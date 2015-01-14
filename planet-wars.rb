@@ -1,5 +1,5 @@
 require "bundler/setup"
-Bundler.require
+Bundler.require(:default)
 require "chingu"
 require "ashton"
 require "humanize"
