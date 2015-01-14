@@ -7,7 +7,6 @@ gem "chingu", "~> 0.9rc9"
 gem "rake", "0.9.2.2"
 gem "releasy"
 gem "texplay", "~> 0.4.3"
-gem "finite_machine"
 gem "ashton", git: "https://github.com/Spooner/ashton.git"
 
 group :development do

@@ -5,7 +5,6 @@ require "ashton"
 require "humanize"
 require "securerandom"
 require "texplay"
-require "finite_machine"
 require "time"
 
 require_all "lib/planet-wars/errors"
