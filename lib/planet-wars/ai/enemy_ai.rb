@@ -42,12 +42,12 @@ class EnemyAI < AI
   end
 
   def retreat
-    portal = game_object.find_closest(Portal)
+    @portal = game_object.find_closest(Portal) unless defined?(@portal) # Don't change destination
 
-    portal.despawn(true)
-    if game_object.x.between?(portal.x-12, portal.x+12)
-      if game_object.y.between?(portal.y-12, portal.y+12)
-        game_object.despawn(portal)
+    @portal.despawn(true)
+    if game_object.x.between?(@portal.x-12, @portal.x+12)
+      if game_object.y.between?(@portal.y-12, @portal.y+12)
+        game_object.despawn(@portal)
       end
     end
 
@@ -57,7 +57,6 @@ class EnemyAI < AI
     end
 
     game_object.tick += 1
-
-    move(portal)
+    move(@portal)
   end
 end

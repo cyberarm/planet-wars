@@ -10,7 +10,7 @@ class Enemy < Chingu::GameObject
     self.zorder = 300
     self.alpha = 0
     @speed = 2
-    @health= 40
+    @health= 60
     GameInfo::Mode.wave_enemies_spawned+=1
     @image = Gosu::Image["#{AssetManager.enemies_path}/enemy.png"]
     @target = Target.create(x: 0, y: 0, target: Ship.all.first) unless Target.all.first.is_a?(Target)
@@ -30,10 +30,10 @@ class Enemy < Chingu::GameObject
     if self.alpha >= 255 && !@despawn
       @ai.state = :seek    if !@target_area.in_range
       @ai.state = :attack  if @target_area.in_range
-      @ai.state = :retreat if @health <= 30
+      @ai.state = :retreat if @health <= 30 && GameInfo::Mode.mode == 'survival' # FIXME: despawning an enemy in 'wave' mode should cause a respawn instead if having a free win for damaging enemies.
     end
 
-    if @despawn
+    if @despawn && @portal.alpha >= 255
       self.alpha-=2
       self.destroy if self.alpha <= 0
     end
@@ -71,7 +71,7 @@ class Enemy < Chingu::GameObject
 
   def destroy
     super
-    @portal.despawn(false) if defined?(@portal)
+    Portal.all.each {|portal| portal.despawn(false)}
     # TODO: Respawn enemies that despawn during Wave gamemode
     # GameInfo::Mode.wave_enemies_spawned-=1 if defined?(@portal) && @health >= 1
     @target_area.destroy
