@@ -1,8 +1,8 @@
 ---
 config:
   asset_pack: default
-  music: false
-  sounds: false
+  music: true
+  sounds: true
   hazards: true
   screen:
     width: max
