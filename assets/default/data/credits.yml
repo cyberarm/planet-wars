@@ -1,18 +1,28 @@
 ---
 credits:
-  people: [{name: cyberarm, job: Lead Programmer},
-           {name: cyberarm, job: Lead Artist}]
+  people: [
+    {name: cyberarm, job: Lead Programmer},
+    {name: cyberarm, job: Lead Artist}
+  ]
 
-  sprites: [{sprite: All sprites, name: cyberarm, license: (CC) Attribution-ShareAlike 3.0 Unported License}]
+  sprites: [
+    {sprite: All sprites, name: cyberarm, license: (CC) Attribution-ShareAlike 3.0 Unported License}
+  ]
 
-  music: [{name: Brave Soldiers, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported License},
-          {name: Steeps of Destiny, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported License},
-          {name: Heroic Minority, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported License}]
+  music: [
+    {name: Brave Soldiers, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported License},
+    {name: Steeps of Destiny, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported License},
+    {name: Heroic Minority, composer: Alexandr Zhelanov, license: (CC) Attribution 3.0 Unported License}
+  ]
 
-  fonts: [{font: Alfphabet IV, name: Pierre Huyghebaert and Ludivine Loiseau, license: SIL Open Font License},
-          {font: Hobby Of Night, name: Fernando Haro, license: SIL Open Font License}]
+  fonts: [
+    {font: Alfphabet IV, name: Pierre Huyghebaert and Ludivine Loiseau, license: SIL Open Font License},
+    {font: Hobby Of Night, name: Fernando Haro, license: SIL Open Font License}
+  ]
 
-  libraries: [{author: 'Julian Raschke, Jan Lücker and all contributors', name: Gosu, license: MIT license},
-          {author: ippa and all contributors, name: Chingu, license: GNU LESSER GENERAL PUBLIC LICENSE},
-          {author: John Mair and all contributors, name: TexPlay, license: MIT license},
-          {author: Bil Bas (Spooner) and all contributors, name: Ashton, license: MIT license}]
+  libraries: [
+    {author: 'Julian Raschke, Jan Lücker and all contributors', name: Gosu, license: MIT license},
+    {author: ippa and all contributors, name: Chingu, license: GNU LESSER GENERAL PUBLIC LICENSE},
+    {author: John Mair and all contributors, name: TexPlay, license: MIT license},
+    {author: Bil Bas (Spooner) and all contributors, name: Ashton, license: MIT license}
+  ]
