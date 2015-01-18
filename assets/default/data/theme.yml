@@ -1,0 +1,27 @@
+---
+text: {
+  font: cyberarm,
+  color: Lead Programmer
+  }
+
+hud: {
+  health_bar: color,
+  boost_bar: color,
+  minimap: {
+    background: color,
+    planet_habitable: color,
+    planet_uninhabitable: color,
+    planet_based: color,
+    ship: color
+    enemy: color
+    asteroid: color
+    }
+  }
+
+gameui: {
+  font: "string",
+  font_size: 14,
+  button: {
+    background: color
+    }
+  }
