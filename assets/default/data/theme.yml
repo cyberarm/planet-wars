@@ -7,7 +7,7 @@ text: {
 
 hud: {
   health_bar: {
-    full: "green",
+    full: "lime",
     half: "yellow",
     low: "red"
     },
