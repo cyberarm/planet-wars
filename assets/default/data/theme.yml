@@ -13,7 +13,7 @@ hud: {
     },
   boost_bar: "blue",
   minimap: {
-    background: "charcoal",
+    background: "#222",
     planet_habitable: "blue",
     planet_uninhabitable: "yellow",
     planet_based: "cyan",

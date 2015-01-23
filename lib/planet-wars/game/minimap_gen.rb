@@ -8,7 +8,6 @@ class MiniMapGenerator
     @enemies = enemies
     @asteroids=asteroid
     @ships   = ships
-    @image   = TexPlay.create_image($window, area[0]/100, area[1]/100)#, caching: false)
 
     @color_planet = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_habitable'])
     @color_planet_not_habitable = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_uninhabitable'])
@@ -17,8 +16,16 @@ class MiniMapGenerator
     @color_enemy  = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['enemy'])
     @color_ship = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['ship'])
 
+    @color_background = background_color(AssetManager.theme_data['hud']['minimap']['background'])
+    @image   = TexPlay.create_image($window, area[0]/100, area[1]/100, color: @color_background)
+
     generate_image
     return @image
+  end
+
+  def background_color(color)
+    color = Chroma.paint(color).rgb
+    return Gosu::Color.rgba(color.r, color.g, color.b, 100)
   end
 
   def generate_image

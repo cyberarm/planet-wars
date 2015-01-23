@@ -63,6 +63,11 @@ module AssetManager
     @theme_data
   end
 
+  def self.update_theme_data
+    @theme_data = nil
+    theme_data
+  end
+
   def self.theme_color(named_color)
     color = Chroma.paint(named_color).rgb
     return Gosu::Color.rgb(color.r, color.g, color.b)

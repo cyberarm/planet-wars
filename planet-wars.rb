@@ -1,13 +1,11 @@
 require "bundler/setup"
 Bundler.require(:default)
-require "time"
-require "securerandom"
-
 require "chingu"
 require "ashton"
 require "humanize"
+require "securerandom"
 require "texplay"
-require "chroma"
+require "time"
 
 require_all "lib/planet-wars/errors"
 
@@ -70,19 +68,4 @@ if ARGV.join.include?('--debug')
   end
 end
 
-if ARGV.join.include?('--debug')
-  begin
-    engine = Engine.new
-    engine.show
-  rescue => e
-    while engine.class == Gosu
-      sleep 0.1
-    end
-    require "pry"
-    puts e
-    puts e.backtrace
-    binding.pry
-  end
-else
-  Engine.new.show
-end
+Engine.new.show
