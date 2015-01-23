@@ -9,6 +9,7 @@ gem "releasy"
 gem "texplay", git: "https://github.com/banister/texplay.git" #, "~> 0.4.3"
 gem "ashton", git: "https://github.com/Spooner/ashton.git"
 gem "chroma"
+gem "libxml-ruby", "2.7.0" # No precompiled windows binary for 2.8
 
 group :development do
   gem "ruby-prof"
