@@ -20,8 +20,8 @@ class EnemyAI < AI
       @planet= Planet.all[rand(0..@count)-1]
 
     elsif defined?(@count) && defined?(@planet)
-      if game_object.x.between?(@planet.x-64, @planet.x+64)
-        if game_object.y.between?(@planet.y-64, @planet.y+64)
+      if game_object.x.between?(@planet.x-64.0, @planet.x+64.0)
+        if game_object.y.between?(@planet.y-64.0, @planet.y+64.0)
           @planet= Planet.all[rand(0..@count)-1] # Change planet
         end
       end
@@ -45,8 +45,8 @@ class EnemyAI < AI
     @portal = game_object.find_closest(Portal) unless defined?(@portal) # Don't change destination
 
     @portal.despawn(true)
-    if game_object.x.between?(@portal.x-12, @portal.x+12)
-      if game_object.y.between?(@portal.y-12, @portal.y+12)
+    if game_object.x.between?(@portal.x-12.0, @portal.x+12.0)
+      if game_object.y.between?(@portal.y-12.0, @portal.y+12.0)
         game_object.despawn(@portal)
       end
     end

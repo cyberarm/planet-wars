@@ -1,27 +1,39 @@
 ---
 text: {
-  font: cyberarm,
-  color: Lead Programmer
+  font: "Alfphabet-IV.ttf",
+  font_size: 13,
+  color: "white"
   }
 
 hud: {
-  health_bar: color,
-  boost_bar: color,
+  health_bar: {
+    full: "green",
+    half: "yellow",
+    low: "red"
+    },
+  boost_bar: "blue",
   minimap: {
-    background: color,
-    planet_habitable: color,
-    planet_uninhabitable: color,
-    planet_based: color,
-    ship: color
-    enemy: color
-    asteroid: color
+    background: "charcoal",
+    planet_habitable: "blue",
+    planet_uninhabitable: "yellow",
+    planet_based: "lightblue",
+    ship: "green",
+    enemy: "red",
+    asteroid: "white"
     }
   }
 
 gameui: {
-  font: "string",
-  font_size: 14,
+  font: "Hobby-of-night.ttf",
+  font_size: 32,
+  tooltip_font_size: 32,
+  title_font_size: 50,
+  color: "white",
+  tooltip_color: "white",
+  title_color: "white",
+  background: "menu-background.png",
   button: {
-    background: color
+    background: "orange",
+    active_background: "darkorange"
     }
   }

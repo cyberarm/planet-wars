@@ -58,6 +58,16 @@ module AssetManager
     @credits_data
   end
 
+  def self.theme_data
+    @theme_data = Psych.load_file("#{path}/assets/#{asset_pack}/data/theme.yml") unless defined?(@theme_data)
+    @theme_data
+  end
+
+  def self.theme_color(named_color)
+    color = Chroma.paint(named_color).rgb
+    return Gosu::Color.rgb(color.r, color.g, color.b)
+  end
+
   def self.preload_assets
     credits_data
     images = []
