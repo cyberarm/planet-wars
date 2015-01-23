@@ -16,8 +16,8 @@ hud: {
     background: "charcoal",
     planet_habitable: "blue",
     planet_uninhabitable: "yellow",
-    planet_based: "lightblue",
-    ship: "green",
+    planet_based: "cyan",
+    ship: "lime",
     enemy: "red",
     asteroid: "white"
     }

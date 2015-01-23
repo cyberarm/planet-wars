@@ -10,7 +10,7 @@ class MiniMap < Chingu::GameObject
   def update
     self.factor = 10
     if @tick >= 10
-      map = MiniMapGenerator.new([3000,3000], Planet.all, Enemy.all, Asteroid.all, Ship.all.first)
+      map = MiniMapGenerator.new([3000,3000], Planet.all, Enemy.all, Asteroid.all, Ship.all)
       self.image = map.image.retrofy
       @tick = 0
     end
