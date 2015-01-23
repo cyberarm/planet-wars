@@ -6,6 +6,10 @@ class HealthBar < Chingu::GameObject
     self.zorder = 999
     @tick  = 0
     @max_tick  = 10
+
+    @color_full = AssetManager.theme_color(AssetManager.theme_data['hud']['health_bar']['full'])
+    @color_half = AssetManager.theme_color(AssetManager.theme_data['hud']['health_bar']['half'])
+    @color_low  = AssetManager.theme_color(AssetManager.theme_data['hud']['health_bar']['low'])
   end
 
   def update
@@ -22,11 +26,11 @@ class HealthBar < Chingu::GameObject
     30.times do |i|
       @health.to_i.times do |h|
         if @health.to_i >= 20
-          @tex_image.pixel(h,0, color: :green)
+          @tex_image.pixel(h,0, color: @color_full)
         elsif @health.to_i >= 10
-          @tex_image.pixel(h,0, color: :yellow)
+          @tex_image.pixel(h,0, color: @color_half)
         elsif @health.to_i >= 0
-          @tex_image.pixel(h,0, color: :red)
+          @tex_image.pixel(h,0, color: @color_low)
         end
         @h = h
       end

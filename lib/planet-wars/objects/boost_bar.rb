@@ -5,6 +5,8 @@ class BoostBar < Chingu::GameObject
     self.x = $window.width-(30*5)
     self.y = 30*11
     self.zorder = 999
+
+    @color_boost = AssetManager.theme_color(AssetManager.theme_data['hud']['boost_bar'])
   end
 
   def update
@@ -19,7 +21,7 @@ class BoostBar < Chingu::GameObject
     calc_boost_percent
     @tex_image = TexPlay.create_image($window,30,1)
     calc_boost_percent.to_i.times do |i|
-      @tex_image.pixel(i,0, color: :blue)
+      @tex_image.pixel(i,0, color: @color_boost)
     end
     return @tex_image
   end
