@@ -1,11 +1,13 @@
 require "bundler/setup"
 Bundler.require(:default)
+require "time"
+require "securerandom"
+
 require "chingu"
 require "ashton"
 require "humanize"
-require "securerandom"
 require "texplay"
-require "time"
+require "chroma"
 
 require_all "lib/planet-wars/errors"
 

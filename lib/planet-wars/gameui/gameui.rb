@@ -2,27 +2,31 @@ class GameUI < Chingu::GameState
   attr_accessor :selected
   def initialize(options={})
     super
+    setup if defined?(setup)
+
     @options = options
     $window.show_cursor = true
+    title_font_size = AssetManager.theme_data['gameui']['title_font_size']
+    tooltip_font_size = AssetManager.theme_data['gameui']['tooltip_font_size']
+
     options[:title] ||= "Planet Wars"
-    options[:title_size] ||= 50
-    options[:font] ||= "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
+    options[:title_size] ||= title_font_size
+    options[:font] ||= "#{AssetManager.fonts_path}/#{AssetManager.theme_data['gameui']['font']}"
     @elements = []
     @rects    = []
-    @tooltip  = Text.new("", x: 1, y: 80, size: 32, font: options[:font])
+    @tooltip  = Text.new("", x: 1, y: 80, size: tooltip_font_size, font: options[:font], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['tooltip_color']))
     @post_ui_create = true
     @released_left_mouse_button = false
     @released_return = false
     @selected = nil
 
+    title_text_object = Text.new("#{options[:title]}", x: 50, y: 20, font: options[:font], size: options[:title_size], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['title_color']))
+    # title_text_object.x = $window.width/3
+
     @elements.push({
-      object: Text.new("#{options[:title]}",
-      x: 90,
-      y: 20,
-      font: options[:font],
-      size: options[:title_size])
+      object: title_text_object
       })
-    @background_image = Gosu::Image["#{AssetManager.background_path}/menu-background.png"]
+    @background_image = Gosu::Image["#{AssetManager.background_path}/#{AssetManager.theme_data['gameui']['background']}"]
   end
 
   def draw
@@ -48,7 +52,7 @@ class GameUI < Chingu::GameState
         rect[:color]=rect[:hover_color]
         @selected = rect
         @tooltip.text = rect[:tooltip].to_s if defined?(rect[:tooltip])
-        @tooltip.y    = rect[:y]+10
+        @tooltip.y    = rect[:y]+rect[:text][:object].height/2
 
         if collision_with(rect) && @released_left_mouse_button
           rect[:block].call
@@ -92,29 +96,37 @@ class GameUI < Chingu::GameState
   end
 
   def button(text,options={}, &block)
+    font_size = AssetManager.theme_data['gameui']['font_size']
+
     @get_available_y = 100
     unless @rects.nil?
       @rects.each do |rect|
-        @get_available_y = rect[:y]+81-20
+        @get_available_y = rect[:y]+81-20+(font_size-31)
         if @get_available_y > $window.height
           warn "--WARNING: Button with text: \"#{text}\", is not visible."
         end
       end
     end
 
-    options[:color]       ||= Gosu::Color::WHITE
-    options[:background_color] ||= Gosu::Color.rgba(255,120,0,255)
-    options[:hover_color] ||= Gosu::Color.rgba(255,80,0,255)
-    options[:x]           ||= 100
+    color = AssetManager.theme_color(AssetManager.theme_data['gameui']['color'])
+    button_color = AssetManager.theme_color(AssetManager.theme_data['gameui']['button']['background'])
+    button_hover_color = AssetManager.theme_color(AssetManager.theme_data['gameui']['button']['active_background'])
+
+    options[:color]       ||= color
+    options[:background_color] ||= button_color
+    options[:hover_color] ||= button_hover_color
+    options[:x]           ||= 100 # $window.width/3
     options[:y]           ||= @get_available_y
+
     @elements.push(
       text={
-        object: Text.new("#{text}", x: options[:x], y: options[:y], size: 32, color: options[:color], font: @options[:font])
+        object: Text.new("#{text}", x: options[:x], y: options[:y], size: font_size, color: options[:color], font: @options[:font])
       }
     )
 
     @rects.push(
       {
+        text: text,
         x: options[:x]-10,
         y: options[:y]-10,
         width: text[:object].width+20,
@@ -142,6 +154,7 @@ class GameUI < Chingu::GameState
 
     @tooltip.x = @big[:width]+120
 
+
     @rects.each do |rect|
       rect[:width]=@big[:width]
     end
@@ -156,12 +169,13 @@ class GameUI < Chingu::GameState
       @selected = @rects.first
     end
 
-    if method == :up
+    case method
+    when :up
       num = @rects.index(@selected)
       @selected = @rects[num-1] unless num == 0
       @selected = @rects[@rects.count-1] if num == 0
 
-    elsif method == :down
+    when :down
       num = @rects.index(@selected)
       if @rects.count-1<num+1
         @selected = @rects.first

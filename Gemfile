@@ -6,8 +6,9 @@ gem "gosu", "~> 0.8.5"
 gem "chingu", "~> 0.9rc9"
 gem "rake", "0.9.2.2"
 gem "releasy"
-gem "texplay", "~> 0.4.3"
+gem "texplay", git: "https://github.com/banister/texplay.git" #, "~> 0.4.3"
 gem "ashton", git: "https://github.com/Spooner/ashton.git"
+gem "chroma"
 
 group :development do
   gem "ruby-prof"
