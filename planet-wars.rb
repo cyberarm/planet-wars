@@ -5,6 +5,8 @@ require "ashton"
 require "humanize"
 require "securerandom"
 require "texplay"
+require "oj"
+require "excon"
 require "time"
 
 require_all "lib/planet-wars/errors"
@@ -45,6 +47,30 @@ require_all "lib/planet-wars/game/state/menus"
 Thread.abort_on_exception = true if ARGV.join.include?('--debug')
 Gosu::enable_undocumented_retrofication
 
+if (Time.now.utc - Time.parse(ConfigManager.config['update_check'])) > 60*30 # check every 30 minutes
+  ConfigManager.update("update_check", "#{Time.now.utc.to_s}")
+  Thread.new do
+    t_s = Time.now
+    begin # version check
+    # Github API v3
+    puts "Checking for updates..."
+    request = Excon.get("https://api.github.com/repos/cyberarm/planet-wars/releases", tcp_nodelay: true, nonblock: true)
+    data = Oj.load(request.body)[0]
+    if data
+      if data['name'] > GameInfo::VERSION
+        $latest_release_data = data
+      elsif data['name'] == GameInfo::VERSION
+        puts "#{GameInfo::NAME} is up to date. (version #{GameInfo::VERSION})"
+      end
+    end
+    rescue => e
+      puts "Couldn't query Github about releases, an error occurred:"
+      puts e
+    end
+    puts "Took #{Time.now-t_s} to query."
+  end
+end
+
 begin
   build = Integer(open("#{Dir.pwd}/lib/planet-wars/dev_stats/build.dat").read)
   build += 1
@@ -68,4 +94,4 @@ if ARGV.join.include?('--debug')
   end
 end
 
-Engine.new.show
+Engine.new.show if not defined?(Ocra)

@@ -16,6 +16,7 @@ class PlanetView < Chingu::GameState
 
   def draw
     super
+    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color']))
     @clone.draw
     @instructions.draw
     @name.draw

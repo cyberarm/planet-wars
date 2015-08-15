@@ -24,5 +24,21 @@ class MainMenu < GameUI
     button("Exit", tooltip: "Quit game") do
       exit
     end
+
+    if $latest_release_data
+      @message_l= Text.new("Update Available!", x: 100, y: $window.height-140, z: 100, size: 20)
+      @message_l2= Text.new("Version '#{$latest_release_data['name']}' available, you're currently on '#{GameInfo::VERSION}'.", x: 100, y: $window.height-110, z: 100, size: 18)
+      @image_l = Gosu::Image["assets/kenney_gameicons/import.png"]
+    end
+  end
+
+  def draw
+    super
+    if $latest_release_data
+      @message_l.draw
+      @message_l2.draw
+      fill_rect([100+16, $window.height-100+16, 70, 70], Gosu::Color::WHITE, 9)
+      @image_l.draw(100,$window.height-100,10)
+    end
   end
 end

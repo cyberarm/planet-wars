@@ -20,6 +20,11 @@ hud: {
     ship: "lime",
     enemy: "red",
     asteroid: "white"
+    },
+  planets: {
+    habitable: "white",
+    unhabitable: "orange",
+    base: "lime"
     }
   }
 

@@ -17,7 +17,13 @@ module AssetManager
   end
 
   def self.asset_packs
-    Dir.glob("./assets/*")
+    array = []
+    Dir.glob("./assets/*").each do |d|
+      if File.exist?("#{d}/data/theme.yml") && File.exist?("#{d}/data/credits.yml")
+        array.push(d)
+      end
+    end
+    array
   end
   def self.portal_path
     "./assets/#{asset_pack}/portal"
@@ -64,12 +70,21 @@ module AssetManager
   end
 
   def self.update_theme_data
-    @theme_data = nil
-    theme_data
+    @theme_data = Psych.load_file("#{path}/assets/#{asset_pack}/data/theme.yml")
   end
 
   def self.theme_color(named_color)
     color = Chroma.paint(named_color).rgb
+    return Gosu::Color.rgb(color.r, color.g, color.b)
+  end
+
+  def self.theme_color_inverse(named_color)
+    case
+    when Chroma.paint(named_color).dark?
+      color = Chroma.paint(named_color).lighten(50).rgb
+    when Chroma.paint(named_color).light?
+      color = Chroma.paint(named_color).darken(50).rgb
+    end
     return Gosu::Color.rgb(color.r, color.g, color.b)
   end
 

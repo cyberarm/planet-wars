@@ -1,6 +1,7 @@
 ---
 # backup of config.yml in the event that config.yml is overwritten or currupted.
 config:
+  update_check: "2015-08-15 18:22:17 UTC"
   asset_pack: default
   music: true
   sounds: true

@@ -11,7 +11,8 @@ class AssetPackMenu < GameUI
         Gosu::Song.clear
         Gosu::Sample.clear
         AssetManager.preload_assets
-        selected[:tooltip] = "assetpack changed."
+        AssetManager.update_theme_data
+        selected[:tooltip] = "Asset Pack Changed."
       end
     end
 

@@ -1,8 +1,6 @@
 module ConfigManager
   def self.config
-    unless defined?(@config_data)
-      refresh_config
-    end
+    refresh_config unless defined?(@config_data)
     @config_data["config"]
   end
 

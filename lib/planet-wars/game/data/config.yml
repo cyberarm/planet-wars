@@ -1,5 +1,6 @@
 ---
 config:
+  update_check: 2015-08-15 19:52:25 UTC
   asset_pack: default
   music: true
   sounds: true
