@@ -6,8 +6,6 @@ class PWText < Text
 end
 
 class Credits < GameUI
-  trait :timer
-
   def initialize(options={})
     options[:title] = "#{GameInfo::NAME}//Credits"
     options[:title_size] = 30
@@ -18,11 +16,9 @@ class Credits < GameUI
     end
 
     @text=[]
-    load_credit_data
 
-    after(3000) do
-      @scroll = true
-    end
+    @start_time = Gosu.milliseconds
+    load_credit_data
   end
 
   def draw
@@ -32,6 +28,10 @@ class Credits < GameUI
 
   def update
     super
+    if (Gosu.milliseconds-@start_time) >= 3000
+      @scroll = true
+    end
+
     if @scroll
       @text.each do |t|
         t.y-=0.6

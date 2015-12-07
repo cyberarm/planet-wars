@@ -1,5 +1,4 @@
 class MainMenu < GameUI
-  trait :timer
   def initialize(options={})
     $music_manager.song.pause if defined?($music_manager) # Can not figure out why music starts playing here when it is paused...
     options[:title] = "#{GameInfo::NAME}"

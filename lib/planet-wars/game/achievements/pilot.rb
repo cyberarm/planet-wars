@@ -4,7 +4,7 @@ class Pilot < Achievement
   end
 
   def check
-    if !@achieved && Time.now-game_time >= 120
+    if !@achieved && game_time >= 120
       @achieved = true
       true
     else
@@ -18,9 +18,5 @@ class Pilot < Achievement
 
   def points
     20
-  end
-
-  def game_time
-    GameInfo::Config.game_time
   end
 end

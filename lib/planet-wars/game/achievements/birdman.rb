@@ -4,7 +4,7 @@ class Birdman < Achievement
   end
 
   def check
-    if !@achieved && Time.now-game_time >= 60*10
+    if !@achieved && game_time >= 60*10
       @achieved = true
       true
     else
@@ -18,9 +18,5 @@ class Birdman < Achievement
 
   def points
     25
-  end
-
-  def game_time
-    GameInfo::Config.game_time
   end
 end

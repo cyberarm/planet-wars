@@ -19,8 +19,4 @@ class EmpireBuilding < Achievement
   def points
     10
   end
-
-  def base_count
-    Base.all.count
-  end
 end

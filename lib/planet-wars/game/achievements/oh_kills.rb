@@ -19,8 +19,4 @@ class OHKills < Achievement
   def points
     25
   end
-
-  def kill_count
-    GameInfo::Kills.kills
-  end
 end

@@ -19,8 +19,4 @@ class Technician < Achievement
   def points
     10
   end
-
-  def repair_count
-    GameInfo::Config.repairs
-  end
 end

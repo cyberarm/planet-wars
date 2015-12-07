@@ -19,8 +19,4 @@ class TheBuilder < Achievement
   def points
     20
   end
-
-  def base_count
-    Base.all.count
-  end
 end

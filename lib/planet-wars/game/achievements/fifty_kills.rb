@@ -19,8 +19,4 @@ class FiftyKills < Achievement
   def points
     20
   end
-
-  def kill_count
-    GameInfo::Kills.kills
-  end
 end

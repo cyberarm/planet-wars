@@ -15,6 +15,23 @@ class Achievement
       false
     end
   end
+
+  # Achievement checks
+  def game_time
+    GameHUD.instance.clock_time
+  end
+
+  def kill_count
+    GameInfo::Kills.kills
+  end
+
+  def base_count
+    Base.all.count
+  end
+
+  def repair_count
+    GameInfo::Config.repairs
+  end
 end
 
 class AchievementManager < Chingu::GameObject

@@ -19,8 +19,4 @@ class FirstKill < Achievement
   def points
     10
   end
-
-  def kill_count
-    GameInfo::Kills.kills
-  end
 end
