@@ -1,7 +1,7 @@
 class GameUpgradeHUD
   def initialize(ship)
     @ship = ship
-    @instructions  = Text.new('Upgrades', x: $window.width-(30*10), y: 400, size: 40)
+    @instructions  = Text.new('Upgrades', x: $window.width-(30*10), y: 420, size: 32)
     @upgrade_speed_text  = Text.new('', x: $window.width-(30*10), y: 450, size: 11)
     @upgrade_boost_text  = Text.new('', x: $window.width-(30*10), y: 460, size: 11)
     @upgrade_boosc_text  = Text.new('', x: $window.width-(30*10), y: 470, size: 11)

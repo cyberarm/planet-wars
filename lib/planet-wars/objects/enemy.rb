@@ -1,5 +1,5 @@
 class Enemy < Chingu::GameObject
-  attr_accessor :move, :health, :tick, :target, :target_area, :speed, :dx, :dy
+  attr_accessor :move, :health, :target, :target_area, :speed, :dx, :dy
   attr_reader :despawn
 
   trait :effect
@@ -17,7 +17,6 @@ class Enemy < Chingu::GameObject
     @target = Target.all.first if Target.all.first.is_a?(Target)
     @target_area = TargetArea.create(owner: self, target: @target, size: 255.0)
     @ai = EnemyAI.new(self)
-    @tick = 0
     @dx = 0
     @dy = 0
   end

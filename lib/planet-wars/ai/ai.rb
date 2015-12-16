@@ -2,15 +2,20 @@
 # states: [:attack, retreat, heal, seek]
 
 class AI
-  attr_accessor :game_object, :state
+  attr_accessor :game_object, :state, :tick
   def initialize(game_object)
     @game_object = game_object
+    @tick  = 0
     @state = :nil
     setup
   end
 
   def setup
     raise "#{self.class}#setup is not defined."
+  end
+
+  def update
+    raise "#{self.class}#update is not defined."
   end
 
   def move(object)

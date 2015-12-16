@@ -52,6 +52,7 @@ class Planet < Chingu::GameObject
   def draw
     super
     @text.draw
+    @base.draw if @base.is_a?(Base)
   end
 
   def update

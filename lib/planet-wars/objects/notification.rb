@@ -19,7 +19,7 @@ class NotificationManager < Chingu::GameObject
   end
 
   def update
-    n = 0
+    n = 1
     @slot.each do |note|
       note.y = note.size*n
       note.options[:tick]+=1

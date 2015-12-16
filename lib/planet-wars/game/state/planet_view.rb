@@ -7,7 +7,7 @@ class PlanetView < Chingu::GameState
     @instructions = Text.new("(Enter) Back, 1. Build Base", x: 10, size: 25)
     @name   = Text.new("#{@planet.name}", x: 10, y: 50, size: 25)
     @base   = Text.new('', x: 10, y: 120, size: 25)
-    @details= Text.new('', x: 10, y: 140, size: 25)
+    @details= Text.new('', x: 10, y: 150, size: 25)
 
     @clone  = @planet.clone
     @clone.x = @clone.width+20
@@ -39,10 +39,6 @@ class PlanetView < Chingu::GameState
   end
 
   def key_check
-    if button_down?(Gosu::KbReturn) or button_down?(Gosu::KbEnter)
-      push_game_state(previous_game_state, setup: false) if @tick >= 30
-    end
-
     if button_down?(Gosu::Kb1)
       if @planet.habitable && @ship.gold >= 200
         @ship.gold-=200 unless @planet.base.is_a?(Base)
@@ -76,7 +72,16 @@ class PlanetView < Chingu::GameState
     $window.button_down?(id)
   end
 
+  def button_up(id)
+    case id
+    when Gosu::KbReturn
+      push_game_state(previous_game_state, setup: false) if @tick >= 30
+    when Gosu::KbEnter
+      push_game_state(previous_game_state, setup: false) if @tick >= 30
+    end
+  end
+
   def created_base
-    Base.new(@planet, x: @planet.x, y: @planet.y)
+    Base.create(ship: @ship, planet: @planet, x: @planet.x, y: @planet.y)
   end
 end

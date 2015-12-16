@@ -4,6 +4,8 @@ class EnemyAI < AI
   end
 
   def update
+    @tick+=1
+
     case state
     when :seek
       seek
@@ -33,30 +35,30 @@ class EnemyAI < AI
   def attack
     move(game_object.target)
 
-    if game_object.tick >= 60
-      game_object.tick = 0
+    if @tick >= 60
+      @tick = 0
       game_object.fire_bullet!
     end
 
-    game_object.tick += 1
+    @tick += 1
   end
 
   def retreat
     @portal = game_object.find_closest(Portal) unless defined?(@portal) # Don't change destination
 
     @portal.despawn(true)
-    if game_object.x.between?(@portal.x-12.0, @portal.x+12.0)
-      if game_object.y.between?(@portal.y-12.0, @portal.y+12.0)
+    if game_object.x.between?(@portal.x.to_f   - 12.0, @portal.x.to_f + 12.0)
+      if game_object.y.between?(@portal.y.to_f - 12.0, @portal.y.to_f + 12.0)
         game_object.despawn(@portal)
       end
     end
 
-    if game_object.tick >= 60
-      game_object.tick = 0
+    if @tick >= 60
+      @tick = 0
       game_object.fire_bullet! if game_object.target_area.in_range
     end
 
-    game_object.tick += 1
+    @tick += 1
     move(@portal)
   end
 end

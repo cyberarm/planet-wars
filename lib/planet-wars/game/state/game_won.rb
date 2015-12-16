@@ -2,8 +2,8 @@ class GameWon < Chingu::GameState
   trait :timer
 
   def setup
-    @text = Text.new("Game Won", size: 200, color: Gosu::Color::BLACK)
-    @time = Text.new("You survived for: #{GameInfo::Config.game_time_processed.strftime('%H hours, %M minutes, %S seconds.')}", size: 38, color: Gosu::Color::BLACK)
+    @text = Text.new("Game Won", size: 150, color: Gosu::Color::BLACK)
+    @time = Text.new("You survived for: #{GameInfo::Config.game_time_processed.strftime('%H hours, %M minutes, %S seconds.')}", size: 28, color: Gosu::Color::BLACK)
 
     @text.x = $window.width/2-@text.width/2
     @text.y = $window.height/2

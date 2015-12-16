@@ -46,14 +46,14 @@ class Credits < GameUI
     size = 30
     data = AssetManager.credits_data
 
-    @text << PWText.new(GameInfo::NAME, x: x, y: $window.height/2-40, size: 100)
+    @text << PWText.new(GameInfo::NAME, x: x, y: $window.height/2-40, size: 75)
 
     @text << PWText.new("People", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
     y+=size
     data['credits']['people'].each do |person|
       @text << PWText.new(person['job'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(person['name'], x: x, y: y, size: size)
+      @text << PWText.new(person['name'], x: x, y: y, size: size-7)
       y+=size
       y+=size
     end
@@ -64,9 +64,9 @@ class Credits < GameUI
     data['credits']['sprites'].each do |artist|
       @text << PWText.new(artist['sprite'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(artist['name'], x: x, y: y, size: size)
+      @text << PWText.new(artist['name'], x: x, y: y, size: size-7)
       y+=size
-      @text << PWText.new(artist['license'], x: x, y: y, size: size)
+      @text << PWText.new(artist['license'], x: x, y: y, size: size-10)
       y+=size
       y+=size
     end
@@ -77,9 +77,9 @@ class Credits < GameUI
     data['credits']['music'].each do |song|
       @text << PWText.new(song['name'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(song['composer'], x: x, y: y, size: size)
+      @text << PWText.new(song['composer'], x: x, y: y, size: size-7)
       y+=size
-      @text << PWText.new(song['license'], x: x, y: y, size: size)
+      @text << PWText.new(song['license'], x: x, y: y, size: size-10)
       y+=size
       y+=size
     end
@@ -90,9 +90,9 @@ class Credits < GameUI
     data['credits']['fonts'].each do |font|
       @text << PWText.new(font['font'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(font['name'], x: x, y: y, size: size)
+      @text << PWText.new(font['name'], x: x, y: y, size: size-7)
       y+=size
-      @text << PWText.new(font['license'], x: x, y: y, size: size)
+      @text << PWText.new(font['license'], x: x, y: y, size: size-10)
       y+=size
       y+=size
     end
@@ -103,9 +103,9 @@ class Credits < GameUI
     data['credits']['libraries'].each do |font|
       @text << PWText.new(font['name'], x: x, y: y, size: size)
       y+=size
-      @text << PWText.new(font['author'], x: x, y: y, size: size)
+      @text << PWText.new(font['author'], x: x, y: y, size: size-7)
       y+=size
-      @text << PWText.new(font['license'], x: x, y: y, size: size)
+      @text << PWText.new(font['license'], x: x, y: y, size: size-10)
       y+=size
       y+=size
     end
