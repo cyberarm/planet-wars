@@ -55,7 +55,7 @@ if (Time.now.utc - Time.parse(ConfigManager.config['update_check'])) > 60*30 # c
     begin # version check
     # Github API v3
     puts "Checking for updates..."
-    request = Excon.get("https://api.github.com/repos/cyberarm/planet-wars/releases", tcp_nodelay: true, nonblock: true)
+    request = Excon.get("https://api.github.com/repos/cyberarm/planet-wars/releases", nonblock: true)
     data = Oj.load(request.body)[0]
     if data
       if data['name'] > GameInfo::VERSION

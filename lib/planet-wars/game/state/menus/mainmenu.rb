@@ -31,6 +31,20 @@ class MainMenu < GameUI
     end
   end
 
+  def update
+    super
+    if $latest_release_data
+      if $window.button_down?(Gosu::MsLeft)
+        if $window.mouse_x.between?(100, 100+@image_l.width)
+          if $window.mouse_y.between?($window.height-100, $window.height-100+@image_l.height)
+            p $latest_release_data
+            Launchy.open($latest_release_data["html_url"])
+          end
+        end
+      end
+    end
+  end
+
   def draw
     super
     if $latest_release_data
