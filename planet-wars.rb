@@ -7,6 +7,7 @@ require "securerandom"
 require "texplay"
 require "oj"
 require "excon"
+require "launchy"
 require "time"
 
 require_all "lib/planet-wars/errors"

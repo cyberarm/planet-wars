@@ -9,6 +9,7 @@ gem "ashton", github: "Spooner/ashton"
 gem "chroma"
 gem "oj"
 gem "excon"
+gem "launchy"
 
 group :package do
   # gem "releasy" # Uncomment when building executable
