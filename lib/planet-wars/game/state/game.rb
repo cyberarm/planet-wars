@@ -16,9 +16,10 @@ class Game < Chingu::GameState
     # set controls
     self.input = {
       [:m] => :mute,
-      [:enter, :return] => :enter,
+      [:enter, :return, :gp_3] => :enter,
       [:escape, :gp_6] => :escape,
-      [:p, :gp_7] => :pause_game,
+      [:p, :gp_4] => :pause_game,
+      [:gp_2] => :upgrades_menu,
       [:c] => :debugging_waves
     }
 
@@ -122,6 +123,7 @@ class Game < Chingu::GameState
   end
 
   def enter
+    # TODO: Change each to first
     Planet.each_bounding_circle_collision(@ship) do |planet, ship|
       push_game_state(PlanetView.new(planet: planet))
     end
@@ -136,16 +138,14 @@ class Game < Chingu::GameState
     end
   end
 
+  def upgrades_menu
+    push_game_state(ShipUpgrades)
+  end
+
   def debugging_waves
     puts "Enemies active: #{Enemy.all.count}"
     puts "GameInfo::Mode.wave_enemies_spawned: #{GameInfo::Mode.wave_enemies_spawned}"
     puts "GameInfo::Mode.wave_spawned? #{GameInfo::Mode.wave_spawned?}"
     puts "GameInfo::Mode.current_wave: #{GameInfo::Mode.current_wave}"
-  end
-
-  def button_up(id)
-    @ship.upgrade_speed if id == (Gosu::Kb1)
-    @ship.upgrade_boost_speed if id == (Gosu::Kb2)
-    @ship.upgrade_boost_capacity if id == (Gosu::Kb3)
   end
 end

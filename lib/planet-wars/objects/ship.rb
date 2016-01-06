@@ -25,10 +25,10 @@ class Ship < Chingu::GameObject
     @particle_img_boost = Gosu::Image["#{AssetManager.particles_path}/boost_exhaust.png"]
 
     self.input = {
-      [:space, :gp_0, :gp_5] => :fire_weapon,
-      [:holding_left_shift, :holding_right_shift, :holding_gp_4] => :boost_key,
-      [:holding_w,:holding_up, :holding_gp_up]       => :move_up,
-      [:holding_s,:holding_down, :holding_gp_down]   => :move_down,
+      [:space, :gp_0] => :fire_weapon,
+      [:holding_left_shift, :holding_right_shift, :holding_gp_1] => :boost_key,
+      [:holding_w,:holding_up, :holding_gp_10]       => :move_up,
+      [:holding_s,:holding_down, :holding_gp_9]   => :move_down,
       [:holding_a,:holding_left, :holding_gp_left]   => :move_left,
       [:holding_d,:holding_right, :holding_gp_right] => :move_right}
     self.zorder  = 301
