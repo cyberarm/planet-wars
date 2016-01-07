@@ -1,8 +1,14 @@
 class GameUI < Chingu::GameState
+  MousePosition = Struct.new(:x, :y)
   attr_accessor :selected
   def initialize(options={})
     super
     setup if defined?(setup)
+
+    # Sounds
+    @change = Gosu::Sample["#{AssetManager.sounds_path}/ui/change.ogg"]
+    @action = Gosu::Sample["#{AssetManager.sounds_path}/ui/action.ogg"]
+
 
     @options = options
     $window.show_cursor = true
@@ -18,7 +24,14 @@ class GameUI < Chingu::GameState
     @post_ui_create = true
     @released_left_mouse_button = false
     @released_return = false
+
     @selected = nil
+    @old_selected = nil
+
+    @mouse = MousePosition.new($window.mouse_x, $window.mouse_y)
+    @old_mouse = MousePosition.new($window.mouse_x, $window.mouse_y)
+    @mouse_tick=0
+    @first_passed=false
 
     title_text_object = Text.new("#{options[:title]}", x: 50, y: 20, font: options[:font], size: options[:title_size], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['title_color']))
     # title_text_object.x = $window.width/3
@@ -46,18 +59,25 @@ class GameUI < Chingu::GameState
   def update
     super
     process_ui
+    @mouse_tick+=1
 
     @rects.each do |rect|
-      if collision_with(rect) or rect == @selected
+      if (collision_with(rect) && mouse_updated?) or rect == @selected
         rect[:color]=rect[:hover_color]
         @selected = rect
         @tooltip.text = rect[:tooltip].to_s if defined?(rect[:tooltip])
         @tooltip.y    = rect[:y]+rect[:text][:object].height/2
+        unless @first_passed
+          @change.play unless @selected == @old_selected
+        end
+        @old_selected = @selected
 
         if collision_with(rect) && @released_left_mouse_button
           rect[:block].call
+          @action.play
         elsif @released_return
           rect[:block].call
+          @action.play
         end
       else
         rect[:color]=rect[:old_color]
@@ -70,6 +90,13 @@ class GameUI < Chingu::GameState
     @released_left_mouse_button = false
     @released_return = false
     @post_ui_create = false
+    @mouse.x = $window.mouse_x
+    @mouse.y = $window.mouse_y
+
+    if @mouse_tick >= 10
+      @mouse_tick = 0
+      @old_mouse = @mouse.dup
+    end
   end
 
   def button_up(id)
@@ -84,15 +111,34 @@ class GameUI < Chingu::GameState
 
     elsif id == Gosu::KbDown or id == Gosu::GpDown
       ui_select(:down)
+
+    elsif id == Gosu::GpButton1
+      go_back
     end
   end
 
   def collision_with(rect)
-    if $window.mouse_x.between?(rect[:x],rect[:x]+rect[:width]) && $window.mouse_y.between?(rect[:y],rect[:y]+rect[:height])
-      return true
-    else
-      return false
+    boolean = false
+    if @mouse.x.between?(rect[:x],rect[:x]+rect[:width]) && @mouse.y.between?(rect[:y],rect[:y]+rect[:height])
+      boolean = true
     end
+    return boolean
+  end
+
+  def mouse_updated?
+    boolean = false
+    if @mouse.x.between?(@old_mouse.x - 5, @old_mouse.x + 5)
+      if @mouse.y.between?(@old_mouse.y - 5, @old_mouse.y + 5)
+        boolean = false
+      else
+        boolean = true
+      end
+
+    else
+      boolean = true
+    end
+
+    return boolean
   end
 
   def button(text,options={}, &block)
@@ -161,7 +207,10 @@ class GameUI < Chingu::GameState
   end
 
   def post_ui_create
-    @selected = @rects.first if @post_ui_create
+    if @post_ui_create
+       @selected = @rects.first
+       @first_passed = true
+    end
   end
 
   def ui_select(method)
@@ -174,6 +223,7 @@ class GameUI < Chingu::GameState
       num = @rects.index(@selected)
       @selected = @rects[num-1] unless num == 0
       @selected = @rects[@rects.count-1] if num == 0
+      @change.play
 
     when :down
       num = @rects.index(@selected)
@@ -182,6 +232,8 @@ class GameUI < Chingu::GameState
       else
         @selected = @rects[num+1]
       end
+
+      @change.play
     end
   end
 
@@ -194,5 +246,12 @@ class GameUI < Chingu::GameState
     end
 
     return show
+  end
+
+  def go_back
+    if previous_game_state.class.to_s.end_with?("Menu")
+      push_game_state(previous_game_state)
+      @action.play
+    end
   end
 end

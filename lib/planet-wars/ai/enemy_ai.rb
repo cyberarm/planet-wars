@@ -47,10 +47,14 @@ class EnemyAI < AI
     @portal = game_object.find_closest(Portal) unless defined?(@portal) # Don't change destination
 
     @portal.despawn(true)
-    if game_object.x.between?(@portal.x - 12, @portal.x + 12)
-      if game_object.y.between?(@portal.y - 12, @portal.y + 12)
-        game_object.despawn(@portal)
+    begin
+      if game_object.x.between?(@portal.x-12.0, @portal.x+12.0)
+        if game_object.y.between?(@portal.y-12.0, @portal.y+12.0)
+          game_object.despawn(@portal)
+        end
       end
+    rescue ArgumentError => e
+      Logger.log("#{e} - #{game_object.x}|#{game_object.y}", self)
     end
 
     if @tick >= 60

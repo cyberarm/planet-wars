@@ -39,7 +39,11 @@ class MiniMapGenerator
     end
 
     @enemies.each do |enemy|
-      @image.pixel(enemy.x/100, enemy.y/100, color: @color_enemy)
+      begin
+        @image.pixel(enemy.x/100, enemy.y/100, color: @color_enemy)
+      rescue RangeError => e
+        Logger.log("#{e}", self)
+      end
     end
 
     @asteroids.each do |asteroid|

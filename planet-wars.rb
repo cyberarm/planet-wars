@@ -14,6 +14,7 @@ require_all "lib/planet-wars/errors"
 
 require_all "lib/planet-wars/game_info"
 require_relative "lib/planet-wars/version"
+require_relative "lib/planet-wars/logger"
 require_relative "lib/planet-wars/game_info"
 require_relative "lib/planet-wars/asset_manager"
 require_relative "lib/planet-wars/config_manager"
