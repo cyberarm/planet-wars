@@ -4,8 +4,6 @@ class EnemyAI < AI
   end
 
   def update
-    @tick+=1
-
     case state
     when :seek
       seek
@@ -35,12 +33,10 @@ class EnemyAI < AI
   def attack
     move(game_object.target)
 
-    if @tick >= 60
-      @tick = 0
-      game_object.fire_bullet!
+    if (Engine.now-@last_fired_at) >= 1000.0
+      @last_fired_at = Engine.now
+      game_object.fire_bullet! if game_object.target_area.in_range
     end
-
-    @tick += 1
   end
 
   def retreat
@@ -57,12 +53,11 @@ class EnemyAI < AI
       Logger.log("#{e} - #{game_object.x}|#{game_object.y}", self)
     end
 
-    if @tick >= 60
-      @tick = 0
+    if (Engine.now-@last_fired_at) >= 1000.0
+      @last_fired_at = Engine.now
       game_object.fire_bullet! if game_object.target_area.in_range
     end
 
-    @tick += 1
     move(@portal)
   end
 end

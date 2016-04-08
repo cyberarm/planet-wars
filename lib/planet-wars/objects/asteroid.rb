@@ -12,7 +12,7 @@ class Asteroid < Chingu::GameObject
     @image = Gosu::Image["#{AssetManager.asteroids_path}/#{File.basename(asteroid_images[random])}"]
     trait_options[:bounding_circle][:scale] = 0.8
     @health= 200
-    @speed = 5
+    @speed = 5*60
     @damage= 50
     @rotation = rand(-5..5)
     self.zorder = 300
@@ -22,8 +22,10 @@ class Asteroid < Chingu::GameObject
   end
 
   def update
-    rotate(@rotation)
+    rotation = (@rotation*60)*Engine.dt
+    rotate(rotation)
     check_for_collisions
+    update_velocity
     destroy_self?
   end
 
@@ -62,13 +64,18 @@ class Asteroid < Chingu::GameObject
   end
 
   def set_velocity
-      @dx = rand(-1500..1500) - self.x
-      @dy = rand(-1500..1500) - self.y
-      length = Math.sqrt( @dx*@dx + @dy*@dy )
-      @dx /= length; @dy /= length
-      @dx *= @speed; @dy *= @speed
-      self.velocity_x += @dx
-      self.velocity_y += @dy
+    @dx = rand(-1500..1500) - self.x
+    @dy = rand(-1500..1500) - self.y
+    length = Math.sqrt( @dx*@dx + @dy*@dy )
+    @dx /= length; @dy /= length
+  end
+
+  def update_velocity
+    dx, dy = @dx, @dy
+    speed = @speed*Engine.dt
+    dx *= speed; dy *= speed
+    self.velocity_x = dx
+    self.velocity_y = dy
   end
 
   def hit(damage, bullet)

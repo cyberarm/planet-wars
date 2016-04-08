@@ -109,22 +109,24 @@ class Ship < Chingu::GameObject
   end
 
   def mover
-    _x = @active_speed * Math.cos((90.0 + angle) * Math::PI / 180)
-    _y = @active_speed * Math.sin((90.0 + angle) * Math::PI / 180)
+    speed = (@speed*60)*Engine.dt
+    active_speed = (@active_speed*60)*Engine.dt
+    _x = active_speed * Math.cos((90.0 + angle) * Math::PI / 180)
+    _y = active_speed * Math.sin((90.0 + angle) * Math::PI / 180)
     self.x -= _x
     self.y -= _y
 
     if self.y >= @border[3]-@ship_size
-      self.y-=@speed
+      self.y-=speed
     end
     if self.x >= @border[1]-@ship_size
-      self.x-=@speed
+      self.x-=speed
     end
     if self.y <= @border[2]+@ship_size
-      self.y+=@speed
+      self.y+=speed
     end
     if self.x <= @border[0]+@ship_size
-      self.x+=@speed
+      self.x+=speed
     end
   end
 
@@ -179,10 +181,12 @@ class Ship < Chingu::GameObject
   end
 
   def move_left
-    self.angle-=(@rotaion_speed)
+    rotaion_speed = (@rotaion_speed*60)*Engine.dt
+    self.angle-=(rotaion_speed)
   end
 
   def move_right
-    self.angle+=(@rotaion_speed)
+    rotaion_speed = (@rotaion_speed*60)*Engine.dt
+    self.angle+=(rotaion_speed)
   end
 end

@@ -36,7 +36,7 @@ class GameHUD
   def update
     @clock_counter+=1
     if @clock_counter <= 60
-      @clock_time+=0.01667
+      @clock_time+=$window.dt/1000.0
       @clock_counter=0
     end
     @time = Time.at((@clock_time)).gmtime

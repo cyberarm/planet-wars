@@ -1,6 +1,6 @@
 class Enemy < Chingu::GameObject
   attr_accessor :move, :health, :target, :target_area, :speed, :dx, :dy
-  attr_reader :despawn
+  attr_reader :despawn, :old_gosu_time
 
   trait :effect
   trait :bounding_circle
@@ -9,7 +9,7 @@ class Enemy < Chingu::GameObject
   def setup
     self.zorder = 300
     self.alpha = 0
-    @speed = 2
+    @speed = 2*60
     @health= 60
     GameInfo::Mode.wave_enemies_spawned+=1
     @image = Gosu::Image["#{AssetManager.enemies_path}/enemy.png"]
@@ -33,7 +33,8 @@ class Enemy < Chingu::GameObject
     end
 
     if @despawn && @portal.alpha >= 255
-      self.alpha-=2
+      alpha = 120*Engine.dt
+      self.alpha-=alpha
       self.destroy if self.alpha <= 0
     end
 
@@ -41,17 +42,19 @@ class Enemy < Chingu::GameObject
   end
 
   def fire_bullet!
+    speed = @speed*Engine.dt
+
     dx = @target.x - self.x
     dy = @target.y - self.y
     length = Math.sqrt( dx*dx + dy*dy )
     dx /= length; dy /= length
-    dx *= @speed; dy *= @speed
+    dx *= speed; dy *= speed
 
-    velocity_x = dx*3#/100
-    velocity_y = dy*3#/100
+    velocity_x = dx*3
+    velocity_y = dy*3
 
     # distance   = Gosu.distance(self.x, self.y, @target.x, @target.y)
-    Bullet.create(x: self.x, y: self.y, z: 199, velocity_x: velocity_x, velocity_y: velocity_y) if @target_area.in_range && self.alpha >= 255
+    Bullet.create(x: self.x, y: self.y, z: 199, speed: @speed, velocity_x: velocity_x, velocity_y: velocity_y) if @target_area.in_range && self.alpha >= 255
   end
 
   def check_health

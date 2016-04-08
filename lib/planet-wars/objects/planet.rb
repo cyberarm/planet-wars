@@ -38,7 +38,7 @@ class Planet < Chingu::GameObject
     self.scale_out(rand(0.5..0.9))
     self.rotate(rand(120))
 
-    @rate = rand(-3.0..3.0)
+    @rate = rand(-3.0..3.0)*60
     @text = Text.new("", x: self.x-(self.width/4), y: self.y, zorder: 999, size: 20, color: AssetManager.theme_color(AssetManager.theme_data['hud']['planets']['habitable'])) if @habitable
     @text = Text.new("", x: self.x-(self.width/4), y: self.y, zorder: 999, size: 20, color: AssetManager.theme_color(AssetManager.theme_data['hud']['planets']['unhabitable'])) unless @habitable
 
@@ -46,7 +46,9 @@ class Planet < Chingu::GameObject
   end
 
   def rotate_self
-    self.rotate(@rate)
+    rate = @rate*Engine.dt
+
+    self.rotate(rate)
   end
 
   def draw

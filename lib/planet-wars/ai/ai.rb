@@ -5,8 +5,8 @@ class AI
   attr_accessor :game_object, :state, :tick
   def initialize(game_object)
     @game_object = game_object
-    @tick  = 0
     @state = :nil
+    @last_fired_at = Engine.now
     setup
   end
 
@@ -19,6 +19,7 @@ class AI
   end
 
   def move(object)
+    speed = game_object.speed*Engine.dt
     # TODO: Flock behavior
 
     game_object.dx = object.x - game_object.x
@@ -27,8 +28,8 @@ class AI
     length = Math.sqrt( game_object.dx*game_object.dx + game_object.dy*game_object.dy )
     game_object.dx /= length; game_object.dy /= length
 
-    game_object.dx *= game_object.speed
-    game_object.dy *= game_object.speed
+    game_object.dx *= speed
+    game_object.dy *= speed
 
     game_object.x += game_object.dx
     game_object.y += game_object.dy

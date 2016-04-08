@@ -1,12 +1,12 @@
 class Base < Chingu::BasicGameObject
   attr_accessor :x, :y
   def setup
-    @tick = 0
+    @last_harvest = Engine.now
     @ship = @options[:ship]
     @planet = @options[:planet]
     @cannon_range      = 250 # screen pixels
-    @cannon_tick       = 0
-    @show_cannon_tick  = 0
+    @cannon_last_fired = Engine.now
+    @cannon_last_shown = Engine.now
     @cannon_color      = Gosu::Color.rgb(rand(25..255), rand(25..255), rand(25..255))
     @target            = nil
 
@@ -15,43 +15,43 @@ class Base < Chingu::BasicGameObject
   end
 
   def update
-    if @tick >= 60
+    if (Engine.now-@last_harvest) >= 1000.0
       harvest
       regenerate
-      @tick = 0
+      @last_harvest = Engine.now
     end
 
-    fire_cannon if @cannon_tick >= 30
-
-    @tick+=1
-    @cannon_tick+=1
-    @show_cannon_tick+=1
+    fire_cannon if Engine.now-@cannon_last_fired >= 500.0
   end
 
   def draw
-    line(@target) if @target && @show_cannon_tick <= 15
+    line(@target) if @target && Engine.now-@cannon_last_shown <= 250.0
   end
 
   def harvest
-    if @planet.diamond >= 1.0
-      @ship.diamond+=1 unless @planet.diamond <= 0
-      @planet.diamond-=1 unless @planet.diamond <= 0
+    diamond = 60*Engine.dt
+    gold    = 600*Engine.dt
+    oil     = 600*Engine.dt
+
+    if @planet.diamond >= diamond
+      @ship.diamond+=diamond unless @planet.diamond <= 0
+      @planet.diamond-=diamond unless @planet.diamond <= 0
     else
       @ship.diamond+=@planet.diamond unless @planet.diamond <= 0
       @planet.diamond-=@planet.diamond unless @planet.diamond <= 0
     end
 
-    if @planet.gold >= 10.0
-      @ship.gold+=10 unless @planet.gold <= 0
-      @planet.gold-=10 unless @planet.gold <= 0
+    if @planet.gold >= gold
+      @ship.gold+=gold unless @planet.gold <= 0
+      @planet.gold-=gold unless @planet.gold <= 0
     else
       @ship.gold+=@planet.gold unless @planet.gold <= 0
       @planet.gold-=@planet.gold unless @planet.gold <= 0
     end
 
-    if @planet.oil >= 10.0
-      @ship.oil+=10 unless @planet.oil<= 0
-      @planet.oil-=10 unless @planet.oil<= 0
+    if @planet.oil >= oil
+      @ship.oil+=oil unless @planet.oil<= 0
+      @planet.oil-=oil unless @planet.oil<= 0
     else
       @ship.oil+=@planet.oil unless @planet.oil <= 0
       @planet.oil-=@planet.oil unless @planet.oil <= 0
@@ -59,19 +59,19 @@ class Base < Chingu::BasicGameObject
   end
 
   def regenerate
-    @planet.diamond+=rand(0.1..0.3)
-    @planet.gold+=rand(0.4..1.0)
-    @planet.oil+=rand(0.5..2.0)
+    @planet.diamond+=(rand(0.1..0.3)*60)*Engine.dt
+    @planet.gold+=(rand(0.4..1.0)*60)*Engine.dt
+    @planet.oil+=(rand(0.5..2.0)*60)*Engine.dt
   end
 
   def fire_cannon
     # Get targetable objects
     # prefer Enemy to Asteroid
-    @cannon_tick = 0
+    @cannon_last_fired = Engine.now
     Enemy.all.detect.each do |e|
       if Gosu.distance(self.x, self.y, e.x, e.y) <= @cannon_range
         @target = e
-        @show_cannon_tick = 0
+        @cannon_last_shown = Engine.now
         @target.hit(5, self)
         return true
       end
@@ -81,7 +81,7 @@ class Base < Chingu::BasicGameObject
       Asteroid.all.detect.each do |e|
         if Gosu.distance(self.x, self.y, e.x, e.y) <= @cannon_range
           @target = e
-          @show_cannon_tick = 0
+          @cannon_last_shown = Engine.now
           @target.hit(15, self)
           return true
         end

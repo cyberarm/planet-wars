@@ -1,7 +1,15 @@
 class Engine < Chingu::Window
   attr_accessor :show_cursor
 
-  def initialize
+  def self.now
+    Gosu.milliseconds
+  end
+
+  def self.dt
+    $window.dt/1000.0
+  end
+
+  def initialize(width = 800, height = 600, fullscreen = false, update_interval = 1000.0/60)
     @show_cursor = false
     width = Gosu.screen_width if ConfigManager.config["screen"]["width"] == 'max'
     width = ConfigManager.config["screen"]["width"] if ConfigManager.config["screen"]["width"].is_a?(Integer)
@@ -9,7 +17,7 @@ class Engine < Chingu::Window
     height= Gosu.screen_height if ConfigManager.config["screen"]["height"] == 'max'
     height= ConfigManager.config["screen"]["height"] if ConfigManager.config["screen"]["height"].is_a?(Integer)
 
-    super(width, height, ConfigManager.config["screen"]["fullscreen"])
+    super(width, height, ConfigManager.config["screen"]["fullscreen"], update_interval)
     self.caption = "#{GameInfo::NAME} #{GameInfo::VERSION} [build: #{BUILD}] #{Gosu.language}"
     AssetManager.preload_assets if ARGV.join.include?('--debug')
 
@@ -30,6 +38,8 @@ class Engine < Chingu::Window
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton13] = [:gp_13]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton14] = [:gp_14]
     Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton15] = [:gp_15]
+
+    Logger.log("Window: width: #{width}, height: #{height}, fullscreen: #{fullscreen}, update_interval: #{update_interval}", self)
 
     push_game_state(Boot) unless ARGV.join.include?('--debug')
     push_game_state(Game) if ARGV.join.include?('--debug')

@@ -27,6 +27,7 @@ class BoostBar < Chingu::GameObject
   end
 
   def calc_boost_percent
-    @ship.boost * 300.0 / 1000.0 * 30.0 / 100.0
+    # @ship.boost * 300.0 / 1000.0 * 30.0 / 100.0
+    ((@ship.boost/@ship.max_boost.to_f)*100.0*30.0) / 100.0
   end
 end

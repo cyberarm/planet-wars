@@ -9,6 +9,7 @@ class Portal < Chingu::GameObject
     @image = Gosu::Image["#{AssetManager.portal_path}/portal.png"]
     self.alpha = 0
     self.scale = 0.6
+    @fade_speed = 3*60
 
     every(1500) do
       spawn_enemy
@@ -28,8 +29,10 @@ class Portal < Chingu::GameObject
 
   def update
     if @ready
-      fade_out(3) unless @spawn or @despawn
-      fade_in(3) if @spawn or @despawn
+      fade_speed = @fade_speed*Engine.dt
+
+      fade_out(fade_speed) unless @spawn or @despawn
+      fade_in(fade_speed) if @spawn or @despawn
     end
 
     if Time.now-GameInfo::Config.game_time > 10

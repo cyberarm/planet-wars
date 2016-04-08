@@ -8,24 +8,39 @@ class Bullet < Chingu::GameObject
     @image = Gosu::Image[AssetManager.bullets_path+'/bullet.png']
     Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play if ConfigManager.config["sounds"]
     @ship  = @options[:ship]
-    @speed = 10
+    @speed = 10*60
     @damage=10.0
     @dead  = false
+
     set_velocity
   end
 
   def update
-    self.alpha-=2
+    alpha = 120*Engine.dt
+    damage = (0.04*60)*Engine.dt
+    self.alpha-=alpha
     self.die if alpha <= 0
-    @damage-=0.04
+    @damage-=damage
     check_collisions
+    update_velocity
+  end
+
+  def update_velocity
+    if @ship && @direction
+      speed = @speed*Engine.dt
+
+      self.velocity_x = speed*Math.cos(@direction)
+      self.velocity_y = speed*Math.sin(@direction)
+    end
   end
 
   def set_velocity
     if @ship
-      direction = (@ship.angle - 90.0) * (Math::PI / 180.0)
-      self.velocity_x = @speed*Math.cos(direction)
-      self.velocity_y = @speed*Math.sin(direction)
+      speed = @speed*Engine.dt
+
+      @direction = (@ship.angle - 90.0) * (Math::PI / 180.0)
+      self.velocity_x = speed*Math.cos(@direction)
+      self.velocity_y = speed*Math.sin(@direction)
     end
   end
 

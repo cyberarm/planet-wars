@@ -19,7 +19,7 @@ class Game < Chingu::GameState
       [:enter, :return, :gp_3] => :enter,
       [:escape, :gp_6] => :escape,
       [:p, :gp_4] => :pause_game,
-      [:gp_2] => :upgrades_menu,
+      [:u, :gp_2] => :upgrades_menu,
       [:c] => :debugging_waves
     }
 
