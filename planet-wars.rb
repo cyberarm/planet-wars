@@ -1,6 +1,6 @@
 require "bundler/setup"
-Bundler.require(:default)
 require "chingu"
+require "chroma"
 require "ashton"
 require "humanize"
 require "securerandom"
