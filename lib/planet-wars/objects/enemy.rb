@@ -23,7 +23,7 @@ class Enemy < Chingu::GameObject
 
   def update
     self.alpha+=2 unless @despawn
-    rotate(rand(0.0..1.0))
+    look_at(@target) if @target
 
     @ai.update
     if self.alpha >= 255 && !@despawn
@@ -50,11 +50,9 @@ class Enemy < Chingu::GameObject
     dx /= length; dy /= length
     dx *= speed; dy *= speed
 
-    velocity_x = dx*3
-    velocity_y = dy*3
-
     # distance   = Gosu.distance(self.x, self.y, @target.x, @target.y)
-    Bullet.create(x: self.x, y: self.y, z: 199, speed: @speed, velocity_x: velocity_x, velocity_y: velocity_y) if @target_area.in_range && self.alpha >= 255
+    _angle = ((Math.atan2(dy, dx) * 180) / Math::PI) + 90 # Black magic
+    Bullet.create(x: self.x, y: self.y, z: 199, host_angle: _angle, created_by: self) if @target_area.in_range && self.alpha >= 255
   end
 
   def check_health
@@ -102,5 +100,8 @@ class Enemy < Chingu::GameObject
     end
 
     return best_object
+  end
+
+  def look_at(vector)
   end
 end

@@ -158,7 +158,7 @@ class Ship < Chingu::GameObject
   end
 
   def fire_weapon
-    Bullet.create(x: self.x, y: self.y, z: 199, ship: self, created_by_enemy: false)
+    Bullet.create(x: self.x, y: self.y, z: 199, host_angle: self.angle, created_by: self)
     GameInfo::Config.bullet_shot
   end
 

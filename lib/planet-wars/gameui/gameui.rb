@@ -68,16 +68,16 @@ class GameUI < Chingu::GameState
         @tooltip.text = rect[:tooltip].to_s if defined?(rect[:tooltip])
         @tooltip.y    = rect[:y]+rect[:text][:object].height/2
         unless @first_passed
-          @change.play unless @selected == @old_selected
+          @change.play unless (@selected == @old_selected) && !muted
         end
         @old_selected = @selected
 
         if collision_with(rect) && @released_left_mouse_button
           rect[:block].call
-          @action.play
+          @action.play unless muted
         elsif @released_return
           rect[:block].call
-          @action.play
+          @action.play unless muted
         end
       else
         rect[:color]=rect[:old_color]
@@ -223,7 +223,7 @@ class GameUI < Chingu::GameState
       num = @rects.index(@selected)
       @selected = @rects[num-1] unless num == 0
       @selected = @rects[@rects.count-1] if num == 0
-      @change.play
+      @change.play unless muted
 
     when :down
       num = @rects.index(@selected)
@@ -233,7 +233,7 @@ class GameUI < Chingu::GameState
         @selected = @rects[num+1]
       end
 
-      @change.play
+      @change.play unless muted
     end
   end
 
@@ -251,7 +251,11 @@ class GameUI < Chingu::GameState
   def go_back
     if previous_game_state.class.to_s.end_with?("Menu")
       push_game_state(previous_game_state)
-      @action.play
+      @action.play unless muted
     end
+  end
+
+  def muted
+    !ConfigManager.play_sounds?
   end
 end

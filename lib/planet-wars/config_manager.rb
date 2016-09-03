@@ -27,4 +27,28 @@ module ConfigManager
       refresh_config unless yaml == ""
     end
   end
+
+  def self.play_sounds?
+    @config_data['sounds']
+  end
+
+  def self.play_music?
+    @config_data['music']
+  end
+
+  def self.enable_hazards?
+    @config_data['hazards']
+  end
+
+  def self.fullscreen?
+    @config_data['screen']['fullscreen']
+  end
+
+  def self.screen_width
+    @config_data['screen']['width']
+  end
+
+  def self.screen_height
+    @config_data['screen']['height']
+  end
 end
