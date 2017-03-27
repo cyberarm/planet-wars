@@ -1,9 +1,9 @@
 ---
 config:
-  update_check: 2016-09-03 12:57:49 UTC
+  update_check: 2017-03-27 02:34:39 UTC
   asset_pack: default
-  music: false
-  sounds: false
+  music: true
+  sounds: true
   hazards: true
   screen:
     width: max
