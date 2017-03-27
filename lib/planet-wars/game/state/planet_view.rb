@@ -4,10 +4,10 @@ class PlanetView < Chingu::GameState
     @planet = @options[:planet]
     @planet.text.text = ''
     @tick = 0 # Prevent jumping from Game to Here back to Game immediately
-    @instructions = Text.new("(Enter|Y) Back, (B|B) Build Base", x: 10, size: 25)
-    @name   = Text.new("#{@planet.name}", x: 10, y: 50, size: 25)
-    @base   = Text.new('', x: 10, y: 120, size: 25)
-    @details= Text.new('', x: 10, y: 150, size: 25)
+    @instructions = Text.new("(Enter|Y) Back, (B|B) Build Base", x: 10, size: 25, z: 10_000)
+    @name   = Text.new("#{@planet.name}", x: 10, y: 50, size: 25, z: 10_000)
+    @base   = Text.new('', x: 10, y: 120, size: 25, z: 10_000)
+    @details= Text.new('', x: 10, y: 150, size: 25, z: 10_000)
 
     @clone  = @planet.clone
     @clone.x = @clone.width+20
@@ -22,7 +22,8 @@ class PlanetView < Chingu::GameState
 
   def draw
     super
-    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color']))
+    previous_game_state.draw
+    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color'], 200), 9_999)
     @clone.draw
     @instructions.draw
     @name.draw

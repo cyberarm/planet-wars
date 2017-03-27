@@ -15,8 +15,8 @@ class GameUpgradeHUD
   end
 
   def update
-    @upgrade_speed_text.text = "1. Speed: #{@ship.speed}"
-    @upgrade_boost_text.text = "2. Boost Speed: #{@ship.boost_speed}"
-    @upgrade_boosc_text.text = "3. Boost Capacity: #{@ship.max_boost}"
+    @upgrade_speed_text.text = "Speed: #{@ship.speed}/#{@ship.lock_speed}"
+    @upgrade_boost_text.text = "Boost Speed: #{@ship.boost_speed}/#{@ship.lock_boost_speed}"
+    @upgrade_boosc_text.text = "Boost Capacity: #{@ship.max_boost}/#{@ship.lock_max_boost}"
   end
 end

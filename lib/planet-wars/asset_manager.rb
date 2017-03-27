@@ -73,19 +73,19 @@ module AssetManager
     @theme_data = Psych.load_file("#{path}/assets/#{asset_pack}/data/theme.yml")
   end
 
-  def self.theme_color(named_color)
+  def self.theme_color(named_color, alpha=255)
     color = Chroma.paint(named_color).rgb
-    return Gosu::Color.rgb(color.r, color.g, color.b)
+    return Gosu::Color.rgba(color.r, color.g, color.b, alpha)
   end
 
-  def self.theme_color_inverse(named_color)
+  def self.theme_color_inverse(named_color, alpha=255)
     case
     when Chroma.paint(named_color).dark?
       color = Chroma.paint(named_color).lighten(50).rgb
     when Chroma.paint(named_color).light?
       color = Chroma.paint(named_color).darken(50).rgb
     end
-    return Gosu::Color.rgb(color.r, color.g, color.b)
+    return Gosu::Color.rgba(color.r, color.g, color.b, alpha)
   end
 
   def self.preload_assets

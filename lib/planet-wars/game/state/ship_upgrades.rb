@@ -2,10 +2,10 @@ class ShipUpgrades < Chingu::GameState
   def setup
     @ship = Ship.all.first
 
-    @instructions = Text.new("(Enter|X) Back, (1|A) Upgrade Speed, (2|B) Upgrade Boost Speed, (3|Y) Upgrade Boost Capacity", x: 10, size: 25)
-    @costs = Text.new("Speed: 200 Gold, Boost Speed: 100 Gold, Boost Capacity: 100 Gold", x: 10, y: 40, size: 25)
-    @current = Text.new("Speed: #{@ship.speed}, Boost Speed: #{@ship.boost_speed}, Boost Capacity: #{@ship.max_boost}", x: 10, y: 80, size: 25)
-    @resources = Text.new("Your Gold: #{@ship.gold}", x: 10, size: 25, y: 120)
+    @instructions = Text.new("(Enter|X) Back, (1|A) Upgrade Speed, (2|B) Upgrade Boost Speed, (3|Y) Upgrade Boost Capacity", x: 10, size: 25, z: 10_000)
+    @costs = Text.new("Speed: 200 Gold, Boost Speed: 100 Gold, Boost Capacity: 100 Gold", x: 10, y: 40, size: 25, z: 10_000)
+    @current = Text.new("Speed: #{@ship.speed}, Boost Speed: #{@ship.boost_speed}, Boost Capacity: #{@ship.max_boost}", x: 10, y: 80, size: 25, z: 10_000)
+    @resources = Text.new("Your Gold: #{@ship.gold}", x: 10, size: 25, y: 120, z: 10_000)
     @tick = 0
 
     self.input = {
@@ -18,7 +18,8 @@ class ShipUpgrades < Chingu::GameState
 
   def draw
     super
-    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color']))
+    previous_game_state.draw
+    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color'], 200), 9_999)
     @instructions.draw
     @costs.draw
     @current.draw

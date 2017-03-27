@@ -39,11 +39,12 @@ require_all "lib/planet-wars/game/state/helpers"
 
 require_relative "lib/planet-wars/game/state/boot"
 require_relative "lib/planet-wars/game/state/game"
-require_relative "lib/planet-wars/game/state/netgame"
 require_relative "lib/planet-wars/game/state/gameover"
 require_relative "lib/planet-wars/game/state/game_won"
 require_relative "lib/planet-wars/game/state/planet_view"
 require_relative "lib/planet-wars/game/state/ship_upgrades"
+
+require_relative "lib/planet-wars/net/state/net_game"
 
 require_all "lib/planet-wars/game/state/menus"
 

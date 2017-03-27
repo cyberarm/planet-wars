@@ -5,7 +5,7 @@ class Ship < Chingu::GameObject
   trait :collision_detection
 
   attr_accessor :boost, :max_boost, :health, :max_health, :dead, :speed, :boost_speed, :diamond, :gold, :oil
-  attr_reader   :active_speed, :ship_size, :border
+  attr_reader   :active_speed, :lock_speed, :lock_max_boost, :lock_boost_speed, :ship_size, :border
 
   def setup
     @moving      = false
@@ -83,7 +83,8 @@ class Ship < Chingu::GameObject
 
   def health_check
     if @health <= 30
-      NotificationManager.add("Low Health", Gosu::Color::RED, 30) unless @warning
+      # NotificationManager.add("Low Health", Gosu::Color::RED, 30) unless @warning
+      GameHUD.message("Low Health", Gosu::Color::RED)
     end
 
     if @health <= 0
@@ -140,20 +141,26 @@ class Ship < Chingu::GameObject
   # Key checks
   def upgrade_speed
     if Base.all.count > 0 && self.gold >= 200
-      @old_speed+=1 unless @old_speed >= @lock_speed
-      self.gold-=200 unless @old_speed >= @lock_speed
+      unless @old_speed >= @lock_speed
+        @old_speed+=1
+        self.gold-=200
+      end
     end
   end
   def upgrade_boost_speed
     if Base.all.count > 0 && self.gold >= 100
-      @boost_speed+=1 unless @boost_speed >= @lock_boost_speed
-      self.gold-=100 unless @max_boost >= @lock_max_boost
+      unless @boost_speed >= @lock_boost_speed
+        @boost_speed+=1
+        self.gold-=100
+      end
     end
   end
   def upgrade_boost_capacity
     if Base.all.count > 0 && self.gold >= 100
-      @max_boost+=50 unless @max_boost >= @lock_max_boost
-      self.gold-=100 unless @max_boost >= @lock_max_boost
+      unless @max_boost >= @lock_max_boost
+        @max_boost+=50
+        self.gold-=100
+      end
     end
   end
 

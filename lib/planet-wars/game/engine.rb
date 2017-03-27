@@ -41,8 +41,12 @@ class Engine < Chingu::Window
 
     Logger.log("Window: width: #{width}, height: #{height}, fullscreen: #{fullscreen}, update_interval: #{update_interval}", self)
 
-    push_game_state(Boot) unless ARGV.join.include?('--debug')
-    push_game_state(Game) if ARGV.join.include?('--debug')
+    if ARGV.join.include?('--net')
+      push_game_state(NetGame)
+    else
+      push_game_state(Boot) unless ARGV.join.include?('--debug')
+      push_game_state(Game) if ARGV.join.include?('--debug')
+    end
   end
 
   def needs_cursor?

@@ -1,5 +1,6 @@
 class GameHUD
-  attr_reader :time, :clock_time
+  attr_reader :time, :clock_time, :message
+  attr_accessor :message_tick
 
   def initialize
     GameHUD.instance=self
@@ -10,7 +11,9 @@ class GameHUD
     @clock_counter= 0
     @clock_text   = Text.new('', x: $window.width/2, size: 20)
     @game_message = Text.new('', y: $window.height/2-150, size: 70)
+    @message = Text.new('', y: $window.height/2+150, size: 70)
     @message_tick = 0
+    @game_message_tick = 0
     @minimap      = MiniMap.new
     @boost_bar    = BoostBar.new
     @health_bar   = HealthBar.new
@@ -24,6 +27,13 @@ class GameHUD
     @instance = _instance
   end
 
+  def self.message(text, color)
+    GameHUD.instance.message.text = "#{text}"
+    GameHUD.instance.message.color= color
+    GameHUD.instance.message.x    = $window.width/2-GameHUD.instance.message.width/2
+    GameHUD.instance.message_tick = 0
+  end
+
   def draw
     @clock_text.draw
     @boost_bar.draw
@@ -31,6 +41,7 @@ class GameHUD
     @minimap.draw
     @notifications.draw
     @game_message.draw
+    @message.draw
   end
 
   def update
@@ -48,15 +59,21 @@ class GameHUD
     @boost_bar.update
     @notifications.update
     game_message_update
+
+    if @message_tick >= 10
+      @message.text = ''
+    end
+
+    @message_tick+=1
   end
 
   def game_message_update
-    @message_tick+=1
-    if @message_tick >= 60*2
+    @game_message_tick+=1
+    if @game_message_tick >= 60*2
       @game_message.text=""
-      if @message_tick >= 12
+      if @game_message_tick >= 12
         if GameInfo::Mode.current_wave > @current_wave
-          @message_tick = 0
+          @game_message_tick = 0
           game_message_show
           @current_wave = GameInfo::Mode.current_wave
         end

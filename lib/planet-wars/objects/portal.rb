@@ -71,7 +71,7 @@ class Portal < Chingu::GameObject
       GameInfo::Mode.wave_spawned = true if Enemy.all.count >= GameInfo::Config.number_of_enemies
       true
     elsif GameInfo::Mode.wave_spawned? && Enemy.all.count <= 0
-        GameInfo::Mode.current_wave+=1 # ISSUE: #44 found.
+        GameInfo::Mode.current_wave+=1
         GameInfo::Mode.wave_enemies_spawned = 0
         GameInfo::Mode.wave_spawned = false
         true

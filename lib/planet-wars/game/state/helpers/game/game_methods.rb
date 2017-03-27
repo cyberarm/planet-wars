@@ -3,7 +3,7 @@ module GameMethods
     @fps = fps_text
     fps = $window.fps
     @fps.text = "FPS: #{fps}"
-    if fps >= 60
+    if fps >= 59
       @fps.color = Gosu::Color::WHITE
     end
     if fps <= 57
