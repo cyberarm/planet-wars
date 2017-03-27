@@ -33,7 +33,6 @@ class Bullet < Chingu::GameObject
 
   def update_velocity
     speed = @speed*Engine.dt
-    p speed if @created_by.is_a?(Enemy)
 
     self.velocity_x = speed*Math.cos(@direction)
     self.velocity_y = speed*Math.sin(@direction)
