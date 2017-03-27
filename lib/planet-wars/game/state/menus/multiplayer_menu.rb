@@ -5,7 +5,7 @@ class MultiPlayerMenu < GameUI
     button "Online Multiplayer", tooltip: 'play the game with friends (Unavailable)' do
       puts "Functional Multiplayer is Not Available with this build."
       # push_game_state(OnlineMultiPlayerMenu)
-      push_game_state(NetGame)
+      # push_game_state(NetGame)
     end
 
     button "Deathmatch", tooltip: 'Play against an AI ship (Unavailable)' do

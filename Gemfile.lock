@@ -17,16 +17,13 @@ GEM
       gosu (>= 0.7.45)
     chroma (0.1.0)
     excon (0.55.0)
-    gosu (0.11.3.1-x64-mingw32)
     gosu (0.11.3.1-x86-mingw32)
     humanize (1.3.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    msgpack (1.1.0-x64-mingw32)
     msgpack (1.1.0-x86-mingw32)
     multi_json (1.12.1)
     oj (2.18.5)
-    opengl (0.10.0.pre1)
     opengl (0.10.0.pre1-x86-mingw32)
     public_suffix (2.0.5)
     rake (12.0.0)
@@ -35,7 +32,6 @@ GEM
       gosu (>= 0.7.25)
 
 PLATFORMS
-  x64-mingw32
   x86-mingw32
 
 DEPENDENCIES
