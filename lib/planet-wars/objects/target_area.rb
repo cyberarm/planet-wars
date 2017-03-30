@@ -1,17 +1,14 @@
 class TargetArea < Chingu::GameObject
-  trait :bounding_circle
   trait :collision_detection
 
-  attr_reader :in_range
+  attr_reader :in_range, :radius
 
   def setup
     @owner     = @options[:owner]
     @target    = @options[:target]
     @size      = @options[:size]
     @in_range  = false
-    @image     = TexPlay.create_image($window, 10, 10, color: Gosu::Color.argb(0,0,0,0))
-    self.scale = @size if @size
-    self.scale = 100.0 unless @size
+    @radius    = 1000
   end
 
   def update

@@ -8,7 +8,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.5.0)
+    addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
     ashton (0.1.6)
       gosu
@@ -28,8 +28,6 @@ GEM
     public_suffix (2.0.5)
     rake (12.0.0)
     renet (0.2.2)
-    texplay (0.4.4.pre)
-      gosu (>= 0.7.25)
 
 PLATFORMS
   x86-mingw32
@@ -47,7 +45,6 @@ DEPENDENCIES
   oj
   opengl (= 0.10.0.pre1)
   rake
-  texplay (~> 0.4.4.pre)
 
 BUNDLED WITH
    1.14.6

@@ -4,7 +4,7 @@ class Bullet < Chingu::GameObject
   trait :collision_detection
 
   def self.speed
-    10*40
+    10*45
   end
 
   def setup

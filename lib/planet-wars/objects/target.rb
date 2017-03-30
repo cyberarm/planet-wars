@@ -2,7 +2,7 @@ class Target < Chingu::GameObject
   trait :bounding_box
   trait :collision_detection
   def setup
-    @image = TexPlay.create_image($window,10,10)
+    @image = Gosu::Image.from_text("O", 10)
     @target= @options[:target]
     @tick  = 0
     self.x = @target.x

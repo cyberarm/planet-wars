@@ -1,5 +1,7 @@
 class MiniMapGenerator
   attr_reader :image
+  include Chingu::Helpers::GFX
+
   def initialize(area, planets, enemies, asteroid, ships)
     #area = [play area width, play area height]
     #objects = [Planets, Stars]
@@ -17,9 +19,6 @@ class MiniMapGenerator
     @color_ship = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['ship'])
 
     @color_background = background_color(AssetManager.theme_data['hud']['minimap']['background'])
-    @image   = TexPlay.create_image($window, area[0]/100, area[1]/100, color: @color_background)
-
-    generate_image
     return @image
   end
 
@@ -28,30 +27,32 @@ class MiniMapGenerator
     return Gosu::Color.rgba(color.r, color.g, color.b, 100)
   end
 
-  def generate_image
-    @planets.each do |planet|
+  def draw
+    x = $window.width-(300)
+    fill_rect([x, 0, 300, 300], @color_background, 999)
+    Planet.all.each do |planet|
       if planet.habitable
-        @image.pixel(planet.x/100, planet.y/100, color: @color_planet) if planet.base.nil?
-        @image.pixel(planet.x/100, planet.y/100, color: @color_planet_based) unless planet.base.nil?
+        fill_rect([x+(planet.x/10), planet.y/10, 10, 10], @color_planet, 999) if planet.base.nil?
+        fill_rect([x+(planet.x/10), planet.y/10, 10, 10], @color_planet_based, 999) unless planet.base.nil?
       else
-        @image.pixel(planet.x/100, planet.y/100, color: @color_planet_not_habitable)
+        fill_rect([x+(planet.x/10), planet.y/10, 10, 10], @color_planet_not_habitable, 999)
       end
     end
-
-    @enemies.each do |enemy|
+    #
+    Enemy.all.each do |enemy|
       begin
-        @image.pixel(enemy.x/100, enemy.y/100, color: @color_enemy)
+        fill_rect([x+(enemy.x/10), enemy.y/10, 10, 10], @color_enemy, 999)
       rescue RangeError => e
         Logger.log("#{e}", self)
       end
     end
-
-    @asteroids.each do |asteroid|
-      @image.pixel(asteroid.x/100, asteroid.y/100, color: @color_asteroid)
+    #
+    Asteroid.all.each do |asteroid|
+      fill_rect([x+(asteroid.x/10), asteroid.y/10, 10, 10], @color_asteroid, 999)
     end
-
-    @ships.each do |ship|
-      @image.pixel(ship.x/100, ship.y/100, color: @color_ship)
+    #
+    Ship.all.each do |ship|
+      fill_rect([x+(ship.x/10), ship.y/10, 10, 10], @color_ship, 999)
     end
   end
 end
