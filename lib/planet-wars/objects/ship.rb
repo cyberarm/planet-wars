@@ -41,7 +41,8 @@ class Ship < Chingu::GameObject
 
     @border= @options[:world]
     @image = Gosu::Image["#{AssetManager.ships_path}/ship.png"]
-    @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 1200,interval: 0.006,fade: 100,angular_velocity: -200..200)
+    @particle = ParticleEmitter.create(x: self.x, y: self.y, z: 1, max_particles: 500)
+    # @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 1200,interval: 0.006,fade: 100,angular_velocity: -200..200)
     self.scale_out(0.1)
     @ship_size = 64/2
 
@@ -52,21 +53,12 @@ class Ship < Chingu::GameObject
     every(500) {@warning = false}
   end
 
-  def draw
-    super
-    @particle.draw
-  end
-
   def update
-    @last_update_at ||= Gosu::milliseconds
-    @particle.update([Gosu::milliseconds - @last_update_at, 100].min * 0.001)
-    @last_update_at = Gosu::milliseconds
+    # @particle.update([Gosu::milliseconds - @last_update_at, 100].min * 0.001)
 
     @particle.x = self.x
     @particle.y = self.y
 
-    @particle.rb_set_image = @particle_img_boost if @boosting && (@particle.rb_get_image != @particle_img_boost)
-    @particle.rb_set_image= @particle_img if !@boosting && (@particle.rb_get_image == @particle_img_boost)
     ship_check
     health_check
     mover

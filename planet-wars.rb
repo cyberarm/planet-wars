@@ -1,7 +1,6 @@
 require "bundler/setup"
 require "chingu"
 require "chroma"
-require "ashton"
 require "humanize"
 require "securerandom"
 require "oj"
