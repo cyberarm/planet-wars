@@ -54,7 +54,17 @@ class Ship < Chingu::GameObject
   end
 
   def update
-    # @particle.update([Gosu::milliseconds - @last_update_at, 100].min * 0.001)
+    if @boosting
+      @particle.particle_image = Gosu::Image[AssetManager.particles_path+"/boost_exhaust.png"]
+    else
+      @particle.particle_image = Gosu::Image[AssetManager.particles_path+"/exhaust.png"]
+    end
+
+    if @active_speed <= 1.0
+      @particle.emit = false
+    else
+      @particle.emit = true
+    end
 
     @particle.x = self.x
     @particle.y = self.y
@@ -75,7 +85,6 @@ class Ship < Chingu::GameObject
 
   def health_check
     if @health <= 30
-      # NotificationManager.add("Low Health", Gosu::Color::RED, 30) unless @warning
       GameHUD.message("Low Health", Gosu::Color::RED)
     end
 

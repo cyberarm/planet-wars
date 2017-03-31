@@ -1,5 +1,5 @@
 class ParticleEmitter < Chingu::GameObject
-  attr_accessor :emit
+  attr_accessor :emit, :particle_image
 
   class Particle
     attr_accessor :image, :x, :y, :z, :alpha, :direction, :speed, :decay
