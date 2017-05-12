@@ -6,8 +6,12 @@ class HazardManager < Chingu::GameObject
 
   def update
     @tick+=1
-    if @tick >= 750
-      create_hazard if ConfigManager.config["hazards"]
+    if @tick >= 60*30
+      if ConfigManager.config["hazards"]
+        create_hazard
+        Gosu::Sample["#{AssetManager.sounds_path}/incoming_asteroids.ogg"].play if ConfigManager.play_sounds?
+      end
+
       @tick = 0
     end
   end
