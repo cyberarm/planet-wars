@@ -11,7 +11,7 @@ gem "launchy"
 gem "msgpack"
 
 group :package do
-  gem "releasy" # Uncomment when building executable
+  # gem "releasy" # Uncomment when building executable
 end
 
 group :multiplayer do

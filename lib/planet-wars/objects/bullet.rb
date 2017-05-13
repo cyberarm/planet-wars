@@ -13,7 +13,7 @@ class Bullet < Chingu::GameObject
     Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play if ConfigManager.play_sounds?
     @ship  = @options[:ship]
     @speed = Bullet.speed
-    @damage=10.0
+    @damage= 10.0
     @dead  = false
     @host_angle = @options[:host_angle]
     @created_by = @options[:created_by]
@@ -25,8 +25,8 @@ class Bullet < Chingu::GameObject
     alpha = 120*Engine.dt
     damage = (0.04*60)*Engine.dt
     self.alpha-=alpha
-    self.die if alpha <= 0
-    @damage-=damage
+    self.die if self.alpha <= 0
+	  @damage-=damage
     check_collisions
     update_velocity
   end
