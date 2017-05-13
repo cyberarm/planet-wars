@@ -26,7 +26,7 @@ class Bullet < Chingu::GameObject
     damage = (0.04*60)*Engine.dt
     self.alpha-=alpha
     self.die if self.alpha <= 0
-	  @damage-=damage
+    @damage-=damage
     check_collisions
     update_velocity
   end
