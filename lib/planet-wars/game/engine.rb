@@ -10,6 +10,17 @@ class Engine < Chingu::Window
   end
 
   def initialize(width = 800, height = 600, fullscreen = false, update_interval = 1000.0/60)
+    if File.exists?("fps_log.log")
+      File.open("fps_log.log") do |file|
+        list = []
+        file.each do |line|
+          next if line.strip == ""
+          list << Float(line.strip)
+        end
+        puts "Last session FPS: MIN #{list.min} AVG #{list.reduce(:+).to_f / list.size} MAX #{list.max}"
+      end
+    end
+    @fps_log     = File.open("fps_log.log", 'w')
     @show_cursor = false
     width = Gosu.screen_width if ConfigManager.config["screen"]["width"] == 'max'
     width = ConfigManager.config["screen"]["width"] if ConfigManager.config["screen"]["width"].is_a?(Integer)
@@ -43,27 +54,23 @@ class Engine < Chingu::Window
 
     if ARGV.join.include?('--net')
       push_game_state(NetGame)
+    elsif ARGV.join.include?('--debug')
+      push_game_state(Game)
     else
-      push_game_state(Boot) unless ARGV.join.include?('--debug')
-      push_game_state(Game) if ARGV.join.include?('--debug')
+      push_game_state(Boot)
     end
+
+    at_exit do
+      @fps_log.close
+    end
+  end
+
+  def update
+    super
+    @fps_log.write("#{Gosu.fps}\n")
   end
 
   def needs_cursor?
     @show_cursor
-  end
-end
-
-module Ashton
-  class ParticleEmitter
-    # Allow setting image of Emitter
-    def rb_set_image=(value)
-      self.image=value
-    end
-
-    # Allow accessing image of Emitter
-    def rb_get_image
-      self.image
-    end
   end
 end

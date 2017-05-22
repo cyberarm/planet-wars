@@ -6,6 +6,7 @@ pkg
 .project
 .bundle
 *.ep
+fps_log.log
 inkscape/*
 assets/scal/*
 assets/pencil/*
