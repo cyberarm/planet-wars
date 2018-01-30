@@ -29,7 +29,7 @@ hud: {
   }
 
 gameui: {
-  font: "Hobby-of-night.ttf",
+  font: "Alfphabet-IV.ttf",
   font_size: 32,
   tooltip_font_size: 32,
   title_font_size: 50,
@@ -38,7 +38,7 @@ gameui: {
   title_color: "white",
   background: "menu-background.png",
   button: {
-    background: "orange",
-    active_background: "darkorange"
+    background: "#222",
+    active_background: "#111"
     }
   }

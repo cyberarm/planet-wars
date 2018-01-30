@@ -47,9 +47,8 @@ class GameUI < Chingu::GameState
     @elements.each do |element|
       element[:object].draw
     end
-
     @rects.each do |rect|
-      fill_rect([rect[:x],rect[:y],rect[:width],rect[:height]],rect[:color],1024)
+      fill_rect([rect[:x],rect[:y],rect[:width],rect[:height]],rect[:color], 10_050)
     end
     @tooltip.draw
 
@@ -198,7 +197,7 @@ class GameUI < Chingu::GameState
       end
     end
 
-    @tooltip.x = @big[:width]+120
+    @tooltip.x = @big[:x]+@big[:width]+40
 
 
     @rects.each do |rect|

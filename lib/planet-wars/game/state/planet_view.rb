@@ -1,38 +1,57 @@
-class PlanetView < Chingu::GameState
+class PlanetView < GameUI
+  def initialize(options={})
+    options[:title] = ""
+    super
+    if !options[:planet].base.is_a?(Base)
+      button "Build Base", x: 400, tooltip: "#{options[:planet].habitable ? '20 Diamond — 200 Gold' : '40 Diamond — 400 Gold'}" do
+        build_base
+      end
+    end
+    if options[:planet].base.is_a?(Base)
+      button "Repair Ship", x: 400, tooltip: "200 Oil" do
+        repair_ship
+      end
+    end
+    button "Back", x: 400 do
+      return_to_game
+    end
+  end
+
   def setup
     @ship   = Ship.all.first
     @planet = @options[:planet]
     @planet.text.text = ''
     @tick = 0 # Prevent jumping from Game to Here back to Game immediately
-    @instructions = Text.new("(Enter|Y) Back, (B|B) Build Base", x: 10, size: 25, z: 10_000)
-    @name   = Text.new("#{@planet.name}", x: 10, y: 50, size: 25, z: 10_000)
-    @base   = Text.new('', x: 10, y: 120, size: 25, z: 10_000)
-    @details= Text.new('', x: 10, y: 150, size: 25, z: 10_000)
+    @name   = Text.new("Planet #{@planet.name}", x: 10, y: 10, size: 30, z: 10_000)
+    @base   = Text.new('', x: 10, y: 50, size: 25, z: 10_000)
+    @habitable = Text.new('', x: 10, y: 100, size: 25, z: 10_000)
+    @diamond= Text.new('', x: 10, y: 130, size: 25, z: 10_000)
+    @gold   = Text.new('', x: 10, y: 160, size: 25, z: 10_000)
+    @oil    = Text.new('', x: 10, y: 190, size: 25, z: 10_000)
 
     @clone  = @planet.clone
+    @clone.zorder = 10_000
     @clone.x = @clone.width+20
     @clone.y = $window.height/2
-
-    self.input = {
-      [:enter, :return, :gp_3] => :return_to_game,
-      [:b, :gp_1] => :build_base,
-      [:r, :gp_2] => :repair_ship
-    }
   end
 
   def draw
     super
-    previous_game_state.draw
-    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color'], 200), 9_999)
-    @clone.draw
-    @instructions.draw
+    # previous_game_state.draw
+    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color'], 240), 9_999)
+    @clone.draw if @clone
+    fill_rect([10, 40, Gosu.screen_width-20, 4], Gosu::Color::WHITE, Float::INFINITY)
     @name.draw
     @base.draw
-    @details.draw
+    @habitable.draw
+    @diamond.draw
+    @gold.draw
+    @oil.draw
   end
 
   def update
-    @instructions.text = "(Enter|Y) Back, (B|B) Build Base, (R|X) Repair ship" if @planet.base.is_a?(Base)
+    super
+    @clone.update if @clone
 
     if @planet.habitable && @planet.base == nil
       @base.text = "No Base On This Planet"
@@ -40,7 +59,12 @@ class PlanetView < Chingu::GameState
       @base.text = "Base On This Planet"
     end
 
-    @details.text = "Habitable: #{@planet.habitable}, Diamond: #{@planet.diamond.to_f.round(2)}, Gold: #{@planet.gold.to_f.round(2)}, Oil: #{@planet.oil.to_f.round(2)}"
+    @name.text = "Planet #{@planet.name} — #{@ship.diamond.round(2)} Diamond — #{@ship.gold.round(2)} Gold — #{@ship.oil.round(2)} Oil"
+
+    @habitable.text = "Habitable: #{@planet.habitable}"
+    @diamond.text = "Diamond: #{@planet.diamond.to_f.round(2)}"
+    @gold.text    = "Gold: #{@planet.gold.to_f.round(2)}"
+    @oil.text     = "Oil: #{@planet.oil.to_f.round(2)}"
     @tick+=1
   end
 
@@ -50,34 +74,46 @@ class PlanetView < Chingu::GameState
   end
 
   def return_to_game
-    push_game_state(previous_game_state, setup: false) if @tick >= 30
+    @clone = nil
+    $window.show_cursor = false
+    push_game_state(@options[:game], setup: false) if @tick >= 15
   end
 
   def build_base
-    if @planet.habitable && @ship.gold >= 200
-      @ship.gold-=200 unless @planet.base.is_a?(Base)
-      @planet.base = created_base unless @planet.base.is_a?(Base)
-    elsif @planet.habitable && @ship.diamond >= 20
-      @ship.diamond-=20 unless @planet.base.is_a?(Base)
-      @planet.base = created_base unless @planet.base.is_a?(Base)
-    end
+    if @tick >= 30
+      if @planet.habitable && @ship.gold >= 200
+        @ship.gold-=200 unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
+      elsif @planet.habitable && @ship.diamond >= 20
+        @ship.diamond-=20 unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
+      end
 
-    if !@planet.habitable && @ship.gold >= 400
-      @ship.gold-=400 unless @planet.base.is_a?(Base)
-      @planet.base = created_base unless @planet.base.is_a?(Base)
-      @planet.habitable = true
-    elsif !@planet.habitable && @ship.diamond >= 40
-      @ship.diamond-=40 unless @planet.base.is_a?(Base)
-      @planet.base = created_base unless @planet.base.is_a?(Base)
-      @planet.habitable = true
+      if !@planet.habitable && @ship.gold >= 400
+        @ship.gold-=400 unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
+        @planet.habitable = true
+      elsif !@planet.habitable && @ship.diamond >= 40
+        @ship.diamond-=40 unless @planet.base.is_a?(Base)
+        @planet.base = created_base unless @planet.base.is_a?(Base)
+        @planet.habitable = true
+      end
+
+      refresh
     end
   end
 
   def repair_ship
-    if @planet.base.is_a?(Base) && @ship.oil >= 200 && @ship.health != @ship.max_health
-      @ship.oil-=200# unless @ship.health == @ship.max_health
-      @ship.health=@ship.max_health
-      GameInfo::Config.repaired
+    if @tick >= 30
+      if @planet.base.is_a?(Base) && @ship.oil >= 200 && @ship.health != @ship.max_health
+        @ship.oil-=200# unless @ship.health == @ship.max_health
+        @ship.health=@ship.max_health
+        GameInfo::Config.repaired
+      end
     end
+  end
+
+  def refresh
+    push_game_state(PlanetView.new(planet: @planet, game: @options[:game]))
   end
 end

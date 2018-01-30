@@ -1,4 +1,4 @@
-module Logger
+class Logger
   # Includable
   def log(string, klass)
     write_log("#{Time.now.utc.strftime('%H:%M:%S %d/%m/%Y %Z')} | #{klass.class} wrote> #{string}")
