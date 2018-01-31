@@ -124,9 +124,9 @@ class Game < GameState
 
   def enter
     # TODO: Change each to first
-    # Planet.each_bounding_circle_collision(@ship) do |planet, ship|
-    #   push_game_state(PlanetView.new(planet: planet, game: self))
-    # end
+    Planet.each_circle_collision(@ship) do# |planet, ship|
+      push_game_state(PlanetView.new(planet: planet, game: self))
+    end
   end
 
   def escape

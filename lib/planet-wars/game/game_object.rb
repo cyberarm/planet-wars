@@ -99,6 +99,10 @@ class GameObject
     t_array
   end
 
+  def self.each_circle_collision(object)
+    
+  end
+
   def self.destroy_all
     INSTANCES.clear
     if $window.current_game_state
