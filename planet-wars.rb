@@ -91,6 +91,7 @@ rescue => e
   end
 end
 if ARGV.join.include?('--debug')
+  $debug = true
   at_exit do
     puts "==== Garbage Collection Stats ===="
     GC.stat.each do |key, value|

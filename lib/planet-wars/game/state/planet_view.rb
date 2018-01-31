@@ -38,9 +38,8 @@ class PlanetView < GameUI
   def draw
     super
     # previous_game_state.draw
-    fill(AssetManager.theme_color_inverse(AssetManager.theme_data['text']['color'], 240), 9_999)
     @clone.draw if @clone
-    fill_rect([10, 40, Gosu.screen_width-20, 4], Gosu::Color::WHITE, Float::INFINITY)
+    fill_rect(10, 40, Gosu.screen_width-20, 4, Gosu::Color::WHITE, Float::INFINITY)
     @name.draw
     @base.draw
     @habitable.draw

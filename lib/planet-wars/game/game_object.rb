@@ -1,6 +1,6 @@
 class GameObject
   INSTANCES = []
-  attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y, :color, :alpha, :mode, :options, :paused
+  attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y, :color, :alpha, :mode, :options, :paused, :radius
   def initialize(options={})
     INSTANCES.push(self)
     $window.current_game_state.add_game_object(self)
@@ -21,15 +21,29 @@ class GameObject
     @paused = false
 
     setup
+    @radius = options[:radius] ? options[:radius] : defined?(@image.width) ? ((@image.width+@image.height)/4)*scale : 1
   end
 
   def draw
     if @image
       @image.draw_rot(@x, @y, @z, @angle, @center_x, @center_y, @scale_x, @scale_y, @color, @mode)
     end
+
+    if $debug
+      $window.draw_circle(self.x, self.y, radius)
+    end
   end
 
   def update
+  end
+
+  def scale
+    if @scale_x == @scale_y
+      return @scale_x
+    else
+      false
+      # maths?
+    end
   end
 
   def width
@@ -48,7 +62,7 @@ class GameObject
     @paused = false
   end
 
-  def scale(int)
+  def scale=(int)
     self.scale_x = int
     self.scale_y = int
   end
@@ -73,6 +87,37 @@ class GameObject
   def button_down?(id)
   end
 
+  def circle_collision?(object)
+    distance = Gosu.distance(self.x, self.y, object.x, object.y)
+    if distance <= self.radius+object.radius
+      true
+    else
+      false
+    end
+  end
+
+  # Duplication... so DRY.
+  def each_circle_collision(object, resolve_with = :width, &block)
+    if object.class != Class && object.instance_of?(object.class)
+      $window.current_game_state.game_objects.select {|i| i.class == self.class}.each do |o|
+        distance = Gosu.distance(o.x, o.y, object.x, object.y)
+        if distance <= o.radius+object.radius
+          block.call(o, object) if block
+        end
+      end
+    else
+      lista = $window.current_game_state.game_objects.select {|i| i.class == self.class}
+      listb = $window.current_game_state.game_objects.select {|i| i.class == object}
+      lista.product(listb).each do |o, o2|
+        next if o == o2
+        distance = Gosu.distance(o.x, o.y, o2.x, o2.y)
+        if distance <= o.radius+o2.radius
+          block.call(o, o2) if block
+        end
+      end
+    end
+  end
+
   def destroy
     INSTANCES.delete(self)
     if $window.current_game_state
@@ -86,18 +131,28 @@ class GameObject
 
   # NOTE: This could be implemented more reliably
   def self.all
-    t_array = []
-    INSTANCES.each do |o|
-      # NOTE: This is odd...
-      if o.class == self
-        t_array << o
-      end
-    end
-    t_array
+    $window.current_game_state.game_objects.select {|i| i.class == self}
   end
 
-  def self.each_circle_collision(object)
-
+  def self.each_circle_collision(object, resolve_with = :width, &block)
+    if object.class != Class && object.instance_of?(object.class)
+      $window.current_game_state.game_objects.select {|i| i.class == self}.each do |o|
+        distance = Gosu.distance(o.x, o.y, object.x, object.y)
+        if distance <= o.radius+object.radius
+          block.call(o, object) if block
+        end
+      end
+    else
+      lista = $window.current_game_state.game_objects.select {|i| i.class == self}
+      listb = $window.current_game_state.game_objects.select {|i| i.class == object}
+      lista.product(listb).each do |o, o2|
+        next if o == o2
+        distance = Gosu.distance(o.x, o.y, o2.x, o2.y)
+        if distance <= o.radius+o2.radius
+          block.call(o, o2) if block
+        end
+      end
+    end
   end
 
   def self.destroy_all

@@ -10,7 +10,7 @@ class Asteroid < GameObject
     @damage= 50
     @rotation = rand(-5..5)
     self.z = 300
-    self.scale(rand(0.1..1.0))
+    self.scale=rand(0.1..1.0)
     placer
     set_velocity
   end

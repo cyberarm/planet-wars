@@ -24,7 +24,7 @@ class MusicManager < GameObject
           @current = 0
         end
 
-        @song = Gosu::Song[(@music[@current])]
+        @song = AssetManager.get_song((@music[@current]))
 
         if play_songs?
           @song.play
@@ -64,7 +64,8 @@ class MusicManager < GameObject
   end
 
   def play_songs?
-    ConfigManager.config["music"]
+    # ConfigManager.config["music"]
+    ConfigManager.play_music?
   end
 
   def destroy

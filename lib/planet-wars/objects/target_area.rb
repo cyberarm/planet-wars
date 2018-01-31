@@ -13,7 +13,7 @@ class TargetArea < GameObject
     self.x = @owner.x
     self.y = @owner.y
 
-    if self.collision?(@target)
+    if self.circle_collision?(@target)
       @in_range = true
     else
       @in_range = false

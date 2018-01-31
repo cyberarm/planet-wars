@@ -5,7 +5,7 @@ class Portal < GameObject
   def setup
     @image = AssetManager.get_image("#{AssetManager.portal_path}/portal.png")
     self.alpha = 0
-    self.scale(0.6)
+    self.scale=0.6
     @fade_speed = 3*60
 
     @spawn_enemy_time = Time.now

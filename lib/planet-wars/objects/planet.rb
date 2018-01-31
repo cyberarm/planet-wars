@@ -31,7 +31,7 @@ class Planet < GameObject
       @image = AssetManager.get_image("#{AssetManager.planets_path}/uninhabitable/#{File.basename(planet_images[random])}")
     end
 
-    self.scale(rand(0.5..0.9))
+    self.scale=rand(0.5..0.9)
     self.rotate(rand(120))
 
     @rate = rand(-3.0..3.0)*60
@@ -55,13 +55,14 @@ class Planet < GameObject
 
   def update
     self.rotate_self
-    # collision_check
+    collision_check
     @base.update if @base.is_a?(Base)
   end
 
   def collision_check
     unless @base.is_a?(Base)
-      if self.bounding_circle_collision?(Ship.all.first)
+      p Ship.all.first
+      if self.circle_collision?(INSTANCES.select {|i| i.class == Ship}.last)
         self.text.text = "#{name}"
       else
         self.text.text = ''

@@ -14,7 +14,7 @@ class Bullet < GameObject
     @host_angle = @options[:host_angle]
     @created_by = @options[:created_by]
 
-    # set_velocity
+    set_velocity
   end
 
   def update
@@ -23,23 +23,23 @@ class Bullet < GameObject
     self.alpha-=alpha
     self.die if self.alpha <= 0
     @damage-=damage
-    # check_collisions
-    # update_velocity
+    check_collisions
+    update_velocity
   end
 
   def update_velocity
     speed = @speed*Engine.dt
 
-    self.velocity_x = speed*Math.cos(@direction)
-    self.velocity_y = speed*Math.sin(@direction)
+    self.x += speed*Math.cos(@direction)
+    self.y += speed*Math.sin(@direction)
   end
 
   def set_velocity
     speed = @speed*Engine.dt
 
     @direction = (@host_angle - 90.0) * (Math::PI / 180.0)
-    self.velocity_x = speed*Math.cos(@direction)
-    self.velocity_y = speed*Math.sin(@direction)
+    # self.velocity_x = speed*Math.cos(@direction)
+    # self.velocity_y = speed*Math.sin(@direction)
   end
 
   def die
@@ -48,7 +48,7 @@ class Bullet < GameObject
 
   def check_collisions
     if @created_by.is_a?(Enemy)
-      self.each_collision(Ship) do |bullet, ship|
+      self.each_circle_collision(Ship) do |bullet, ship|
         if true # TODO: Check pixel collision
           self.die
           AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
@@ -57,14 +57,14 @@ class Bullet < GameObject
       end
 
     else
-      self.each_collision(Enemy) do |bullet, enemy|
+      self.each_circle_collision(Enemy) do |bullet, enemy|
         self.die
         AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
         enemy.hit(@damage, self)
       end
     end
 
-    self.each_collision(Asteroid) do |bullet, asteroid|
+    self.each_circle_collision(Asteroid) do |bullet, asteroid|
       self.die
       AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
       asteroid.hit(@damage, self)

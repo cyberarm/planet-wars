@@ -84,7 +84,7 @@ class Game < GameState
 
   def button_up(id)
     mute if id == Gosu::KbM
-    enter if id == Gosu::KbEnter || Gosu::KbReturn# || Gosu::Gp3
+    enter if id == Gosu::KbEnter || id == Gosu::KbReturn# || Gosu::Gp3
     escape if id == Gosu::KbEscape# || Gosu::Gp6
     pause_game if id == Gosu::KbP# || Gosu::Gp4
     upgrades_menu if id == Gosu::KbU# || Gosu::Gp2
@@ -98,9 +98,9 @@ class Game < GameState
 
   def planet_check
     unless @planet_checked
-      # Planet.each_collision(Planet) do |one, two|
-      #   two.destroy
-      # end
+      Planet.each_circle_collision(Planet) do |one, two|
+        two.destroy
+      end
     end
 
     @planet_checked = true
@@ -128,7 +128,7 @@ class Game < GameState
 
   def enter
     # TODO: Change each to first
-    Planet.each_circle_collision(@ship) do# |planet, ship|
+    Planet.each_circle_collision(@ship) do |planet, ship|
       push_game_state(PlanetView.new(planet: planet, game: self))
     end
   end

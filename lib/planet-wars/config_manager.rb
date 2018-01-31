@@ -29,11 +29,19 @@ module ConfigManager
   end
 
   def self.play_sounds?
-    @config_data['config']['sounds']
+    if ARGV.join.include?("--mute")
+      false
+    else
+      @config_data['config']['sounds']
+    end
   end
 
   def self.play_music?
-    @config_data['config']['music']
+    if ARGV.join.include?("--mute")
+      false
+    else
+      @config_data['config']['music']
+    end
   end
 
   def self.enable_hazards?
