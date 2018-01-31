@@ -40,7 +40,7 @@ class Engine < Gosu::Window
 
     if ARGV.join.include?('--net')
       push_game_state(NetGame)
-    elsif ARGV.join.include?('--debug')
+    elsif ARGV.join.include?('--debug_game')
       push_game_state(Game)
     else
       push_game_state(Boot)

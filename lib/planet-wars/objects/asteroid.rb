@@ -18,7 +18,7 @@ class Asteroid < GameObject
   def update
     rotation = (@rotation*60)*Engine.dt
     rotate(rotation)
-    # check_for_collisions
+    check_for_collisions
     update_velocity
     destroy_self?
   end
@@ -41,11 +41,11 @@ class Asteroid < GameObject
   end
 
   def check_for_collisions
-    self.each_collision(Ship) do |a,t|
+    self.each_circle_collision(Ship) do |a,t|
       t.hit(@damage, self)
     end
 
-    self.each_collision(Enemy) do |a,t|
+    self.each_circle_collision(Enemy) do |a,t|
       t.hit(@damage, self)
     end
   end
