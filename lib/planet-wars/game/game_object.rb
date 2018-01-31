@@ -30,9 +30,6 @@ class GameObject
   end
 
   def update
-    if @paused
-      update
-    end
   end
 
   def width
@@ -100,7 +97,7 @@ class GameObject
   end
 
   def self.each_circle_collision(object)
-    
+
   end
 
   def self.destroy_all

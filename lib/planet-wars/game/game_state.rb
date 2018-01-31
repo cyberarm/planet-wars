@@ -19,13 +19,15 @@ class GameState
   end
 
   def update
-    @game_objects.each(&:update)
+    @game_objects.each do |o|
+      o.update unless o.paused
+    end
   end
 
   def button_up(id)
     puts "b #{id}"
     @game_objects.each do |o|
-      o.button_up(id)
+      o.button_up(id) unless o.paused
     end
   end
 
