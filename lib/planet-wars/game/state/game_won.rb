@@ -10,7 +10,6 @@ class GameWon < GameState
     @time.y = $window.height/2+220
     @color= 0
     @up = true
-    self.input = {[:escape] => :skip}
 
     GameMethods.end_cleanup
   end
@@ -35,8 +34,12 @@ class GameWon < GameState
     end
   end
 
+  def button_up(id)
+    skip
+  end
+
   def skip
-    close
+    destroy
     push_game_state(MainMenu)
   end
 

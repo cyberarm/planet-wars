@@ -2,8 +2,10 @@ class GameObject
   INSTANCES = []
   attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y, :color, :alpha, :mode, :options, :paused, :radius
   def initialize(options={})
-    INSTANCES.push(self)
-    $window.current_game_state.add_game_object(self)
+    if options[:auto_manage] || options[:auto_manage] == nil
+      INSTANCES.push(self)
+      $window.current_game_state.add_game_object(self)
+    end
 
     @options = options
     @image = options[:image] ? AssetManager.get_image(options[:image]) : nil

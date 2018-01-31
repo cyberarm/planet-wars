@@ -14,10 +14,10 @@ class GameHUD
     @message = Text.new('', y: $window.height/2+150, size: 70)
     @message_tick = 0
     @game_message_tick = 0
-    @minimap      = MiniMap.new
-    @boost_bar    = BoostBar.new
-    @health_bar   = HealthBar.new
-    @notifications= NotificationManager.new
+    @minimap      = MiniMap.new(auto_manage: false)
+    @boost_bar    = BoostBar.new(auto_manage: false)
+    @health_bar   = HealthBar.new(auto_manage: false)
+    @notifications= NotificationManager.new(auto_manage: false)
   end
 
   def self.instance

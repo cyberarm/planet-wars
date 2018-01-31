@@ -32,6 +32,9 @@ class Game < GameState
     @paused = false
     # viewport.lag  = 0.22
     # viewport.game_area = [0, 0, 1000*3, 1000*3]
+    @vewport_x = 0
+    @vewport_y = 0
+    @viewport_area = [0,0,3000,3000]
   end
 
   def needs_cursor?
@@ -39,9 +42,11 @@ class Game < GameState
   end
 
   def draw
-    # $window.translate(-@ship.x, -@ship.y) do
-    super
-    # end
+    $window.translate(-@viewport_x, -@viewport_y) do
+      # @game_objects.each {|o| next if o == @ship; o.draw}
+      super
+    end
+
     unless @paused
       @fps.draw
 
@@ -92,8 +97,16 @@ class Game < GameState
     super
   end
 
-  def center_around(point)
-    # Do science
+  # Adapted from https://github.com/ippa/chingu/blob/d3ed0ff0e0fa81ebc416014095d4ae9b139c785c/lib/chingu/viewport.rb#L132
+  def center_around(object)
+    x = (object.x - $window.width / 2)
+    x = @viewport_area[0] if x < @viewport_area[0]
+    x = @viewport_area[2] - $window.width if x > @viewport_area[2] - $window.width
+    y = (object.y - $window.height/ 2)
+    y = @viewport_area[1] if y < @viewport_area[1]
+    y = @viewport_area[3] - $window.height if y > @viewport_area[3] - $window.height
+    @viewport_x = x
+    @viewport_y = y
   end
 
   def planet_check
