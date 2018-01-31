@@ -1,4 +1,4 @@
-class Rocket < Chingu::GameObject
+class Rocket < GameObject
   # Tracking projectile
   # Targetable: Asteroid, Enemy.
   # TODO: Make me work, please!

@@ -1,16 +1,12 @@
-class Bullet < Chingu::GameObject
-  trait :velocity
-  trait :bounding_circle
-  trait :collision_detection
-
+class Bullet < GameObject
   def self.speed
     10*45
   end
 
   def setup
-    self.zorder = Float::INFINITY
-    @image = Gosu::Image[AssetManager.bullets_path+'/bullet.png']
-    Gosu::Sample["#{AssetManager.sounds_path}/laser.ogg"].play if ConfigManager.play_sounds?
+    self.z = Float::INFINITY
+    @image = AssetManager.get_image(AssetManager.bullets_path+'/bullet.png')
+    AssetManager.get_sample("#{AssetManager.sounds_path}/laser.ogg").play if ConfigManager.play_sounds?
     @ship  = @options[:ship]
     @speed = Bullet.speed
     @damage= 10.0

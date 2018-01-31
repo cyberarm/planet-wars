@@ -34,7 +34,7 @@ class Achievement
   end
 end
 
-class AchievementManager < Chingu::GameObject
+class AchievementManager < GameObject
   def setup
     @array = Achievement.list
   end

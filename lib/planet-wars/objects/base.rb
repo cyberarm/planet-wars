@@ -1,4 +1,4 @@
-class Base < Chingu::BasicGameObject
+class Base < GameObject
   attr_accessor :x, :y
   def setup
     @last_harvest = Engine.now

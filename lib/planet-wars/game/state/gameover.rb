@@ -1,6 +1,4 @@
-class GameOver < Chingu::GameState
-  trait :timer
-
+class GameOver < GameState
   def setup
     @text = Text.new("Game Over", size: 148, color: Gosu::Color::BLACK)
     @time = Text.new("You survived for: #{GameInfo::Config.game_time_processed.strftime('%-H hours, %-M minutes, %-S seconds.')}", size: 28, color: Gosu::Color::BLACK)

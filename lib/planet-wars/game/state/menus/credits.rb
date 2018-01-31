@@ -1,7 +1,7 @@
 class PWText < Text
   def initialize(string="", options={})
     super(string, options)
-    options['font'] = "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
+    # options['font'] = "#{AssetManager.fonts_path}/Hobby-of-night.ttf"
   end
 end
 

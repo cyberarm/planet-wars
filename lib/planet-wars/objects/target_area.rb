@@ -1,6 +1,4 @@
-class TargetArea < Chingu::GameObject
-  trait :collision_detection
-
+class TargetArea < GameObject
   attr_reader :in_range, :radius
 
   def setup

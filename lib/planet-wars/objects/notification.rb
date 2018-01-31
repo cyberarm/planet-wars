@@ -1,4 +1,4 @@
-class NotificationManager < Chingu::GameObject
+class NotificationManager < GameObject
   Z = 999
 
   attr_accessor :slot
@@ -7,9 +7,14 @@ class NotificationManager < Chingu::GameObject
   end
 
   def self.add(text, color=Gosu::Color::WHITE, active=180)
-    note = NotificationManager.all
-    note = note.last
-    note.slot << Text.new(text, active: active, color: color, size: 23, x: 100, zorder: Z, tick: 0)
+    # managers = NotificationManager.all
+    # note = managers.last
+    # p note.methods-Class.methods
+    # note.slot << Text.new(text, active: active, color: color, size: 23, x: 100, z: Z, tick: 0)
+  end
+
+  def slot
+    @slot = [] unless @slot
   end
 
   def draw

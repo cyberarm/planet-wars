@@ -1,7 +1,7 @@
 module GameMethods
   def set_fps_text(fps_text)
     @fps = fps_text
-    fps = $window.fps
+    fps = Gosu.fps
     @fps.text = "FPS: #{fps}"
     if fps >= 59
       @fps.color = Gosu::Color::WHITE

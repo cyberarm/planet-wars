@@ -1,12 +1,13 @@
-class Engine < Chingu::Window
+class Engine < Gosu::Window
   attr_accessor :show_cursor
+  attr_reader :current_game_state, :last_game_state, :last_frame_time
 
   def self.now
     Gosu.milliseconds
   end
 
   def self.dt
-    $window.dt/1000.0
+    $window.last_frame_time/1000.0
   end
 
   def initialize(width = 800, height = 600, fullscreen = false, update_interval = 1000.0/60)
@@ -29,26 +30,11 @@ class Engine < Chingu::Window
     height= ConfigManager.config["screen"]["height"] if ConfigManager.config["screen"]["height"].is_a?(Integer)
 
     super(width, height, ConfigManager.config["screen"]["fullscreen"], update_interval)
+    $window = self
+    @last_frame_time = Gosu.milliseconds-1
+    @current_frame_time = Gosu.milliseconds
     self.caption = "#{GameInfo::NAME} #{GameInfo::VERSION} [build: #{BUILD}] #{Gosu.language}"
     AssetManager.preload_assets if ARGV.join.include?('--debug')
-
-    # Define GamePad inputs
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton0] = [:gp_0]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton1] = [:gp_1]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton2] = [:gp_2]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton3] = [:gp_3]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton4] = [:gp_4]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton5] = [:gp_5]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton6] = [:gp_6]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton7] = [:gp_7]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton8] = [:gp_8]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton9] = [:gp_9]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton10] = [:gp_10]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton11] = [:gp_11]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton12] = [:gp_12]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton13] = [:gp_13]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton14] = [:gp_14]
-    Chingu::Input::CONSTANT_TO_SYMBOL[Gosu::GpButton15] = [:gp_15]
 
     Logger.log("Window: width: #{width}, height: #{height}, fullscreen: #{fullscreen}, update_interval: #{update_interval}", self)
 
@@ -65,12 +51,55 @@ class Engine < Chingu::Window
     end
   end
 
+  def draw
+    if @current_game_state.is_a?(GameState)
+      @current_game_state.draw
+    end
+  end
+
   def update
-    super
+    if @current_game_state.is_a?(GameState)
+      @current_game_state.update
+    end
     @fps_log.write("#{Gosu.fps}\n")
+    @last_frame_time = Gosu.milliseconds-@current_frame_time
+    @current_frame_time = Gosu.milliseconds
   end
 
   def needs_cursor?
     @show_cursor
+  end
+
+  def dt
+    @last_frame_time/1000.0
+  end
+
+  def button_up(id)
+    @current_game_state.button_up(id)
+  end
+
+  def button_down?(id)
+    @current_game_state.button_down?(id)
+  end
+
+  def push_game_state(klass, options={})
+    p klass
+    if klass.instance_of?(klass.class) && defined?(klass.options)
+      @current_game_state = klass
+      # @current_game_state.options = options
+    else
+      @current_game_state = klass.new(options)
+    end
+    p @current_game_state.class
+  end
+
+  # def previous_game_state
+  #   current_game_state = @current_game_state
+  #   @current_game_state = @last_frame_time
+  #   @last_game_state = current_game_state
+  # end
+
+  def fill_rect(x, y, width, height, color, z = 0)
+    Gosu.fill_rect(x,y,width,height,color, z)
   end
 end

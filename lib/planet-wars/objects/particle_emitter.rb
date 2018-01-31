@@ -1,4 +1,4 @@
-class ParticleEmitter < Chingu::GameObject
+class ParticleEmitter < GameObject
   attr_accessor :emit, :particle_image
 
   class Particle
@@ -27,7 +27,7 @@ class ParticleEmitter < Chingu::GameObject
     @direction = 0
     @emit = true
 
-    @particle_image = Gosu::Image[AssetManager.particles_path+"/particle.png"]
+    @particle_image = AssetManager.get_image(AssetManager.particles_path+"/particle.png")
   end
 
   def draw

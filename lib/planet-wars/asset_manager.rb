@@ -1,4 +1,8 @@
 module AssetManager
+  IMAGE_CACHE = {}
+  SONG_CACHE  = {}
+  SAMPLE_CACHE= {}
+
   def self.path
     "#{File.expand_path(File.dirname(__FILE__))}".sub('/lib/planet-wars', '')
   end
@@ -92,8 +96,9 @@ module AssetManager
     credits_data
     images = []
     music  = []
+    samples= []
 
-    [portal_path, particles_path, ships_path, enemies_path, planets_path, bullets_path, music_path].each do |asset|
+    [background_path, portal_path, particles_path, ships_path, enemies_path, planets_path+"/uninhabitable", planets_path+"/habitable", bullets_path, music_path].each do |asset|
       Dir["#{asset}/*.png"].each do |image|
         images << image if image.end_with?('.png')
       end
@@ -101,13 +106,56 @@ module AssetManager
         music << song if song.end_with?('.ogg')
       end
     end
+    Dir["#{sounds_path}/**/*.ogg"].each do |sample|
+      samples << sample if sample.end_with?('.ogg')
+    end
 
     images.each do |i|
-      Gosu::Image[i]
+      cache_image(i)
     end
 
     music.each do |song|
-      Gosu::Song[song]
+      cache_song(song)
+    end
+
+    samples.each do |sample|
+      cache_sample(sample)
+    end
+  end
+
+  def self.get_image(i)
+    r = IMAGE_CACHE[i]
+    return r if r
+    raise "Image '#{i}' not in Cache" if !r
+  end
+
+  def self.get_song(s)
+    r = SONG_CACHE[s]
+    return r if r
+    raise "Song '#{s}' not in Cache" if !r
+  end
+
+  def self.get_sample(s)
+    r = SAMPLE_CACHE[s]
+    return r if r
+    raise "Sample '#{s}' not in Cache" if !r
+  end
+
+  def self.cache_image(i)
+    if IMAGE_CACHE[i] == nil
+      IMAGE_CACHE[i] = Gosu::Image.new(i)
+    end
+  end
+
+  def self.cache_song(s)
+    if SONG_CACHE[s] == nil
+      SONG_CACHE[s] = Gosu::Song.new(s)
+    end
+  end
+
+  def self.cache_sample(s)
+    if SAMPLE_CACHE[s] == nil
+      SAMPLE_CACHE[s] = Gosu::Sample.new(s)
     end
   end
 end

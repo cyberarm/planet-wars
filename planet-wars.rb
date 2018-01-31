@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "chingu"
+require "gosu"
 require "chroma"
 require "humanize"
 require "securerandom"
@@ -7,6 +7,7 @@ require "oj"
 require "excon"
 require "launchy"
 require "time"
+require_relative "lib/planet-wars/require_all"
 
 require_all "lib/planet-wars/errors"
 
@@ -17,6 +18,8 @@ require_relative "lib/planet-wars/game_info"
 require_relative "lib/planet-wars/asset_manager"
 require_relative "lib/planet-wars/config_manager"
 
+require_relative "lib/planet-wars/game/game_state"
+require_relative "lib/planet-wars/game/game_object"
 require_relative "lib/planet-wars/gameui/gameui"
 
 require_all "lib/planet-wars/ai"

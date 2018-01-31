@@ -1,4 +1,4 @@
-class Boot < Chingu::GameState
+class Boot < GameState
   def setup
     @title  = Text.new(GameInfo::NAME, x: 100, y: $window.height-400, z: 1, size: 100, color: Gosu::Color::WHITE)
     @author = Text.new("Created by: Cyberarm", x: 100, y: $window.height-300, z: 1, size: 60, color: Gosu::Color.rgb(255, 127, 0))
@@ -12,7 +12,7 @@ class Boot < Chingu::GameState
   end
 
   def update
-    if @num > 5 && !@assets_loaded # Render scene before preload
+    if @num > 1 && !@assets_loaded # Render scene before preload
       AssetManager.preload_assets
       @assets_loaded = true
     end

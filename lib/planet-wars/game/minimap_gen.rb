@@ -1,6 +1,5 @@
 class MiniMapGenerator
   attr_reader :image
-  include Chingu::Helpers::GFX
 
   def initialize(area, planets, enemies, asteroid, ships)
     #area = [play area width, play area height]
@@ -29,30 +28,30 @@ class MiniMapGenerator
 
   def draw
     x = $window.width-(300)
-    fill_rect([x, 0, 300, 300], @color_background, 999)
+    $window.draw_rect(x, 0, 300, 300, @color_background, 999)
     Planet.all.each do |planet|
       if planet.habitable
-        fill_rect([x+(planet.x/10), planet.y/10, 10, 10], @color_planet, 999) if planet.base.nil?
-        fill_rect([x+(planet.x/10), planet.y/10, 10, 10], @color_planet_based, 999) unless planet.base.nil?
+        $window.draw_rect(x+(planet.x/10), planet.y/10, 10, 10, @color_planet, 999) if planet.base.nil?
+        $window.draw_rect(x+(planet.x/10), planet.y/10, 10, 10, @color_planet_based, 999) unless planet.base.nil?
       else
-        fill_rect([x+(planet.x/10), planet.y/10, 10, 10], @color_planet_not_habitable, 999)
+        $window.draw_rect(x+(planet.x/10), planet.y/10, 10, 10, @color_planet_not_habitable, 999)
       end
     end
     #
     Enemy.all.each do |enemy|
       begin
-        fill_rect([x+(enemy.x/10), enemy.y/10, 10, 10], @color_enemy, 999)
+        $window.draw_rect(x+(enemy.x/10), enemy.y/10, 10, 10, @color_enemy, 999)
       rescue RangeError => e
         Logger.log("#{e}", self)
       end
     end
     #
     Asteroid.all.each do |asteroid|
-      fill_rect([x+(asteroid.x/10), asteroid.y/10, 10, 10], @color_asteroid, 999)
+      $window.draw_rect(x+(asteroid.x/10), asteroid.y/10, 10, 10, @color_asteroid, 999)
     end
     #
     Ship.all.each do |ship|
-      fill_rect([x+(ship.x/10), ship.y/10, 10, 10], @color_ship, 999)
+      $window.draw_rect(x+(ship.x/10), ship.y/10, 10, 10, @color_ship, 999)
     end
   end
 end

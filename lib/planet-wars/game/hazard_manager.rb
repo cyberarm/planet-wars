@@ -1,4 +1,4 @@
-class HazardManager < Chingu::GameObject
+class HazardManager < GameObject
   def setup
     @hazards = [Asteroid]
     @tick = 0
@@ -19,7 +19,7 @@ class HazardManager < Chingu::GameObject
   def create_hazard
     rand(1..5).times do
       num = rand(1..@hazards.count)
-      @hazards[num-1].create
+      @hazards[num-1].new
     end
   end
 end

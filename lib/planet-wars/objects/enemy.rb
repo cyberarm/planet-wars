@@ -1,21 +1,17 @@
-class Enemy < Chingu::GameObject
+class Enemy < GameObject
   attr_accessor :move, :health, :target, :target_area, :speed, :dx, :dy
   attr_reader :despawn, :old_gosu_time
 
-  trait :effect
-  trait :bounding_circle
-  trait :collision_detection
-
   def setup
-    self.zorder = 300
+    self.z = 300
     self.alpha = 0
     @speed = 2*60
     @health= 60
     GameInfo::Mode.wave_enemies_spawned+=1
     @image = Gosu::Image["#{AssetManager.enemies_path}/enemy.png"]
-    @target = Target.create(x: 0, y: 0, target: Ship.all.first) unless Target.all.first.is_a?(Target)
+    @target = Target.new(x: 0, y: 0, target: Ship.all.first) unless Target.all.first.is_a?(Target)
     @target = Target.all.first if Target.all.first.is_a?(Target)
-    @target_area = TargetArea.create(owner: self, target: @target, size: 255.0)
+    @target_area = TargetArea.new(owner: self, target: @target, size: 255.0)
     @ai = EnemyAI.new(self)
     @dx = 0
     @dy = 0
@@ -52,12 +48,12 @@ class Enemy < Chingu::GameObject
 
     # distance   = Gosu.distance(self.x, self.y, @target.x, @target.y)
     _angle = ((Math.atan2(dy, dx) * 180) / Math::PI) + 90 # Black magic
-    Bullet.create(x: self.x, y: self.y, z: 199, host_angle: _angle, created_by: self) if @target_area.in_range && self.alpha >= 255
+    Bullet.new(x: self.x, y: self.y, z: 199, host_angle: _angle, created_by: self) if @target_area.in_range && self.alpha >= 255
   end
 
   def check_health
     if @health <= 0
-      Empty.create(x: self.x, y: self.y)
+      Empty.new(x: self.x, y: self.y)
       Gosu::Sample["#{AssetManager.sounds_path}/explosion.ogg"].play if ConfigManager.config["sounds"]
       GameInfo::Kills.killed if @object.is_a?(Bullet)
       self.destroy
@@ -78,7 +74,7 @@ class Enemy < Chingu::GameObject
   end
 
   def self.spawn(portal)
-    Enemy.create(x: portal.x, y: portal.y)
+    Enemy.new(x: portal.x, y: portal.y)
   end
 
   def despawn(portal)

@@ -1,9 +1,4 @@
-class Asteroid < Chingu::GameObject
-  trait :effect
-  trait :velocity
-  trait :bounding_circle
-  trait :collision_detection
-
+class Asteroid < GameObject
   attr_accessor :health
 
   def setup
@@ -15,7 +10,7 @@ class Asteroid < Chingu::GameObject
     @speed = 5*60
     @damage= 50
     @rotation = rand(-5..5)
-    self.zorder = 300
+    self.z = 300
     self.factor = rand(0.1..1.0)
     placer
     set_velocity

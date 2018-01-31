@@ -1,6 +1,4 @@
-class Target < Chingu::GameObject
-  trait :bounding_box
-  trait :collision_detection
+class Target < GameObject
   def setup
     @image = Gosu::Image.from_text("O", 10)
     @target= @options[:target]

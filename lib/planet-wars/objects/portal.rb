@@ -1,26 +1,15 @@
 # Portal
 # Spawns enemies and handles Waves.
 
-class Portal < Chingu::GameObject
-  trait :timer
-  trait :effect
-
+class Portal < GameObject
   def setup
-    @image = Gosu::Image["#{AssetManager.portal_path}/portal.png"]
+    @image = AssetManager.get_image("#{AssetManager.portal_path}/portal.png")
     self.alpha = 0
-    self.scale = 0.6
+    self.scale(0.6)
     @fade_speed = 3*60
 
-    every(1500) do
-      spawn_enemy
-    end
-
-    every(4000) do
-      if self.alpha <= 0
-        self.x = rand(100..@options[:world_width]-100)
-        self.y = rand(100..@options[:world_height]-100)
-      end
-    end
+    @spawn_enemy_time = Time.now
+    @portal_time = Time.now
   end
 
   def draw
@@ -28,6 +17,17 @@ class Portal < Chingu::GameObject
   end
 
   def update
+    if Time.now.to_f-@spawn_enemy_time.to_f >= 1.5
+      spawn_enemy
+      @spawn_enemy_time = Time.now
+    end
+    if Time.now.to_f-@portal_time.to_f >= 4.0
+      if self.alpha <= 0
+        self.x = rand(100..@options[:world_width]-100)
+        self.y = rand(100..@options[:world_height]-100)
+      end
+      @portal_time = Time.now
+    end
     if @ready
       fade_speed = @fade_speed*Engine.dt
 

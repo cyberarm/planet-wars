@@ -2,7 +2,6 @@ source "https://rubygems.org"
 
 gem "humanize"
 gem "gosu"
-gem "chingu", "0.9rc9"
 gem "rake"
 gem "chroma"
 gem "oj"

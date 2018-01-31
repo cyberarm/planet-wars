@@ -1,4 +1,4 @@
-class GameUI < Chingu::GameState
+class GameUI < GameState
   MousePosition = Struct.new(:x, :y)
   attr_accessor :selected
   def initialize(options={})
@@ -6,8 +6,8 @@ class GameUI < Chingu::GameState
     setup if defined?(setup)
 
     # Sounds
-    @change = Gosu::Sample["#{AssetManager.sounds_path}/ui/change.ogg"]
-    @action = Gosu::Sample["#{AssetManager.sounds_path}/ui/action.ogg"]
+    @change = AssetManager.get_sample("#{AssetManager.sounds_path}/ui/change.ogg")
+    @action = AssetManager.get_sample("#{AssetManager.sounds_path}/ui/action.ogg")
 
 
     @options = options
@@ -39,7 +39,7 @@ class GameUI < Chingu::GameState
     @elements.push({
       object: title_text_object
       })
-    @background_image = Gosu::Image["#{AssetManager.background_path}/#{AssetManager.theme_data['gameui']['background']}"]
+    # @background_image = Gosu::Image["#{AssetManager.background_path}/#{AssetManager.theme_data['gameui']['background']}"]
   end
 
   def draw
@@ -48,11 +48,12 @@ class GameUI < Chingu::GameState
       element[:object].draw
     end
     @rects.each do |rect|
-      fill_rect([rect[:x],rect[:y],rect[:width],rect[:height]],rect[:color], 10_050)
+      fill_rect(rect[:x],rect[:y],rect[:width],rect[:height],rect[:color], 10)
     end
     @tooltip.draw
 
-    @background_image.draw(0,0,-15)
+    # @background_image.draw(0,0,-15)
+    fill_rect(0, 0, Gosu.screen_width, Gosu.screen_height, AssetManager.theme_color(AssetManager.theme_data['gameui']['background']), -15)
   end
 
   def update

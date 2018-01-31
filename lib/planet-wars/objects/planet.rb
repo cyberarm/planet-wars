@@ -1,13 +1,9 @@
-class Planet < Chingu::GameObject
-  trait :effect
-  trait :bounding_circle
-  trait :collision_detection
-
+class Planet < GameObject
   attr_reader :name, :high_temp, :low_temp
   attr_accessor :text, :habitable, :base, :gold, :diamond, :oil
 
   def setup
-    self.zorder = 150
+    self.z = 150
     @name = NameGen.new.name
     case rand(1..2)
     when 1
@@ -28,19 +24,19 @@ class Planet < Chingu::GameObject
     if habitable
       planet_images = Dir["#{AssetManager.planets_path}/habitable/*.png"]
       random = rand(planet_images.count)
-      @image = Gosu::Image["#{AssetManager.planets_path}/habitable/#{File.basename(planet_images[random])}"]
+      @image = AssetManager.get_image("#{AssetManager.planets_path}/habitable/#{File.basename(planet_images[random])}")
     else
       planet_images = Dir["#{AssetManager.planets_path}/uninhabitable/*.png"]
       random = rand(planet_images.count)
-      @image = Gosu::Image["#{AssetManager.planets_path}/uninhabitable/#{File.basename(planet_images[random])}"]
+      @image = AssetManager.get_image("#{AssetManager.planets_path}/uninhabitable/#{File.basename(planet_images[random])}")
     end
 
-    self.scale_out(rand(0.5..0.9))
+    self.scale(rand(0.5..0.9))
     self.rotate(rand(120))
 
     @rate = rand(-3.0..3.0)*60
-    @text = Text.new("", x: self.x-(self.width/4), y: self.y, zorder: 999, size: 20, color: AssetManager.theme_color(AssetManager.theme_data['hud']['planets']['habitable'])) if @habitable
-    @text = Text.new("", x: self.x-(self.width/4), y: self.y, zorder: 999, size: 20, color: AssetManager.theme_color(AssetManager.theme_data['hud']['planets']['unhabitable'])) unless @habitable
+    @text = Text.new("", x: self.x-(self.width/4), y: self.y, z: 999, size: 20, color: AssetManager.theme_color(AssetManager.theme_data['hud']['planets']['habitable'])) if @habitable
+    @text = Text.new("", x: self.x-(self.width/4), y: self.y, z: 999, size: 20, color: AssetManager.theme_color(AssetManager.theme_data['hud']['planets']['unhabitable'])) unless @habitable
 
     @base = nil
   end

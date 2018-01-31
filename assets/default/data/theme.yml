@@ -36,9 +36,9 @@ gameui: {
   color: "white",
   tooltip_color: "white",
   title_color: "white",
-  background: "menu-background.png",
+  background: "black",
   button: {
-    background: "#222",
-    active_background: "#111"
+    background: "#005ab3",
+    active_background: "#0080ff"
     }
   }

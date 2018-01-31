@@ -1,4 +1,4 @@
-class MusicManager < Chingu::GameObject
+class MusicManager < GameObject
   attr_accessor :song, :list
 
   def setup
@@ -9,7 +9,7 @@ class MusicManager < Chingu::GameObject
     10.times{@music.shuffle!}
     @current = 0
     @toggle = true
-    @song = Gosu::Song[(@music[@current])]
+    @song = AssetManager.get_song(@music[@current])
     if play_songs?
       @song.play
       NotificationManager.add("Now playing: #{title}, by: #{composer}") rescue NoMethodError

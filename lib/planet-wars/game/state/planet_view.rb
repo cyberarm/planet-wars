@@ -30,7 +30,7 @@ class PlanetView < GameUI
     @oil    = Text.new('', x: 10, y: 190, size: 25, z: 10_000)
 
     @clone  = @planet.clone
-    @clone.zorder = 10_000
+    @clone.z = 10_000
     @clone.x = @clone.width+20
     @clone.y = $window.height/2
   end
@@ -70,7 +70,7 @@ class PlanetView < GameUI
 
 
   def created_base
-    Base.create(ship: @ship, planet: @planet, x: @planet.x, y: @planet.y)
+    Base.new(ship: @ship, planet: @planet, x: @planet.x, y: @planet.y)
   end
 
   def return_to_game

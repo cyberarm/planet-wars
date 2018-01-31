@@ -1,9 +1,4 @@
-class Ship < Chingu::GameObject
-  trait :timer
-  trait :effect
-  trait :bounding_circle
-  trait :collision_detection
-
+class Ship < GameObject
   attr_accessor :boost, :max_boost, :health, :max_health, :dead, :speed, :boost_speed, :diamond, :gold, :oil
   attr_reader   :active_speed, :lock_speed, :lock_max_boost, :lock_boost_speed, :ship_size, :border
 
@@ -21,17 +16,17 @@ class Ship < Chingu::GameObject
     @boost_speed = 1
     @max_boost   = 100
     @rotaion_speed=2.5
-    @particle_img = Gosu::Image["#{AssetManager.particles_path}/exhaust.png"]
-    @particle_img_boost = Gosu::Image["#{AssetManager.particles_path}/boost_exhaust.png"]
+    @particle_img = AssetManager.get_image("#{AssetManager.particles_path}/exhaust.png")
+    @particle_img_boost = AssetManager.get_image("#{AssetManager.particles_path}/boost_exhaust.png")
 
-    self.input = {
-      [:space, :gp_0] => :fire_weapon,
-      [:holding_left_shift, :holding_right_shift, :holding_gp_1] => :boost_key,
-      [:holding_w,:holding_up, :holding_gp_10]       => :move_up,
-      [:holding_s,:holding_down, :holding_gp_9]   => :move_down,
-      [:holding_a,:holding_left, :holding_gp_left]   => :move_left,
-      [:holding_d,:holding_right, :holding_gp_right] => :move_right}
-    self.zorder  = 301
+    # self.input = {
+    #   [:space, :gp_0] => :fire_weapon,
+    #   [:holding_left_shift, :holding_right_shift, :holding_gp_1] => :boost_key,
+    #   [:holding_w,:holding_up, :holding_gp_10]       => :move_up,
+    #   [:holding_s,:holding_down, :holding_gp_9]   => :move_down,
+    #   [:holding_a,:holding_left, :holding_gp_left]   => :move_left,
+    #   [:holding_d,:holding_right, :holding_gp_right] => :move_right}
+    self.z  = 301
 
     @diamond = 0
     @gold    = 400
@@ -40,24 +35,28 @@ class Ship < Chingu::GameObject
     @ship_check = 0
 
     @border= @options[:world]
-    @image = Gosu::Image["#{AssetManager.ships_path}/ship.png"]
-    @particle = ParticleEmitter.create(x: self.x, y: self.y, z: 1, max_particles: 500)
-    # @particle=Ashton::ParticleEmitter.new(self.x, self.y, 299, image: @particle_img, scale: 1.0,speed: 20,friction: 0.1,max_particles: 1200,interval: 0.006,fade: 100,angular_velocity: -200..200)
-    self.scale_out(0.1)
+    @image = AssetManager.get_image("#{AssetManager.ships_path}/ship.png")
+    @particle = ParticleEmitter.new(x: self.x, y: self.y, z: 1, max_particles: 500)
+    self.scale(1.1)
     @ship_size = 64/2
 
     @lock_max_boost = 400
     @lock_boost_speed = 3
     @lock_speed = 5
 
-    every(500) {@warning = false}
+    @warning_time = Time.now
   end
 
   def update
     if @boosting
-      @particle.particle_image = Gosu::Image[AssetManager.particles_path+"/boost_exhaust.png"]
+      @particle.particle_image = AssetManager.get_image(AssetManager.particles_path+"/boost_exhaust.png")
     else
-      @particle.particle_image = Gosu::Image[AssetManager.particles_path+"/exhaust.png"]
+      @particle.particle_image = AssetManager.get_image(AssetManager.particles_path+"/exhaust.png")
+    end
+
+    if Time.now.to_f-@warning_time.to_f >- 0.5
+      @warning = false
+      @warning_time = Time.now
     end
 
     if @active_speed <= 1.0
@@ -76,6 +75,26 @@ class Ship < Chingu::GameObject
     @speed = @old_speed
     @moving = false
     @boosting = false
+  end
+
+  def button_up(id)
+    if Gosu::KbSpace || Gosu::Gp0
+      boost_key
+    end
+  end
+
+  def button_down?(id)
+    if Gosu::KbLeftShift || Gosu::KbRightShift || Gosu::Gp1
+      boost_key
+    elsif Gosu::KbW || Gosu::KbUp || Gosu::Gp10
+      move_up
+    elsif Gosu::KbS || Gosu::KbDown || Gosu::Gp9
+      move_down
+    elsif Gosu::KbA || Gosu::KbLeft || Gosu::GpLeft
+      move_left
+    elsif Gosu::KbD || Gosu::KbRight || Gosu::GpRight
+      move_right
+    end
   end
 
   def hit(damage, object)
@@ -166,7 +185,7 @@ class Ship < Chingu::GameObject
   end
 
   def fire_weapon
-    Bullet.create(x: self.x, y: self.y, z: 199, host_angle: self.angle, created_by: self)
+    Bullet.new(x: self.x, y: self.y, z: 199, host_angle: self.angle, created_by: self)
     GameInfo::Config.bullet_shot
   end
 

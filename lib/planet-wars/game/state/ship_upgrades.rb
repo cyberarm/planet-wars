@@ -1,4 +1,4 @@
-class ShipUpgrades < Chingu::GameState
+class ShipUpgrades < GameState
   def setup
     @ship = Ship.all.first
 
