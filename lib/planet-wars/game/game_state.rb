@@ -5,13 +5,16 @@ class GameState
   def initialize(options={})
     @options = options
     @game_objects = []
-    setup
+
+    # setup
   end
 
   def setup
   end
 
   def draw
+    # puts "Current GameState == #{self.class} => #{self == $window.current_game_state}"
+    # puts "GO; #{@game_objects.count}"
     @game_objects.each(&:draw)
   end
 
@@ -20,14 +23,9 @@ class GameState
   end
 
   def button_up(id)
+    puts "b #{id}"
     @game_objects.each do |o|
       o.button_up(id)
-    end
-  end
-
-  def button_down?(id)
-    @game_objects.each do |o|
-      o.button_down?(id)
     end
   end
 

@@ -55,7 +55,7 @@ class Planet < GameObject
 
   def update
     self.rotate_self
-    collision_check
+    # collision_check
     @base.update if @base.is_a?(Base)
   end
 

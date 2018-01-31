@@ -1,11 +1,10 @@
 class GameObject
   INSTANCES = []
-  attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y, :color, :mode, :options
+  attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y, :color, :alpha, :mode, :options, :paused
   def initialize(options={})
     INSTANCES.push(self)
-    if $window.current_game_state
-      $window.current_game_state.add_game_object(self)
-    end
+    $window.current_game_state.add_game_object(self)
+
     @options = options
     @image = options[:image] ? AssetManager.get_image(options[:image]) : nil
     @x = options[:x] ? options[:x] : 0
@@ -17,7 +16,9 @@ class GameObject
     @scale_x  = options[:scale_x] ? options[:scale_x] : 1
     @scale_y  = options[:scale_y] ? options[:scale_y] : 1
     @color    = options[:color] ? options[:color] : Gosu::Color.argb(0xff_ffffff)
+    @alpha    = options[:alpha] ? options[:alpha] : 255
     @mode = options[:mode] ? options[:mode] : :default
+    @paused = false
 
     setup
   end
@@ -29,6 +30,9 @@ class GameObject
   end
 
   def update
+    if @paused
+      update
+    end
   end
 
   def width
@@ -37,6 +41,14 @@ class GameObject
 
   def height
     @image ? @image.height : 0
+  end
+
+  def pause
+    @paused = true
+  end
+
+  def unpause
+    @paused = false
   end
 
   def scale(int)
@@ -50,6 +62,7 @@ class GameObject
   end
 
   def alpha=int # 0-255
+    @alpha = int
     @color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, int)
   end
 

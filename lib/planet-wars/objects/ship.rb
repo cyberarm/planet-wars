@@ -19,13 +19,6 @@ class Ship < GameObject
     @particle_img = AssetManager.get_image("#{AssetManager.particles_path}/exhaust.png")
     @particle_img_boost = AssetManager.get_image("#{AssetManager.particles_path}/boost_exhaust.png")
 
-    # self.input = {
-    #   [:space, :gp_0] => :fire_weapon,
-    #   [:holding_left_shift, :holding_right_shift, :holding_gp_1] => :boost_key,
-    #   [:holding_w,:holding_up, :holding_gp_10]       => :move_up,
-    #   [:holding_s,:holding_down, :holding_gp_9]   => :move_down,
-    #   [:holding_a,:holding_left, :holding_gp_left]   => :move_left,
-    #   [:holding_d,:holding_right, :holding_gp_right] => :move_right}
     self.z  = 301
 
     @diamond = 0
@@ -37,7 +30,6 @@ class Ship < GameObject
     @border= @options[:world]
     @image = AssetManager.get_image("#{AssetManager.ships_path}/ship.png")
     @particle = ParticleEmitter.new(x: self.x, y: self.y, z: 1, max_particles: 500)
-    self.scale(1.1)
     @ship_size = 64/2
 
     @lock_max_boost = 400
@@ -75,26 +67,22 @@ class Ship < GameObject
     @speed = @old_speed
     @moving = false
     @boosting = false
+
+    boost_key if button_down?(Gosu::KbLeftShift) || button_down?(Gosu::KbRightShift)# || button_down?(Gosu::Gp1)
+    move_up if button_down?(Gosu::KbW) || button_down?(Gosu::KbUp)# || button_down?(Gosu::Gp10)
+    move_down if button_down?(Gosu::KbS) || button_down?(Gosu::KbDown)# || button_down?(Gosu::Gp9)
+    move_left if button_down?(Gosu::KbA) || button_down?(Gosu::KbLeft)# || button_down?(Gosu::GpLeft)
+    move_right if button_down?(Gosu::KbD) || button_down?(Gosu::KbRight)# || button_down?(Gosu::GpRight)
   end
 
   def button_up(id)
-    if Gosu::KbSpace || Gosu::Gp0
-      boost_key
+    if id == Gosu::KbSpace# || id == Gosu::Gp0
+      fire_weapon
     end
   end
 
   def button_down?(id)
-    if Gosu::KbLeftShift || Gosu::KbRightShift || Gosu::Gp1
-      boost_key
-    elsif Gosu::KbW || Gosu::KbUp || Gosu::Gp10
-      move_up
-    elsif Gosu::KbS || Gosu::KbDown || Gosu::Gp9
-      move_down
-    elsif Gosu::KbA || Gosu::KbLeft || Gosu::GpLeft
-      move_left
-    elsif Gosu::KbD || Gosu::KbRight || Gosu::GpRight
-      move_right
-    end
+    $window.button_down?(id)
   end
 
   def hit(damage, object)

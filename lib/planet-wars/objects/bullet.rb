@@ -14,7 +14,7 @@ class Bullet < GameObject
     @host_angle = @options[:host_angle]
     @created_by = @options[:created_by]
 
-    set_velocity
+    # set_velocity
   end
 
   def update
@@ -23,8 +23,8 @@ class Bullet < GameObject
     self.alpha-=alpha
     self.die if self.alpha <= 0
     @damage-=damage
-    check_collisions
-    update_velocity
+    # check_collisions
+    # update_velocity
   end
 
   def update_velocity

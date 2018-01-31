@@ -83,19 +83,13 @@ class Game < GameState
   end
 
   def button_up(id)
-    if Gosu::KbM
-      mute
-    elsif Gosu::KbEnter || Gosu::KbReturn || Gosu::Gp3
-      enter
-    elsif Gosu::KbEscape || Gosu::Gp6
-      escape
-    elsif Gosu::KbP || Gosu::Gp4
-      pause_game
-    elsif Gosu::KbU || Gosu::Gp2
-      upgrades_menu
-    elsif Gosu::KbC
-      debugging_waves
-    end
+    mute if id == Gosu::KbM
+    enter if id == Gosu::KbEnter || Gosu::KbReturn# || Gosu::Gp3
+    escape if id == Gosu::KbEscape# || Gosu::Gp6
+    pause_game if id == Gosu::KbP# || Gosu::Gp4
+    upgrades_menu if id == Gosu::KbU# || Gosu::Gp2
+    debugging_waves if id == Gosu::KbC
+    super
   end
 
   def planet_check
@@ -139,7 +133,7 @@ class Game < GameState
     ask("Are you sure you want to leave?") do
       @ship.destroy
       GameMethods.end_cleanup
-      close
+      # close
       push_game_state(MainMenu)
     end
   end

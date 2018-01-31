@@ -31,8 +31,8 @@ class Portal < GameObject
     if @ready
       fade_speed = @fade_speed*Engine.dt
 
-      fade_out(fade_speed) unless @spawn or @despawn
-      fade_in(fade_speed) if @spawn or @despawn
+      alpha=(@alpha-fade_speed) unless @spawn or @despawn
+      alpha=(@alpha+fade_speed) if @spawn or @despawn
     end
 
     if Time.now-GameInfo::Config.game_time > 10

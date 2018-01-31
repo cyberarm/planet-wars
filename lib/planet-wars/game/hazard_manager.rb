@@ -9,7 +9,7 @@ class HazardManager < GameObject
     if @tick >= 60*30
       if ConfigManager.config["hazards"]
         create_hazard
-        Gosu::Sample["#{AssetManager.sounds_path}/incoming_asteroids.ogg"].play if ConfigManager.play_sounds?
+        AssetManager.get_sample("#{AssetManager.sounds_path}/incoming_asteroids.ogg").play if ConfigManager.play_sounds?
       end
 
       @tick = 0

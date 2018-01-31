@@ -75,22 +75,17 @@ class Engine < Gosu::Window
   end
 
   def button_up(id)
+    p id
     @current_game_state.button_up(id)
   end
 
-  def button_down?(id)
-    @current_game_state.button_down?(id)
-  end
-
   def push_game_state(klass, options={})
-    p klass
     if klass.instance_of?(klass.class) && defined?(klass.options)
       @current_game_state = klass
-      # @current_game_state.options = options
     else
       @current_game_state = klass.new(options)
+      @current_game_state.setup
     end
-    p @current_game_state.class
   end
 
   # def previous_game_state

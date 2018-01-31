@@ -4,14 +4,13 @@ class Asteroid < GameObject
   def setup
     asteroid_images = Dir["#{AssetManager.asteroids_path}/*.png"]
     random = rand(asteroid_images.count)
-    @image = Gosu::Image["#{AssetManager.asteroids_path}/#{File.basename(asteroid_images[random])}"]
-    trait_options[:bounding_circle][:scale] = 0.8
+    @image = AssetManager.get_image("#{AssetManager.asteroids_path}/#{File.basename(asteroid_images[random])}")
     @health= 200
     @speed = 5*60
     @damage= 50
     @rotation = rand(-5..5)
     self.z = 300
-    self.factor = rand(0.1..1.0)
+    self.scale(rand(0.1..1.0))
     placer
     set_velocity
   end
@@ -19,7 +18,7 @@ class Asteroid < GameObject
   def update
     rotation = (@rotation*60)*Engine.dt
     rotate(rotation)
-    check_for_collisions
+    # check_for_collisions
     update_velocity
     destroy_self?
   end
@@ -69,8 +68,8 @@ class Asteroid < GameObject
     dx, dy = @dx, @dy
     speed = @speed*Engine.dt
     dx *= speed; dy *= speed
-    self.velocity_x = dx
-    self.velocity_y = dy
+    self.x += dx
+    self.y += dy
   end
 
   def hit(damage, bullet)

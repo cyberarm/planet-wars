@@ -98,7 +98,7 @@ module AssetManager
     music  = []
     samples= []
 
-    [background_path, portal_path, particles_path, ships_path, enemies_path, planets_path+"/uninhabitable", planets_path+"/habitable", bullets_path, music_path].each do |asset|
+    [asteroids_path, background_path, portal_path, particles_path, ships_path, enemies_path, planets_path+"/uninhabitable", planets_path+"/habitable", bullets_path, music_path].each do |asset|
       Dir["#{asset}/*.png"].each do |image|
         images << image if image.end_with?('.png')
       end

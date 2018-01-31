@@ -21,8 +21,8 @@ module GameMethods
   end
 
   def ask(string, &blk)
-    push_game_state(Confirm.new(text: string, block: blk)) if blk
-    push_game_state(Confirm.new(text: string, block: blk)) unless blk
+    push_game_state(Confirm.new(text: string, state: self, block: blk)) if blk
+    push_game_state(Confirm.new(text: string, state: self, block: blk)) unless blk
   end
 
   def self.end_cleanup
