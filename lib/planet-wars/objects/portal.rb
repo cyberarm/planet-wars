@@ -3,6 +3,8 @@
 
 class Portal < GameObject
   def setup
+    @debug_color = Gosu::Color::BLUE
+
     @image = AssetManager.get_image("#{AssetManager.portal_path}/portal.png")
     self.alpha = 0
     self.scale=0.6

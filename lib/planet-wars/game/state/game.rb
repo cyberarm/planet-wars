@@ -137,7 +137,7 @@ class Game < GameState
     ask("Are you sure you want to leave?") do
       @ship.destroy
       GameMethods.end_cleanup
-      # close
+      destroy
       push_game_state(MainMenu)
     end
   end

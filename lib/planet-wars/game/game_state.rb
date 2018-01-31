@@ -24,6 +24,11 @@ class GameState
     end
   end
 
+  def destroy
+    @options = nil
+    @game_objects = nil
+  end
+
   def button_up(id)
     puts "b #{id}"
     @game_objects.each do |o|

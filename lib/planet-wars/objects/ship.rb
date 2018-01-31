@@ -3,6 +3,8 @@ class Ship < GameObject
   attr_reader   :active_speed, :lock_speed, :lock_max_boost, :lock_boost_speed, :ship_size, :border
 
   def setup
+    @debug_color = Gosu::Color::YELLOW
+
     @moving      = false
     @dead        = false
     @warning     = false

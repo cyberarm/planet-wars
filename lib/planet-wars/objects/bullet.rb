@@ -4,6 +4,8 @@ class Bullet < GameObject
   end
 
   def setup
+    @debug_color = Gosu::Color.rgb(200,0,150)
+
     self.z = Float::INFINITY
     @image = AssetManager.get_image(AssetManager.bullets_path+'/bullet.png')
     AssetManager.get_sample("#{AssetManager.sounds_path}/laser.ogg").play if ConfigManager.play_sounds?

@@ -19,6 +19,7 @@ class GameObject
     @alpha    = options[:alpha] ? options[:alpha] : 255
     @mode = options[:mode] ? options[:mode] : :default
     @paused = false
+    @debug_color = Gosu::Color::GREEN
 
     setup
     @radius = options[:radius] ? options[:radius] : defined?(@image.width) ? ((@image.width+@image.height)/4)*scale : 1
@@ -30,7 +31,7 @@ class GameObject
     end
 
     if $debug
-      $window.draw_circle(self.x, self.y, radius)
+      $window.draw_circle(self.x, self.y, radius, 9999, @debug_color)
     end
   end
 
@@ -131,7 +132,7 @@ class GameObject
 
   # NOTE: This could be implemented more reliably
   def self.all
-    $window.current_game_state.game_objects.select {|i| i.class == self}
+    INSTANCES.select {|i| i.class == self}
   end
 
   def self.each_circle_collision(object, resolve_with = :width, &block)

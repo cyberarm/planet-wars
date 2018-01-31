@@ -10,6 +10,8 @@ class TargetArea < GameObject
   end
 
   def update
+    @debug_color = Gosu::Color.rgb(rand(150..200),rand(150..200),rand(150..200)) if $debug
+
     self.x = @owner.x
     self.y = @owner.y
 

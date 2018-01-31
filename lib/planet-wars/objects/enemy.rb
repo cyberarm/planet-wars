@@ -3,6 +3,8 @@ class Enemy < GameObject
   attr_reader :despawn, :old_gosu_time
 
   def setup
+    @debug_color = Gosu::Color::RED
+
     self.z = 300
     self.alpha = 0
     @speed = 2*60

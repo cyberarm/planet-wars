@@ -3,6 +3,8 @@ class Planet < GameObject
   attr_accessor :text, :habitable, :base, :gold, :diamond, :oil
 
   def setup
+    @debug_color = Gosu::Color::BLUE
+
     self.z = 150
     @name = NameGen.new.name
     case rand(1..2)
@@ -61,8 +63,7 @@ class Planet < GameObject
 
   def collision_check
     unless @base.is_a?(Base)
-      p Ship.all.first
-      if self.circle_collision?(INSTANCES.select {|i| i.class == Ship}.last)
+      if self.circle_collision?(Ship.all.first)
         self.text.text = "#{name}"
       else
         self.text.text = ''
