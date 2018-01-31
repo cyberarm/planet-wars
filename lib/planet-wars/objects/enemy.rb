@@ -8,7 +8,7 @@ class Enemy < GameObject
     @speed = 2*60
     @health= 60
     GameInfo::Mode.wave_enemies_spawned+=1
-    @image = Gosu::Image["#{AssetManager.enemies_path}/enemy.png"]
+    @image = AssetManager.get_image("#{AssetManager.enemies_path}/enemy.png")
     @target = Target.new(x: 0, y: 0, target: Ship.all.first) unless Target.all.first.is_a?(Target)
     @target = Target.all.first if Target.all.first.is_a?(Target)
     @target_area = TargetArea.new(owner: self, target: @target, size: 255.0)
@@ -54,7 +54,7 @@ class Enemy < GameObject
   def check_health
     if @health <= 0
       Empty.new(x: self.x, y: self.y)
-      Gosu::Sample["#{AssetManager.sounds_path}/explosion.ogg"].play if ConfigManager.config["sounds"]
+      AssetManager.get_sample("#{AssetManager.sounds_path}/explosion.ogg").play if ConfigManager.config["sounds"]
       GameInfo::Kills.killed if @object.is_a?(Bullet)
       self.destroy
     end

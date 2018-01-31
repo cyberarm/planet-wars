@@ -3,24 +3,24 @@ GEM
   specs:
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    chingu (0.9rc9)
-      gosu (>= 0.7.45)
     chroma (0.2.0)
     excon (0.60.0)
+    gosu (0.13.2)
     gosu (0.13.2-x86-mingw32)
     humanize (1.7.0)
     launchy (2.4.3)
       addressable (~> 2.3)
+    msgpack (1.2.2)
     msgpack (1.2.2-x86-mingw32)
     oj (3.4.0)
     public_suffix (3.0.1)
     rake (12.3.0)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
-  chingu (= 0.9rc9)
   chroma
   excon
   gosu
@@ -31,4 +31,4 @@ DEPENDENCIES
   rake
 
 BUNDLED WITH
-   1.15.4
+   1.16.1

@@ -51,7 +51,7 @@ class Ship < GameObject
       @warning_time = Time.now
     end
 
-    if @active_speed <= 1.0
+    if @active_speed.abs <= 1.0
       @particle.emit = false
     else
       @particle.emit = true

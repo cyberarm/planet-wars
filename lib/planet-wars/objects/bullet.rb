@@ -51,7 +51,7 @@ class Bullet < GameObject
       self.each_collision(Ship) do |bullet, ship|
         if true # TODO: Check pixel collision
           self.die
-          Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.play_sounds?
+          AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
           ship.hit(@damage, self)
         end
       end
@@ -59,14 +59,14 @@ class Bullet < GameObject
     else
       self.each_collision(Enemy) do |bullet, enemy|
         self.die
-        Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.play_sounds?
+        AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
         enemy.hit(@damage, self)
       end
     end
 
     self.each_collision(Asteroid) do |bullet, asteroid|
       self.die
-      Gosu::Sample["#{AssetManager.sounds_path}/hit.ogg"].play(0.1) if ConfigManager.play_sounds?
+      AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
       asteroid.hit(@damage, self)
     end
   end

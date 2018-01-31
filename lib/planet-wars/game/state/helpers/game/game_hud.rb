@@ -45,11 +45,7 @@ class GameHUD
   end
 
   def update
-    @clock_counter+=1
-    if @clock_counter <= 60
-      @clock_time+=$window.dt/1000.0
-      @clock_counter=0
-    end
+    @clock_time+=$window.dt
     @time = Time.at((@clock_time)).gmtime
     # GameInfo::Config.game_time=time # Fix later
     GameInfo::Config.game_time_processed=@time # remove me later

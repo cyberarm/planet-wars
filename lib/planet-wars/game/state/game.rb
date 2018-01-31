@@ -58,7 +58,7 @@ class Game < GameState
 
   def update
     super
-    # self.viewport.center_around(@ship)
+    center_around(@ship)
     unless @paused
       set_fps_text(@fps)
 
@@ -90,6 +90,10 @@ class Game < GameState
     upgrades_menu if id == Gosu::KbU# || Gosu::Gp2
     debugging_waves if id == Gosu::KbC
     super
+  end
+
+  def center_around(point)
+    # Do science
   end
 
   def planet_check

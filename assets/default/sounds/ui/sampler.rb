@@ -2,7 +2,7 @@ require "chingu"
 class Sampler < Chingu::Window
   def initialize
     super(120,120,false)
-    @sound = Gosu::Sample["./error.ogg"].play
+    @sound = AssetManager.get_sample("./error.ogg").play
     @tick = 0
   end
 

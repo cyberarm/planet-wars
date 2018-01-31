@@ -1,7 +1,7 @@
 class Empty < GameObject
   def setup
     self.z = 299
-    @particle_img = Gosu::Image["#{AssetManager.particles_path}/explosion.png"]
+    @particle_img = AssetManager.get_image("#{AssetManager.particles_path}/explosion.png")
     @particle_emitter = ParticleEmitter.new(x: self.x, y: self.y, z: 1, max_particles: 100)
     # @particle=Ashton::ParticleEmitter.new(self.x, self.y,
       # 199, image: @particle_img, scale: 1.0,speed: 100,

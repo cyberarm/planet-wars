@@ -27,7 +27,7 @@ class MainMenu < GameUI
     if $latest_release_data
       @message_l= Text.new("Update Available!", x: 100, y: $window.height-140, z: 100, size: 20)
       @message_l2= Text.new("Version '#{$latest_release_data['name']}' available, you're currently on '#{GameInfo::VERSION}'.", x: 100, y: $window.height-110, z: 100, size: 18)
-      @image_l = Gosu::Image["assets/kenney_gameicons/import.png"]
+      @image_l = AssetManager.get_image("assets/kenney_gameicons/import.png")
     end
   end
 
