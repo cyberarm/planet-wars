@@ -21,7 +21,7 @@ class Game < GameState
        world: [@viewport_area.x,@viewport_area.width,@viewport_area.y,@viewport_area.height])#x-left, x-right, y-, y
 
     @game_hud = GameHUD.new(@viewport_area)
-    # @game_controls    = GameControls.new
+    @game_controls    = GameControls.new
     @game_overlay_hud = GameOverlayHUD.new
     @game_upgrade_hud = GameUpgradeHUD.new(@ship)
     @game_resources_hud = GameResourcesHUD.new(@ship)
@@ -45,7 +45,6 @@ class Game < GameState
 
   def draw
     $window.translate(-@viewport_x.to_i, -@viewport_y.to_i) do
-      # @game_objects.each {|o| next if o == @ship; o.draw}
       super
     end
 
@@ -53,7 +52,7 @@ class Game < GameState
       @fps.draw
 
       @game_hud.draw
-      # @game_controls.draw
+      @game_controls.draw
       @game_overlay_hud.draw
       @game_upgrade_hud.draw
       @game_resources_hud.draw
@@ -70,7 +69,7 @@ class Game < GameState
       set_fps_text(@fps)
 
       @game_hud.update
-      # @game_controls.update
+      @game_controls.update
       @game_overlay_hud.update
       @game_upgrade_hud.update
       @game_resources_hud.update
