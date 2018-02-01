@@ -4,19 +4,24 @@ class GameOverlayHUD
     @ship = Ship.all.first
     @elements = []
     @bases = 1
+    @title = Text.new("Telemetry", color: Gosu::Color::WHITE, x: 200, y: 150, z: 1001, size: 32)
     @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 200, z: 1001, size: 20), name: "Bases Built", block: :bases}
     @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 220, z: 1001, size: 20), name: "Available Planets", block: :available_planets}
     @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 240, z: 1001, size: 20), name: "Enemies Killed", block: :enemies_killed}
-    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 260, z: 1001, size: 20), name: "Bullets Fired", block: :bullets_fired}
-    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 280, z: 1001, size: 20), name: "Ship Repaired", block: :ship_repaired}
+    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 260, z: 1001, size: 20), name: "Enemies Active", block: :enemies_active}
+    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 280, z: 1001, size: 20), name: "Bullets Fired", block: :bullets_fired}
+    @elements << {text: Text.new("", color: Gosu::Color::WHITE, x: 200, y: 300, z: 1001, size: 20), name: "Ship Repaired", block: :ship_repaired}
   end
 
   def draw
     if @show
-       $window.draw_rect(100, 100, $window.width-300, $window.height-300, Gosu::Color.argb(100, 0, 0, 0), 1000)
+      $window.flush
+       $window.draw_rect(100, 100, $window.width-200, $window.height-200, Gosu::Color.argb(200, 0, 0, 0), 1000)
        @elements.each do |e|
          e[:text].draw
        end
+       @title.draw
+       $window.draw_rect(110, 180, $window.width-220, 4, Gosu::Color::WHITE, 1000)
     end
   end
 
@@ -47,6 +52,10 @@ class GameOverlayHUD
 
   def enemies_killed
     GameInfo::Kills.kills
+  end
+
+  def enemies_active
+    Enemy.all.count
   end
 
   def bullets_fired

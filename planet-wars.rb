@@ -90,6 +90,9 @@ rescue => e
     file.write BUILD
   end
 end
+if ARGV.join.include?("--mute")
+  $mute = true
+end
 if ARGV.join.include?('--debug')
   $debug = true
   at_exit do

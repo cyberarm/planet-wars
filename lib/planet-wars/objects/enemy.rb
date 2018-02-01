@@ -56,7 +56,7 @@ class Enemy < GameObject
   def check_health
     if @health <= 0
       Empty.new(x: self.x, y: self.y)
-      AssetManager.get_sample("#{AssetManager.sounds_path}/explosion.ogg").play if ConfigManager.config["sounds"]
+      AssetManager.get_sample("#{AssetManager.sounds_path}/explosion.ogg").play if ConfigManager.play_sounds?
       GameInfo::Kills.killed if @object.is_a?(Bullet)
       self.destroy
     end
@@ -100,6 +100,6 @@ class Enemy < GameObject
     return best_object
   end
 
-  def look_at(vector)
+  def look_at(object)
   end
 end

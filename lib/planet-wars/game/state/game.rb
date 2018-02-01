@@ -27,7 +27,7 @@ class Game < GameState
     @game_resources_hud = GameResourcesHUD.new(@ship)
 
     NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
-    NotificationManager.add("Press 'H' to show help", Gosu::Color::GRAY)
+    NotificationManager.add("Press 'F1' to show help", Gosu::Color::GRAY)
     AchievementManager.new
     HazardManager.new
 
@@ -52,10 +52,10 @@ class Game < GameState
       @fps.draw
 
       @game_hud.draw
-      @game_controls.draw
-      @game_overlay_hud.draw
       @game_upgrade_hud.draw
       @game_resources_hud.draw
+      @game_overlay_hud.draw
+      @game_controls.draw
 
     else
       @paused_text.draw
@@ -68,11 +68,11 @@ class Game < GameState
     unless @paused
       set_fps_text(@fps)
 
-      @game_hud.update
-      @game_controls.update
-      @game_overlay_hud.update
+      @game_hud.update unless @global_pause
       @game_upgrade_hud.update
       @game_resources_hud.update
+      @game_overlay_hud.update
+      @game_controls.update
 
       planet_check unless $debug
     end
@@ -89,6 +89,8 @@ class Game < GameState
   end
 
   def button_up(id)
+    @game_controls.button_up(id)
+
     mute if id == Gosu::KbM
     enter if id == Gosu::KbEnter || id == Gosu::KbReturn# || Gosu::Gp3
     escape if id == Gosu::KbEscape# || Gosu::Gp6
@@ -143,6 +145,7 @@ class Game < GameState
   end
 
   def mute
+    if $mute; $mute = false; else; $mute = true; end
     if $music_manager.song.paused?
       $music_manager.song.play
     else

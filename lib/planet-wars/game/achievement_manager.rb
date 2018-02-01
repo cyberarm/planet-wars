@@ -49,6 +49,6 @@ class AchievementManager < GameObject
 
   def passed(achievement)
     NotificationManager.add("Achievement Unlocked: #{achievement.message.capitalize}", Gosu::Color::GREEN, 300)
-    AssetManager.get_sample("#{AssetManager.sounds_path}/achievement_unlocked.ogg").play if ConfigManager.config["sounds"]
+    AssetManager.get_sample("#{AssetManager.sounds_path}/achievement_unlocked.ogg").play if ConfigManager.play_sounds?
   end
 end

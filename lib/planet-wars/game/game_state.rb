@@ -1,10 +1,11 @@
 class GameState
-  attr_accessor :options
+  attr_accessor :options, :global_pause
   attr_reader :game_objects
 
   def initialize(options={})
     @options = options
     @game_objects = []
+    @global_pause = false
 
     # setup
   end
@@ -20,7 +21,7 @@ class GameState
 
   def update
     @game_objects.each do |o|
-      o.update unless o.paused
+      o.update unless o.paused || @global_pause
     end
   end
 

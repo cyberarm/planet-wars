@@ -15,16 +15,22 @@ class GameControls
 
   def draw
     if @show
-      $window.draw_rect(100, 100, $window.width-300, $window.height-300, Gosu::Color.argb(100, 0, 0, 0), 1000)
+      $window.flush
+      $window.draw_rect(0, 0, $window.width, $window.height, Gosu::Color.argb(200, 0, 0, 0), 1000)
       @text.draw
     end
   end
 
   def update
-    if $window.button_down?(Gosu::KbH)
+    if $window.button_down?(Gosu::KbF1)
+      $window.current_game_state.global_pause = true
       @show = true
     else
       @show = false
     end
+  end
+
+  def button_up(id)
+    $window.current_game_state.global_pause = false if id == Gosu::KbF1 && $window.current_game_state.global_pause
   end
 end

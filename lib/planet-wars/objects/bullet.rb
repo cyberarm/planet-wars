@@ -42,7 +42,8 @@ class Bullet < GameObject
     @direction = (@host_angle - 90.0) * (Math::PI / 180.0)
   end
 
-  def die
+  def die(options = {collided: false})
+    AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds? && options[:collided]
     self.destroy
   end
 
@@ -50,22 +51,19 @@ class Bullet < GameObject
     if @created_by.is_a?(Enemy)
       self.each_circle_collision(Ship) do |bullet, ship|
         if true # TODO: Check pixel collision
-          self.die
-          AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
+          self.die(collided: true)
           ship.hit(@damage, self)
         end
       end
     else
       self.each_circle_collision(Enemy) do |bullet, enemy|
-        self.die
-        AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
+        self.die(collided: true)
         enemy.hit(@damage, self)
       end
     end
 
     self.each_circle_collision(Asteroid) do |bullet, asteroid|
-      self.die
-      AssetManager.get_sample("#{AssetManager.sounds_path}/hit.ogg").play(0.1) if ConfigManager.play_sounds?
+      self.die(collided: true)
       asteroid.hit(@damage, self)
     end
   end

@@ -29,7 +29,7 @@ module ConfigManager
   end
 
   def self.play_sounds?
-    if ARGV.join.include?("--mute")
+    if $mute
       false
     else
       @config_data['config']['sounds']
@@ -37,7 +37,7 @@ module ConfigManager
   end
 
   def self.play_music?
-    if ARGV.join.include?("--mute")
+    if $mute
       false
     else
       @config_data['config']['music']
