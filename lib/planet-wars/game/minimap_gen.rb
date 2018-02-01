@@ -9,6 +9,8 @@ class MiniMapGenerator
     @enemies = enemies
     @asteroids=asteroid
     @ships   = ships
+    @max_rect= 300
+    @devisor = 33
 
     @color_planet = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_habitable'])
     @color_planet_not_habitable = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_uninhabitable'])
@@ -28,31 +30,38 @@ class MiniMapGenerator
   end
 
   def draw
-    x = $window.width-(@area.width/10)
-    $window.draw_rect(x, 0, (@area.width/10), (@area.height/10), @color_background, 999)
+    x = $window.width-(@area.width/@devisor)
+    $window.clip_to(x, 0, @area.width/10, @area.height/10) do
+      draw_call
+    end
+  end
+
+  def draw_call
+    x = $window.width-(@area.width/@devisor)
+    $window.draw_rect(x, 0, (@area.width/10), (@area.height/@devisor), @color_background, 999)
     Planet.all.each do |planet|
       if planet.habitable
-        $window.draw_rect(x+(planet.x/10), planet.y/10, 10, 10, @color_planet, 999) if planet.base.nil?
-        $window.draw_rect(x+(planet.x/10), planet.y/10, 10, 10, @color_planet_based, 999) unless planet.base.nil?
+        $window.draw_rect(x+(planet.x/@devisor), planet.y/@devisor, 10, 10, @color_planet, 999) if planet.base.nil?
+        $window.draw_rect(x+(planet.x/@devisor), planet.y/@devisor, 10, 10, @color_planet_based, 999) unless planet.base.nil?
       else
-        $window.draw_rect(x+(planet.x/10), planet.y/10, 10, 10, @color_planet_not_habitable, 999)
+        $window.draw_rect(x+(planet.x/@devisor), planet.y/@devisor, 10, 10, @color_planet_not_habitable, 999)
       end
     end
     #
     Enemy.all.each do |enemy|
       begin
-        $window.draw_rect(x+(enemy.x/10), enemy.y/10, 10, 10, @color_enemy, 999)
+        $window.draw_rect(x+(enemy.x/@devisor), enemy.y/@devisor, 10, 10, @color_enemy, 999)
       rescue RangeError => e
         Logger.log("#{e}", self)
       end
     end
     #
     Asteroid.all.each do |asteroid|
-      $window.draw_rect(x+(asteroid.x/10), asteroid.y/10, 10, 10, @color_asteroid, 999)
+      $window.draw_rect(x+(asteroid.x/@devisor), asteroid.y/@devisor, 10, 10, @color_asteroid, 999)
     end
     #
     Ship.all.each do |ship|
-      $window.draw_rect(x+(ship.x/10), ship.y/10, 10, 10, @color_ship, 999)
+      $window.draw_rect(x+(ship.x/@devisor), ship.y/@devisor, 10, 10, @color_ship, 999)
     end
   end
 end

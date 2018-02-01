@@ -14,9 +14,9 @@ class Game < GameState
 
     @vewport_x = 0
     @vewport_y = 0
-    @viewport_area = ViewPortArea.new(0,0,3000,3000)
+    @viewport_area = ViewPortArea.new(0,0,6_000,6_000)
 
-    WorldGen.new(30, GameInfo::Config.number_of_portals, @viewport_area.width, @viewport_area.height)
+    WorldGen.new(42, GameInfo::Config.number_of_portals, @viewport_area.width, @viewport_area.height)
     @ship = Ship.new(x: @viewport_area.width/2, y: @viewport_area.height/2, z: 100,
        world: [@viewport_area.x,@viewport_area.width,@viewport_area.y,@viewport_area.height])#x-left, x-right, y-, y
 
@@ -29,7 +29,7 @@ class Game < GameState
     NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
     NotificationManager.add("Press 'F1' to show help", Gosu::Color::GRAY)
     AchievementManager.new
-    HazardManager.new
+    HazardManager.new(viewport_area: @viewport_area)
 
     @fps           = Text.new('', x: 10, y: 0)
     @paused_text   = Text.new("PAUSED", x:$window.width/2-200, y: $window.height/2, z: 1000, size: 100)

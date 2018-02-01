@@ -20,6 +20,7 @@ class AI
 
   def move(object)
     speed = game_object.speed*Engine.dt
+    game_object.target_object = object
     # TODO: Flock behavior
 
     game_object.dx = object.x - game_object.x

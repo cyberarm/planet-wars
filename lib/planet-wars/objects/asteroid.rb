@@ -2,6 +2,9 @@ class Asteroid < GameObject
   attr_accessor :health
 
   def setup
+    @debug_color = Gosu::Color::FUCHSIA
+
+    @viewport_area = @options[:viewport_area]
     asteroid_images = Dir["#{AssetManager.asteroids_path}/*.png"]
     random = rand(asteroid_images.count)
     @image = AssetManager.get_image("#{AssetManager.asteroids_path}/#{File.basename(asteroid_images[random])}")
@@ -11,7 +14,6 @@ class Asteroid < GameObject
     @rotation = rand(-5..5)
     self.z = 300
     self.scale=rand(0.1..1.0)
-    placer
     set_velocity
   end
 
@@ -21,23 +23,6 @@ class Asteroid < GameObject
     check_for_collisions
     update_velocity
     destroy_self?
-  end
-
-  def placer
-    case rand(4)
-    when 1
-      self.x = 0
-      self.y = 0
-    when 2
-      self.x = 3000
-      self.y = 3000
-    when 3
-      self.x = 3000
-      self.y = 0
-    when 4
-      self.x = 0
-      self.y = 3000
-    end
   end
 
   def check_for_collisions
@@ -52,14 +37,14 @@ class Asteroid < GameObject
 
   def destroy_self?
     self.destroy if self.health <= 0
-    unless self.x.between?(-512, 3512) && self.y.between?(-512, 3512)
+    unless self.x.between?(-512, @viewport_area.width+512) && self.y.between?(-512, @viewport_area.height+512)
       self.destroy
     end
   end
 
   def set_velocity
-    @dx = rand(-1500..1500) - self.x
-    @dy = rand(-1500..1500) - self.y
+    @dx = rand(-@viewport_area.width/2..@viewport_area.width/2) - self.x
+    @dy = rand(-@viewport_area.height/2..@viewport_area.height/2) - self.y
     length = Math.sqrt( @dx*@dx + @dy*@dy )
     @dx /= length; @dy /= length
   end

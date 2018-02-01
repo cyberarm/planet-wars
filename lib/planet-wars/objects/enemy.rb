@@ -1,5 +1,5 @@
 class Enemy < GameObject
-  attr_accessor :move, :health, :target, :target_area, :speed, :dx, :dy
+  attr_accessor :move, :health, :target, :target_area, :speed, :dx, :dy, :target_object
   attr_reader :despawn, :old_gosu_time
 
   def setup
@@ -17,6 +17,14 @@ class Enemy < GameObject
     @ai = EnemyAI.new(self)
     @dx = 0
     @dy = 0
+  end
+
+  def draw
+    super
+    if @target_object && $debug
+      $window.draw_line(self.x, self.y, Gosu::Color.rgb(200,100,100),
+                        @target_object.x, @target_object.y, Gosu::Color.rgb(200,100,100), 9999)
+    end
   end
 
   def update

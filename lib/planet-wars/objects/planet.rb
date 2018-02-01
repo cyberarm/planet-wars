@@ -47,7 +47,6 @@ class Planet < GameObject
 
   def rotate_self
     rate = @rate*Engine.dt
-
     self.rotate(rate)
   end
 
@@ -63,6 +62,16 @@ class Planet < GameObject
     @base.update if @base.is_a?(Base)
   end
 
+  def x=(int)
+    @x = int
+    @text.x = (self.x-(self.width.to_f*scale)/2)+((@text.width.to_f/2)*scale)
+  end
+
+  def y=(int)
+    @y = int
+    @text.y = self.y
+  end
+
   def collision_check
     unless @base.is_a?(Base)
       if self.circle_collision?(Ship.all.first)
@@ -74,9 +83,5 @@ class Planet < GameObject
       self.text.text = "#{name}"
       self.text.color= AssetManager.theme_color(AssetManager.theme_data['hud']['planets']['base'])
     end
-  end
-
-  def button_down?(id)
-    $window.button_down?(id)
   end
 end
