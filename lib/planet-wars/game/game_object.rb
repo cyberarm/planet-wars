@@ -102,20 +102,19 @@ class GameObject
   # Duplication... so DRY.
   def each_circle_collision(object, resolve_with = :width, &block)
     if object.class != Class && object.instance_of?(object.class)
-      $window.current_game_state.game_objects.select {|i| i.class == self.class}.each do |o|
-        distance = Gosu.distance(o.x, o.y, object.x, object.y)
-        if distance <= o.radius+object.radius
+      $window.current_game_state.game_objects.select {|i| i.class == object.class}.each do |o|
+        distance = Gosu.distance(self.x, self.y, object.x, object.y)
+        if distance <= self.radius+object.radius
           block.call(o, object) if block
         end
       end
     else
-      lista = $window.current_game_state.game_objects.select {|i| i.class == self.class}
-      listb = $window.current_game_state.game_objects.select {|i| i.class == object}
-      lista.product(listb).each do |o, o2|
-        next if o == o2
-        distance = Gosu.distance(o.x, o.y, o2.x, o2.y)
-        if distance <= o.radius+o2.radius
-          block.call(o, o2) if block
+      list = $window.current_game_state.game_objects.select {|i| i.class == object}
+      list.each do |o|
+        next if self == o
+        distance = Gosu.distance(self.x, self.y, o.x, o.y)
+        if distance <= self.radius+o.radius
+          block.call(self, o) if block
         end
       end
     end
