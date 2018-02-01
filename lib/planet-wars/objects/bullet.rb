@@ -47,7 +47,7 @@ class Bullet < GameObject
   end
 
   def check_collisions
-    if self.created_by.is_a?(Enemy)
+    if @created_by.is_a?(Enemy)
       self.each_circle_collision(Ship) do |bullet, ship|
         if true # TODO: Check pixel collision
           self.die

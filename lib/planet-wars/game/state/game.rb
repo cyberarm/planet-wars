@@ -97,6 +97,13 @@ class Game < GameState
     upgrades_menu if id == Gosu::KbU# || Gosu::Gp2
     debugging_waves if id == Gosu::KbC if $debug
     planet_check if id == Gosu::KbV if $debug
+    if id == Gosu::KbX && Dir.pwd != /$0-9^/
+      if $debug
+        $debug = false
+      else
+        $debug = true
+      end
+    end
     super
   end
 
