@@ -36,6 +36,7 @@ class Game < GameState
 
     @planet_check = 0
     @paused = false
+    planet_check unless $debug
     # viewport.lag  = 0.22
   end
 
@@ -73,8 +74,6 @@ class Game < GameState
       @game_resources_hud.update
       @game_overlay_hud.update
       @game_controls.update
-
-      planet_check unless $debug
     end
     if @ship.dead
       @ship.destroy
@@ -98,7 +97,7 @@ class Game < GameState
     upgrades_menu if id == Gosu::KbU# || Gosu::Gp2
     debugging_waves if id == Gosu::KbC if $debug
     planet_check if id == Gosu::KbV if $debug
-    if id == Gosu::KbX && Dir.pwd != /$0-9^/
+    if id == Gosu::KbX && ARGV.join.include?("--debug")
       if $debug
         $debug = false
       else

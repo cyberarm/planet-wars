@@ -35,7 +35,7 @@ class GameWon < GameState
   end
 
   def button_up(id)
-    skip
+    skip if id == Gosu::KbEscape
   end
 
   def skip
