@@ -30,7 +30,6 @@ class GameState
   end
 
   def button_up(id)
-    puts "b #{id}"
     @game_objects.each do |o|
       o.button_up(id) unless o.paused
     end

@@ -1,5 +1,6 @@
 class NotificationManager < GameObject
   Z = 999
+  QUEUE = []
 
   attr_accessor :slot
   def setup
@@ -7,14 +8,8 @@ class NotificationManager < GameObject
   end
 
   def self.add(text, color=Gosu::Color::WHITE, active=180)
-    # managers = NotificationManager.all
-    # note = managers.last
-    # p note.methods-Class.methods
-    # note.slot << Text.new(text, active: active, color: color, size: 23, x: 100, z: Z, tick: 0)
-  end
-
-  def slot
-    @slot = [] unless @slot
+    text = Text.new(text, active: active, color: color, size: 23, x: 100, z: Z, tick: 0)
+    QUEUE << text
   end
 
   def draw
@@ -25,7 +20,10 @@ class NotificationManager < GameObject
 
   def update
     n = 1
+    add_from_queue
+
     @slot.each do |note|
+      next if nil
       note.y = note.size*n
       note.options[:tick]+=1
       if note.options[:tick] >= note.options[:active]
@@ -34,5 +32,11 @@ class NotificationManager < GameObject
         n+=1
       end
     end
+  end
+
+  def add_from_queue
+    text = QUEUE.pop
+    # raise "Text is nil" unless text
+    slot << text if text
   end
 end

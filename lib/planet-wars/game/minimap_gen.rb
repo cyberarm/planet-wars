@@ -18,6 +18,7 @@ class MiniMapGenerator
     @color_ship = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['ship'])
 
     @color_background = background_color(AssetManager.theme_data['hud']['minimap']['background'])
+
     return @image
   end
 
@@ -27,8 +28,8 @@ class MiniMapGenerator
   end
 
   def draw
-    x = $window.width-(300)
-    $window.draw_rect(x, 0, 300, 300, @color_background, 999)
+    x = $window.width-(@area.width/10)
+    $window.draw_rect(x, 0, (@area.width/10), (@area.height/10), @color_background, 999)
     Planet.all.each do |planet|
       if planet.habitable
         $window.draw_rect(x+(planet.x/10), planet.y/10, 10, 10, @color_planet, 999) if planet.base.nil?

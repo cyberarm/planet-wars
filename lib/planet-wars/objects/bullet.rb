@@ -40,8 +40,6 @@ class Bullet < GameObject
     speed = @speed*Engine.dt
 
     @direction = (@host_angle - 90.0) * (Math::PI / 180.0)
-    # self.velocity_x = speed*Math.cos(@direction)
-    # self.velocity_y = speed*Math.sin(@direction)
   end
 
   def die

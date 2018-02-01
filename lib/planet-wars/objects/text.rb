@@ -1,39 +1,32 @@
+# class Text
+#   attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :options
+#   attr_reader :textobject
+#   def initialize(text, options={})
+#     @text = text || ""
+#     @options = options
+#     @size = options[:size] || AssetManager.theme_data['text']['font_size']
+#     @font = options[:font] || "#{AssetManager.fonts_path}/#{AssetManager.theme_data['text']['font']}"
+#     @x = options[:x] || 0
+#     @y = options[:y] || 0
+#     @z = options[:z] || 100_000
+#     @factor_x = options[:factor_x] || 1
+#     @factor_y = options[:factor_y] || 1
+#     @color    = options[:color] || AssetManager.theme_color(AssetManager.theme_data['text']['color'])
+#     @textobject = Gosu::Font.new(@font, @size)
+#   end
+#
+#   def width
+#     textobject.text_width(@text)
+#   end
+#
+#   def height
+#     textobject.height
+#   end
+# end
 class Text
-  attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :options
-  attr_reader :textobject
-  def initialize(text, options={})
-    @text = text || ""
-    @options = options
-    @size = options[:size] || AssetManager.theme_data['text']['font_size']
-    @font = options[:font] || "#{AssetManager.fonts_path}/#{AssetManager.theme_data['text']['font']}"
-    @x = options[:x] || 0
-    @y = options[:y] || 0
-    @z = options[:z] || 100_000
-    @factor_x = options[:factor_x] || 1
-    @factor_y = options[:factor_y] || 1
-    @color    = options[:color] || AssetManager.theme_color(AssetManager.theme_data['text']['color'])
-    @textobject = Gosu::Font.new(@font, @size)
-  end
-
-  def width
-    textobject.text_width(@text)
-  end
-
-  def height
-    textobject.height
-  end
-end
-class Text
-  SIZE = 20
-  FONT = Gosu.default_font_name
-  COLOR= Gosu::Color::WHITE
-  BORDER_COLOR = Gosu::Color.rgba(255,255,255,75)
-  SHADOW = 1
-  SHADOW_ALPHA = 30
-
   CACHE = {}
 
-  attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :shadow, :options
+  attr_accessor :text, :x, :y, :z, :size, :factor_x, :factor_y, :color, :shadow, :shadow_size, :options
   attr_reader :textobject
 
   def initialize(text, options={})
@@ -46,11 +39,13 @@ class Text
     @z = options[:z] || 1025
     @factor_x = options[:factor_x]  || 1
     @factor_y = options[:factor_y]  || 1
-    @color    = options[:color]     || COLOR
+    @color    = options[:color]     || Gosu::Color::WHITE
     @alignment= options[:alignment] || nil
     @shadow   = true  if options[:shadow] == true
     @shadow   = false if options[:shadow] == false
     @shadow   = true if options[:shadow] == nil
+    @shadow_size = options[:shadow_size] ? options[:shadow_size] : 1
+    @shadow_alpha= options[:shadow_alpha] ? options[:shadow_alpha] : 30
     @textobject = check_cache(@size, @font)
 
     if @alignment
@@ -101,18 +96,19 @@ class Text
 
   def draw
     if @shadow && !ARGV.join.include?("--no-shadow")
-      _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, SHADOW_ALPHA)
-      @textobject.draw(@text, @x-SHADOW, @y, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x-SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
+      _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, @shadow_alpha) if @shadow_alpha <= @color.alpha
+      _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, @color.alpha) unless @shadow_alpha <= @color.alpha
+      @textobject.draw(@text, @x-@shadow_size, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x-@shadow_size, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y-SHADOW, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x+SHADOW, @y-SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x+@shadow_size, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y+SHADOW, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x-SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x-@shadow_size, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x+SHADOW, @y, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x+SHADOW, @y+SHADOW, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x+@shadow_size, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw(@text, @x+@shadow_size, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
     end
 
     @textobject.draw(@text, @x, @y, @z, @factor_x, @factor_y, @color)

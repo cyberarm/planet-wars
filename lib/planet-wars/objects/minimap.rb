@@ -5,7 +5,7 @@ class MiniMap < GameObject
     self.y = 30*5
     self.z = 999
     @ship = Ship.all.first
-    @map = MiniMapGenerator.new([3000,3000], Planet.all, Enemy.all, Asteroid.all, Ship.all)
+    @map = MiniMapGenerator.new(options[:viewport_area], Planet.all, Enemy.all, Asteroid.all, Ship.all)
   end
 
   def draw

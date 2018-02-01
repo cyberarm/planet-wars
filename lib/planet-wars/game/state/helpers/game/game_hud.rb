@@ -2,7 +2,7 @@ class GameHUD
   attr_reader :time, :clock_time, :message
   attr_accessor :message_tick
 
-  def initialize
+  def initialize(viewport_area)
     GameHUD.instance=self
 
     @current_wave = GameInfo::Mode.current_wave
@@ -14,7 +14,7 @@ class GameHUD
     @message = Text.new('', y: $window.height/2+150, size: 70)
     @message_tick = 0
     @game_message_tick = 0
-    @minimap      = MiniMap.new(auto_manage: false)
+    @minimap      = MiniMap.new(auto_manage: false, viewport_area: viewport_area)
     @boost_bar    = BoostBar.new(auto_manage: false)
     @health_bar   = HealthBar.new(auto_manage: false)
     @notifications= NotificationManager.new(auto_manage: false)

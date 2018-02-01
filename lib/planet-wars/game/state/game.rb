@@ -1,5 +1,6 @@
 class Game < GameState
   include GameMethods
+  ViewPortArea = Struct.new(:x, :y, :width, :height)
 
   def setup
     # clean up
@@ -11,10 +12,15 @@ class Game < GameState
       $music_manager.song.play if $music_manager.play_songs?
     end
 
-    WorldGen.new(40, GameInfo::Config.number_of_portals, 3000, 3000)
-    @ship = Ship.new(x: 0, y: 0, z: 100, world: [0,3000,0,3000])#(x: 3000/2, y: 3000/2, z: 100, world: [0,3000,0,3000])#x-left, x-right, y-, y
+    @vewport_x = 0
+    @vewport_y = 0
+    @viewport_area = ViewPortArea.new(0,0,3000,3000)
 
-    @game_hud = GameHUD.new
+    WorldGen.new(30, GameInfo::Config.number_of_portals, @viewport_area.width, @viewport_area.height)
+    @ship = Ship.new(x: @viewport_area.width/2, y: @viewport_area.height/2, z: 100,
+       world: [@viewport_area.x,@viewport_area.width,@viewport_area.y,@viewport_area.height])#x-left, x-right, y-, y
+
+    @game_hud = GameHUD.new(@viewport_area)
     # @game_controls    = GameControls.new
     @game_overlay_hud = GameOverlayHUD.new
     @game_upgrade_hud = GameUpgradeHUD.new(@ship)
@@ -31,10 +37,6 @@ class Game < GameState
     @planet_check = 0
     @paused = false
     # viewport.lag  = 0.22
-    # viewport.game_area = [0, 0, 1000*3, 1000*3]
-    @vewport_x = 0
-    @vewport_y = 0
-    @viewport_area = [0,0,3000,3000]
   end
 
   def needs_cursor?
@@ -42,7 +44,7 @@ class Game < GameState
   end
 
   def draw
-    $window.translate(-@viewport_x, -@viewport_y) do
+    $window.translate(-@viewport_x.to_i, -@viewport_y.to_i) do
       # @game_objects.each {|o| next if o == @ship; o.draw}
       super
     end
@@ -73,7 +75,7 @@ class Game < GameState
       @game_upgrade_hud.update
       @game_resources_hud.update
 
-      planet_check
+      planet_check unless $debug
     end
     if @ship.dead
       @ship.destroy
@@ -93,18 +95,21 @@ class Game < GameState
     escape if id == Gosu::KbEscape# || Gosu::Gp6
     pause_game if id == Gosu::KbP# || Gosu::Gp4
     upgrades_menu if id == Gosu::KbU# || Gosu::Gp2
-    debugging_waves if id == Gosu::KbC
+    debugging_waves if id == Gosu::KbC if $debug
+    planet_check if id == Gosu::KbV if $debug
     super
   end
 
   # Adapted from https://github.com/ippa/chingu/blob/d3ed0ff0e0fa81ebc416014095d4ae9b139c785c/lib/chingu/viewport.rb#L132
   def center_around(object)
     x = (object.x - $window.width / 2)
-    x = @viewport_area[0] if x < @viewport_area[0]
-    x = @viewport_area[2] - $window.width if x > @viewport_area[2] - $window.width
+    x = @viewport_area.x if x < @viewport_area.x
+    x = @viewport_area.width - $window.width if x > @viewport_area.width - $window.width
+
     y = (object.y - $window.height/ 2)
-    y = @viewport_area[1] if y < @viewport_area[1]
-    y = @viewport_area[3] - $window.height if y > @viewport_area[3] - $window.height
+    y = @viewport_area.y if y < @viewport_area.y
+    y = @viewport_area.height - $window.height if y > @viewport_area.height - $window.height
+
     @viewport_x = x
     @viewport_y = y
   end
@@ -156,7 +161,7 @@ class Game < GameState
   end
 
   def upgrades_menu
-    push_game_state(ShipUpgrades)
+    push_game_state(ShipUpgrades, game: self)
   end
 
   def debugging_waves

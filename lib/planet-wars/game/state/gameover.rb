@@ -1,6 +1,6 @@
 class GameOver < GameState
   def setup
-    @text = Text.new("Game Over", size: 148, color: Gosu::Color::BLACK)
+    @text = Text.new("Game Over", size: 148, color: Gosu::Color::BLACK, shadow_size: 5)
     @time = Text.new("You survived for: #{GameInfo::Config.game_time_processed.strftime('%-H hours, %-M minutes, %-S seconds.')}", size: 28, color: Gosu::Color::BLACK)
 
     @text.x = $window.width/2-@text.width/2
@@ -28,7 +28,7 @@ class GameOver < GameState
     @up = false if @color >= 200
 
     if @up == false && @color <= 0
-      close
+      destroy
       $music_manager.song.stop
       push_game_state(MainMenu)
     end

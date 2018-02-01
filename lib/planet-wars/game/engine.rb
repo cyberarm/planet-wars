@@ -75,7 +75,6 @@ class Engine < Gosu::Window
   end
 
   def button_up(id)
-    p id
     @current_game_state.button_up(id)
   end
 
