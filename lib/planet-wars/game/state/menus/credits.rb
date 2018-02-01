@@ -112,9 +112,33 @@ class Credits < GameUI
       y+=size
       @text << PWText.new(font['license'], x: x, y: y, size: size-10)
       y+=size
-      y+=size
     end
-    y+=size
-    @text << MultiLineText.new(Gosu::LICENSES, x: x, y: y, size: size-15)
+    # @text << MultiLineText.new(Gosu::LICENSES, x: x, y: y, size: size-15)
+    ldata = Gosu::LICENSES.split("\n")
+    ldata.delete_at(0) # Discard discriptor
+    ldata.delete_at(0) if ldata[0].empty?
+
+    ldata.each do |line|
+      line.split(",").each_with_index do |l, index|
+        p l, index
+        if index == 0
+          @text << PWText.new(l, x: x, y: y, size: size)
+          y+=size
+        end
+        if index == 1
+          @text << PWText.new(l.strip, x: x, y: y, size: size-7)
+          y+=size
+        end
+        if index == 2
+          @text << PWText.new(l.strip, x: x, y: y, size: size-10)
+          y+=size
+        end
+        if index == 3
+          @text << PWText.new(l.strip, x: x, y: y, size: size-10)
+          y+=size
+          y+=size
+        end
+      end
+    end
   end
 end

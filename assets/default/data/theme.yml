@@ -31,8 +31,8 @@ hud: {
 gameui: {
   font: "Alfphabet-IV.ttf",
   font_size: 32,
-  tooltip_font_size: 32,
-  title_font_size: 50,
+  tooltip_font_size: 20,
+  title_font_size: 36,
   color: "white",
   tooltip_color: "white",
   title_color: "white",
