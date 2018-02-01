@@ -42,6 +42,9 @@ class Engine < Gosu::Window
       push_game_state(NetGame)
     elsif ARGV.join.include?('--debug_game')
       push_game_state(Game)
+    elsif ARGV.join.include?('--quick')
+      AssetManager.preload_assets
+      push_game_state(MainMenu)
     else
       push_game_state(Boot)
     end
