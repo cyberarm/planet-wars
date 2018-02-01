@@ -32,7 +32,7 @@ In-Game:
 * `X` Toggles debug mode on or off; Only available with --debug cmd option
 * `C` Prints out data for debugging waves; Only available with --debug cmd option
 * `V` Runs Planet-to-Planet collision check, used internally to remove overlapping planets; Only available with --debug cmd option
-* `M` Toggles toggles mute on or off. Affects --mute
+* `M` Toggles mute on or off. Affects --mute
 
 ## Road map
 * Online high scores - Time survived
