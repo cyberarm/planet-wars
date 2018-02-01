@@ -28,16 +28,21 @@ class Credits < GameUI
 
   def update
     super
-    if (Gosu.milliseconds-@start_time) >= 3000
-      @scroll = true
-    end
+    @scroll = true
 
     if @scroll
       @text.each do |t|
-        t.y-=0.6
+        t.y-=10 if $window.button_down?(Gosu::KbDown)
+        t.y-=0.6 unless $window.button_down?(Gosu::KbDown)
+        t.y+=5 if $window.button_down?(Gosu::KbUp)
       end
       push_game_state(MainMenu) if @text.last.y < -@text.last.height
     end
+  end
+
+  def header_color
+    color = AssetManager.theme_data["gameui"]["button"]["active_background"]
+    AssetManager.theme_color(color)
   end
 
   def load_credit_data
@@ -48,7 +53,7 @@ class Credits < GameUI
 
     @text << PWText.new(GameInfo::NAME, x: x, y: $window.height/2-40, size: 75)
 
-    @text << PWText.new("People", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("People", x: x, y: y, size: size, color: header_color)
     y+=size
     data['credits']['people'].each do |person|
       @text << PWText.new(person['job'], x: x, y: y, size: size)
@@ -59,7 +64,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Sprites", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Sprites", x: x, y: y, size: size, color: header_color)
     y+=size
     data['credits']['sprites'].each do |artist|
       @text << PWText.new(artist['sprite'], x: x, y: y, size: size)
@@ -72,7 +77,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Music", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Music", x: x, y: y, size: size, color: header_color)
     y+=size
     data['credits']['music'].each do |song|
       @text << PWText.new(song['name'], x: x, y: y, size: size)
@@ -85,7 +90,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Fonts", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Fonts", x: x, y: y, size: size, color: header_color)
     y+=size
     data['credits']['fonts'].each do |font|
       @text << PWText.new(font['font'], x: x, y: y, size: size)
@@ -98,7 +103,7 @@ class Credits < GameUI
     end
 
     y+=size
-    @text << PWText.new("Libraries", x: x, y: y, size: size, color: Gosu::Color::YELLOW)
+    @text << PWText.new("Libraries", x: x, y: y, size: size, color: header_color)
     y+=size
     data['credits']['libraries'].each do |font|
       @text << PWText.new(font['name'], x: x, y: y, size: size)
@@ -109,5 +114,7 @@ class Credits < GameUI
       y+=size
       y+=size
     end
+    y+=size
+    @text << MultiLineText.new(Gosu::LICENSES, x: x, y: y, size: size-15)
   end
 end

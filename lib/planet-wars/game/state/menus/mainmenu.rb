@@ -16,7 +16,7 @@ class MainMenu < GameUI
       push_game_state(SettingsMenu)
     end
 
-    button("Credits", tooltip: "Find out who helped build this game") do
+    button("Credits", tooltip: "Find out who helped make this game possible") do
       push_game_state(Credits)
     end
 

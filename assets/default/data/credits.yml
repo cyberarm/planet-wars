@@ -21,8 +21,4 @@ credits:
   ]
 
   libraries: [
-    {author: 'Julian Raschke, Jan Lücker and all contributors', name: Gosu, license: MIT license},
-    {author: ippa and all contributors, name: Chingu, license: GNU LESSER GENERAL PUBLIC LICENSE},
-    {author: John Mair and all contributors, name: TexPlay, license: MIT license},
-    {author: Bil Bas (Spooner) and all contributors, name: Ashton, license: MIT license}
   ]
