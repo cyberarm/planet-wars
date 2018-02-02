@@ -53,6 +53,9 @@ module AssetManager
   def self.background_path
     "./assets/#{asset_pack}/backgrounds"
   end
+  def self.kenney_path
+    "./assets/kenney_gameicons"
+  end
   def self.music_path
     "./assets/#{asset_pack}/music"
   end
@@ -98,7 +101,7 @@ module AssetManager
     music  = []
     samples= []
 
-    [asteroids_path, background_path, portal_path, particles_path, ships_path, enemies_path, planets_path+"/uninhabitable", planets_path+"/habitable", bullets_path, music_path].each do |asset|
+    [asteroids_path, kenney_path, portal_path, particles_path, ships_path, enemies_path, planets_path+"/uninhabitable", planets_path+"/habitable", bullets_path, music_path].each do |asset|
       Dir["#{asset}/*.png"].each do |image|
         images << image if image.end_with?('.png')
       end

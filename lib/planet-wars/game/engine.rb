@@ -33,7 +33,7 @@ class Engine < Gosu::Window
     $window = self
     @last_frame_time = Gosu.milliseconds-1
     @current_frame_time = Gosu.milliseconds
-    self.caption = "#{GameInfo::NAME} #{GameInfo::VERSION} [build: #{BUILD}] #{Gosu.language}"
+    self.caption = "#{GameInfo::NAME} #{GameInfo::VERSION} (#{GameInfo::RELEASE_NAME}) [build: #{BUILD}] #{Gosu.language}"
     AssetManager.preload_assets if ARGV.join.include?('--debug')
 
     Logger.log("Window: width: #{width}, height: #{height}, fullscreen: #{fullscreen}, update_interval: #{update_interval}", self)

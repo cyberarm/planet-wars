@@ -27,7 +27,7 @@ class MainMenu < GameUI
     if $latest_release_data
       @message_l= Text.new("Update Available!", x: 100, y: $window.height-140, z: 100, size: 20)
       @message_l2= Text.new("Version '#{$latest_release_data['name']}' available, you're currently on '#{GameInfo::VERSION}'.", x: 100, y: $window.height-110, z: 100, size: 18)
-      @image_l = AssetManager.get_image("assets/kenney_gameicons/import.png")
+      @image_l = AssetManager.get_image("./assets/kenney_gameicons/import.png")
     end
   end
 
@@ -37,7 +37,7 @@ class MainMenu < GameUI
       if $window.button_down?(Gosu::MsLeft)
         if $window.mouse_x.between?(100, 100+@image_l.width)
           if $window.mouse_y.between?($window.height-100, $window.height-100+@image_l.height)
-            p $latest_release_data
+            p $latest_release_data if $debug
             Launchy.open($latest_release_data["html_url"])
           end
         end
@@ -47,11 +47,11 @@ class MainMenu < GameUI
 
   def draw
     super
-    if $latest_release_data
+    if $latest_release_data && @message_l
       @message_l.draw
       @message_l2.draw
-      fill_rect([100+16, $window.height-100+16, 70, 70], Gosu::Color::WHITE, 9)
-      @image_l.draw(100,$window.height-100,10)
+      fill_rect(100+16, $window.height-100+16, 70, 70, AssetManager.theme_color(AssetManager.theme_data["gameui"]["color"]), 9)
+      @image_l.draw(100,$window.height-100,10, 1,1, AssetManager.theme_color(AssetManager.theme_data["gameui"]["button"]["active_background"]))
     end
   end
 end
