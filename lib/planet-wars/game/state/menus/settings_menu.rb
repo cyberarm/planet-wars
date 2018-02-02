@@ -1,7 +1,6 @@
 class SettingsMenu < GameUI
-  def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Settings"
-    super
+  def create
+    set_title "#{GameInfo::NAME}//Settings"
 
     button("Music", tooltip: "Play/Stop music (#{if ConfigManager.config["music"]; 'ON';else 'OFF';end})") do
       if ConfigManager.config["music"]

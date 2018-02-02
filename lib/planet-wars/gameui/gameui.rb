@@ -1,26 +1,24 @@
 class GameUI < GameState
   MousePosition = Struct.new(:x, :y)
   attr_accessor :selected
-  def initialize(options={})
-    super
-    setup if defined?(setup)
+  def setup
+    @elements = []
+    @rects    = []
+    @options = options unless @options
 
     # Sounds
     @change = AssetManager.get_sample("#{AssetManager.sounds_path}/ui/change.ogg")
     @action = AssetManager.get_sample("#{AssetManager.sounds_path}/ui/action.ogg")
 
 
-    @options = options
     $window.show_cursor = true
     title_font_size = AssetManager.theme_data['gameui']['title_font_size']
     tooltip_font_size = AssetManager.theme_data['gameui']['tooltip_font_size']
 
-    options[:title] ||= "Planet Wars"
-    options[:title_size] ||= title_font_size
-    options[:font] ||= "#{AssetManager.fonts_path}/#{AssetManager.theme_data['gameui']['font']}"
-    @elements = []
-    @rects    = []
-    @tooltip  = Text.new("", x: 1, y: 80, size: tooltip_font_size, font: options[:font], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['tooltip_color']))
+    @options[:title] ||= "Planet Wars"
+    @options[:title_size] ||= title_font_size
+    @options[:font] ||= "#{AssetManager.fonts_path}/#{AssetManager.theme_data['gameui']['font']}"
+    @tooltip  = Text.new("", x: 1, y: 80, size: tooltip_font_size, font: @options[:font], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['tooltip_color']))
     @post_ui_create = true
     @released_left_mouse_button = false
     @released_return = false
@@ -33,16 +31,18 @@ class GameUI < GameState
     @mouse_tick=0
     @first_passed=false
 
-    title_text_object = Text.new("#{options[:title]}", x: 50, y: 20, font: options[:font], size: options[:title_size], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['title_color']))
-    # title_text_object.x = $window.width/3
+    @title_text_object = Text.new("#{options[:title]}", x: 50, y: 20, font: @options[:font], size: @options[:title_size], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['title_color']))
 
     @elements.push({
-      object: title_text_object
+      object: @title_text_object
       })
-    # @background_image = Gosu::Image["#{AssetManager.background_path}/#{AssetManager.theme_data['gameui']['background']}"]
+
+    create if defined?(create)
+    raise "method 'create' is not defined!" unless defined?(create)
   end
 
   def draw
+    $window.flush
     super
     @rects.each do |rect|
       fill_rect(rect[:x],rect[:y],rect[:width],rect[:height],rect[:color], 10)
@@ -115,6 +115,10 @@ class GameUI < GameState
     elsif id == Gosu::GpButton1
       go_back
     end
+  end
+
+  def set_title(string)
+    @title_text_object.text = string
   end
 
   def collision_with(rect)
@@ -198,7 +202,7 @@ class GameUI < GameState
       end
     end
 
-    @tooltip.x = @big[:x]+@big[:width]+40
+    @tooltip.x = @big[:x]+@big[:width]+40 if @big
 
 
     @rects.each do |rect|

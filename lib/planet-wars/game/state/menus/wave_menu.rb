@@ -1,8 +1,7 @@
 class WaveMenu < GameUI
-  def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Mode//Wave"
+  def create
+    set_title "#{GameInfo::NAME}//Mode//Wave"
     GameInfo::Mode.mode = "wave"
-    super
 
     button "1", tooltip: "1 waves" do
       # set number of waves

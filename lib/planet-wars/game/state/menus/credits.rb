@@ -6,10 +6,8 @@ class PWText < Text
 end
 
 class Credits < GameUI
-  def initialize(options={})
-    options[:title] = "#{GameInfo::NAME}//Credits"
-    options[:title_size] = 30
-    super
+  def create
+    set_title "#{GameInfo::NAME}//Credits"
 
     button "Back" do
       push_game_state(MainMenu)

@@ -171,7 +171,7 @@ class Game < GameState
   end
 
   def upgrades_menu
-    push_game_state(ShipUpgrades, game: self)
+    push_game_state(ShipUpgrades.new(game: self))
   end
 
   def debugging_waves

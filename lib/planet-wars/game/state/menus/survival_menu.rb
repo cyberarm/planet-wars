@@ -1,8 +1,7 @@
 class SurvivalMenu < GameUI
-  def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Mode//Survival"
+  def create
+    set_title "#{GameInfo::NAME}//Mode//Survival"
     GameInfo::Mode.mode = "survival"
-    super
 
     button "Easy", tooltip: "6 Enemies 2 Portals" do
       GameInfo::Config.number_of_enemies=6

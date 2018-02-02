@@ -1,7 +1,6 @@
 class ModeMenu < GameUI
-  def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Mode"
-    super
+  def create
+    set_title("#{GameInfo::NAME}//Mode")
 
     button "Survival", tooltip: "Survive for as long as you can." do
       push_game_state(SurvivalMenu)

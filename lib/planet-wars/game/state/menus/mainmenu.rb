@@ -1,8 +1,7 @@
 class MainMenu < GameUI
-  def initialize(options={})
+  def create
     $music_manager.song.pause if defined?($music_manager) # Can not figure out why music starts playing here when it is paused...
-    options[:title] = "#{GameInfo::NAME}"
-    super
+    set_title("#{GameInfo::NAME}")
 
     button("Single Player", tooltip: "play the game") do
       push_game_state(ModeMenu)

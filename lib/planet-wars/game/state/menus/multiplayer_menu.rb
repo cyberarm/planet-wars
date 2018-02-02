@@ -1,7 +1,7 @@
 class MultiPlayerMenu < GameUI
-  def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Multiplayer"
-    super
+  def create
+    set_title("#{GameInfo::NAME}//Multiplayer")
+
     button "Online Multiplayer", tooltip: 'play the game with friends (Unavailable)' do
       puts "Functional Multiplayer is Not Available with this build."
       # push_game_state(OnlineMultiPlayerMenu)

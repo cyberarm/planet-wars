@@ -37,7 +37,6 @@ class WorldGen
   end
 
   def grid_add(object)
-    puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" if $debug
     placed = false
     @grid.each_with_index do |d, x|
       break if placed
@@ -48,14 +47,11 @@ class WorldGen
           object = object.new(z: 0)
           object.x = (x*@grid_chunk_size)+@grid_chunk_size
           object.y = (y*@grid_chunk_size)+@grid_chunk_size/2
-          puts "#{x}:#{y}_#{@grid[y][x].inspect}" if $debug
-          puts "Added #{object} to #{x}:#{y}" if $debug
           placed = true
           break
         end
       end
     end
-    puts "Grid size Y: #{@grid.size}" if $debug
-    puts "Skipped #{object}! no room!" unless placed && !$debug
+    puts "Skipped #{object}! no room!" if !placed && $debug
   end
 end

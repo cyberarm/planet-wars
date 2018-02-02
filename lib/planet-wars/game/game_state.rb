@@ -3,19 +3,18 @@ class GameState
   attr_reader :game_objects
 
   def initialize(options={})
-    @options = options
+    $window.set_game_state(self)
+    @options = options unless @options
     @game_objects = []
     @global_pause = false
 
-    # setup
+    setup
   end
 
   def setup
   end
 
   def draw
-    # puts "Current GameState == #{self.class} => #{self == $window.current_game_state}"
-    # puts "GO; #{@game_objects.count}"
     @game_objects.each(&:draw)
   end
 

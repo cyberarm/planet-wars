@@ -1,7 +1,7 @@
 class OnlineMultiPlayerMenu < GameUI
-  def initialize options={}
-    options[:title] = "#{GameInfo::NAME}//Multiplayer//Online"
-    super
+  def create
+    set_title "#{GameInfo::NAME}//Multiplayer//Online"
+
     button "Join Game", tooltip: 'Join a game your friend is hosting (Unavailable)' do
       # connect
       # play!

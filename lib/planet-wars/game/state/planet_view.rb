@@ -1,7 +1,6 @@
 class PlanetView < GameUI
-  def initialize(options={})
-    options[:title] = ""
-    super
+  def create
+    set_title("")
     if !options[:planet].base.is_a?(Base)
       button "Build Base", x: 400, tooltip: "#{options[:planet].habitable ? '20 Diamond — 200 Gold' : '40 Diamond — 400 Gold'}" do
         build_base
@@ -15,13 +14,10 @@ class PlanetView < GameUI
     button "Back", x: 400 do
       return_to_game
     end
-  end
 
-  def setup
     @ship   = Ship.all.first
     @planet = @options[:planet]
     @planet.text.text = ''
-    @tick = 0 # Prevent jumping from Game to Here back to Game immediately
     @name   = Text.new("Planet #{@planet.name}", x: 10, y: 10, size: 30, z: 10_000)
     @base   = Text.new('', x: 10, y: 50, size: 25, z: 10_000)
     @habitable = Text.new('', x: 10, y: 100, size: 25, z: 10_000)
@@ -64,7 +60,6 @@ class PlanetView < GameUI
     @diamond.text = "Diamond: #{@planet.diamond.to_f.round(2)}"
     @gold.text    = "Gold: #{@planet.gold.to_f.round(2)}"
     @oil.text     = "Oil: #{@planet.oil.to_f.round(2)}"
-    @tick+=1
   end
 
 
@@ -75,40 +70,36 @@ class PlanetView < GameUI
   def return_to_game
     @clone = nil
     $window.show_cursor = false
-    push_game_state(@options[:game], setup: false)# if @tick >= 15
+    push_game_state(@options[:game])
   end
 
   def build_base
-    if @tick >= 30
-      if @planet.habitable && @ship.gold >= 200
-        @ship.gold-=200 unless @planet.base.is_a?(Base)
-        @planet.base = created_base unless @planet.base.is_a?(Base)
-      elsif @planet.habitable && @ship.diamond >= 20
-        @ship.diamond-=20 unless @planet.base.is_a?(Base)
-        @planet.base = created_base unless @planet.base.is_a?(Base)
-      end
-
-      if !@planet.habitable && @ship.gold >= 400
-        @ship.gold-=400 unless @planet.base.is_a?(Base)
-        @planet.base = created_base unless @planet.base.is_a?(Base)
-        @planet.habitable = true
-      elsif !@planet.habitable && @ship.diamond >= 40
-        @ship.diamond-=40 unless @planet.base.is_a?(Base)
-        @planet.base = created_base unless @planet.base.is_a?(Base)
-        @planet.habitable = true
-      end
-
-      refresh
+    if @planet.habitable && @ship.gold >= 200
+      @ship.gold-=200 unless @planet.base.is_a?(Base)
+      @planet.base = created_base unless @planet.base.is_a?(Base)
+    elsif @planet.habitable && @ship.diamond >= 20
+      @ship.diamond-=20 unless @planet.base.is_a?(Base)
+      @planet.base = created_base unless @planet.base.is_a?(Base)
     end
+
+    if !@planet.habitable && @ship.gold >= 400
+      @ship.gold-=400 unless @planet.base.is_a?(Base)
+      @planet.base = created_base unless @planet.base.is_a?(Base)
+      @planet.habitable = true
+    elsif !@planet.habitable && @ship.diamond >= 40
+      @ship.diamond-=40 unless @planet.base.is_a?(Base)
+      @planet.base = created_base unless @planet.base.is_a?(Base)
+      @planet.habitable = true
+    end
+
+    refresh
   end
 
   def repair_ship
-    if @tick >= 30
-      if @planet.base.is_a?(Base) && @ship.oil >= 200 && @ship.health != @ship.max_health
-        @ship.oil-=200# unless @ship.health == @ship.max_health
-        @ship.health=@ship.max_health
-        GameInfo::Config.repaired
-      end
+    if @planet.base.is_a?(Base) && @ship.oil >= 200 && @ship.health != @ship.max_health
+      @ship.oil-=200# unless @ship.health == @ship.max_health
+      @ship.health=@ship.max_health
+      GameInfo::Config.repaired
     end
   end
 

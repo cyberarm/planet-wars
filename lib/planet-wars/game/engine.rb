@@ -85,9 +85,12 @@ class Engine < Gosu::Window
     if klass.instance_of?(klass.class) && defined?(klass.options)
       @current_game_state = klass
     else
-      @current_game_state = klass.new(options)
-      @current_game_state.setup
+      klass.new(options)
     end
+  end
+
+  def set_game_state(klass_instance)
+    @current_game_state = klass_instance
   end
 
   # def previous_game_state
