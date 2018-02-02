@@ -3,6 +3,7 @@ class GameObject
   Vertex = Struct.new(:x, :y)
   attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y,
                 :color, :alpha, :mode, :options, :paused, :radius, :last_x, :last_y
+  attr_reader :world_center_point
   def initialize(options={})
     if options[:auto_manage] || options[:auto_manage] == nil
       INSTANCES.push(self)
@@ -27,7 +28,7 @@ class GameObject
     @paused = false
     @speed = 0
     @debug_color = Gosu::Color::GREEN
-
+    @world_center_point = Vertex.new(0,0)
     setup
     if @radius == 0 || @radius == nil
       @radius = options[:radius] ? options[:radius] : defined?(@image.width) ? ((@image.width+@image.height)/4)*scale : 1
@@ -66,6 +67,29 @@ class GameObject
     @last_y = @y
     @y = i
   end
+
+  def visible
+    true
+    # if _x_visible
+    #   if _y_visible
+    #     true
+    #   else
+    #     false
+    #   end
+    # else
+    #   false
+    # end
+  end
+
+  def _x_visible
+    self.x.between?(($window.width/2)-(@world_center_point.x), ($window.width/2)+@world_center_point.x) ||
+       self.x.between?(((@world_center_point.x)-$window.width/2), ($window.width/2)+@world_center_point.x)
+  end
+
+  def _y_visible
+    self.y.between?(($window.height/2)-(@world_center_point.y), ($window.height/2)+@world_center_point.y) ||
+       self.y.between?((@world_center_point.y)-($window.height/2), ($window.height/2)+@world_center_point.y)
+     end
 
   def heading(ahead_by = 100, object = nil)
     direction = ((Gosu.angle(@last_x, @last_y, self.x, self.y)) - 90.0) * (Math::PI / 180.0)

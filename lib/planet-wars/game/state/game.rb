@@ -1,6 +1,6 @@
 class Game < GameState
   include GameMethods
-  attr_reader :viewport_x, :viewport_y
+  attr_reader :viewport_x, :viewport_y, :viewport_area
   ViewPortArea = Struct.new(:x, :y, :width, :height)
 
   def setup

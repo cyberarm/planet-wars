@@ -11,18 +11,30 @@ class GameState
     @global_pause = false
 
     setup
+    @_4ship = Ship.all.first if Ship.all.is_a?(Array)
   end
 
   def setup
   end
 
   def draw
-    @game_objects.each(&:draw)
+    # count = 0
+    @game_objects.each do |o|
+      o.draw if o.visible
+      # p o.class if o.visible
+      # count+=1 if o.visible
+    end
+    # puts "Num visible objects: #{count} of #{@game_objects.count}"
   end
 
   def update
     @game_objects.each do |o|
-      o.update unless o.paused || @global_pause
+      unless o.paused || @global_pause
+        o.world_center_point.x = @_4ship.x
+        o.world_center_point.y = @_4ship.y
+
+        o.update
+      end
     end
   end
 
