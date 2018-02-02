@@ -49,14 +49,21 @@ class Enemy < GameObject
 
   def fire_bullet!
     speed = Bullet.speed*Engine.dt
-
-    dx = @target.x - self.x
-    dy = @target.y - self.y
+    distance   = Gosu.distance(self.x, self.y, @target.x, @target.y)
+    dx = 0
+    dy = 0
+    if distance >= 500 && @target.speed >= 1
+      _heading = @target.heading(distance*0.5)
+      dx = _heading.x - self.x
+      dy = _heading.y - self.y
+    else
+      dx = @target.x - self.x
+      dy = @target.y - self.y
+    end
     length = Math.sqrt( dx*dx + dy*dy )
     dx /= length; dy /= length
     dx *= speed; dy *= speed
 
-    # distance   = Gosu.distance(self.x, self.y, @target.x, @target.y)
     _angle = ((Math.atan2(dy, dx) * 180) / Math::PI) + 90 # Black magic
     Bullet.new(x: self.x, y: self.y, z: 199, host_angle: _angle, created_by: self) if @target_area.in_range && self.alpha >= 255
   end

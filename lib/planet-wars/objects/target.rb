@@ -15,4 +15,8 @@ class Target < GameObject
     self.x = @target.x
     self.y = @target.y
   end
+
+  def speed
+    @target.speed
+  end
 end

@@ -1,6 +1,8 @@
 class GameObject
   INSTANCES = []
-  attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y, :color, :alpha, :mode, :options, :paused, :radius
+  Vertex = Struct.new(:x, :y)
+  attr_accessor :image, :x, :y, :z, :angle, :center_x, :center_y, :scale_x, :scale_y,
+                :color, :alpha, :mode, :options, :paused, :radius, :last_x, :last_y
   def initialize(options={})
     if options[:auto_manage] || options[:auto_manage] == nil
       INSTANCES.push(self)
@@ -12,6 +14,8 @@ class GameObject
     @x = options[:x] ? options[:x] : 0
     @y = options[:y] ? options[:y] : 0
     @z = options[:z] ? options[:z] : 0
+    @last_x = 0
+    @last_y = 0
     @angle = options[:angle] ? options[:angle] : 0
     @center_x = options[:center_x] ? options[:center_x] : 0.5
     @center_y = options[:center_y] ? options[:center_y] : 0.5
@@ -21,6 +25,7 @@ class GameObject
     @alpha    = options[:alpha] ? options[:alpha] : 255
     @mode = options[:mode] ? options[:mode] : :default
     @paused = false
+    @speed = 0
     @debug_color = Gosu::Color::GREEN
 
     setup
@@ -35,6 +40,7 @@ class GameObject
     end
 
     if $debug
+      show_debug_heading
       $window.draw_circle(self.x, self.y, radius, 9999, @debug_color)
     end
   end
@@ -49,6 +55,29 @@ class GameObject
       false
       # maths?
     end
+  end
+
+  def x=(i)
+    @last_x = @x
+    @x = i
+  end
+
+  def y=(i)
+    @last_y = @y
+    @y = i
+  end
+
+  def heading(ahead_by = 100)
+    direction = ((Gosu.angle(@last_x, @last_y, self.x, self.y)) - 90.0) * (Math::PI / 180.0)
+
+    _x = @x+(ahead_by*Math.cos(direction))
+    _y = @y+(ahead_by*Math.sin(direction))
+    Vertex.new(_x, _y)
+  end
+
+  def show_debug_heading
+    _heading = heading
+    $window.draw_line(x, y, @debug_color, _heading.x, _heading.y, @debug_color, 9999)
   end
 
   def width
