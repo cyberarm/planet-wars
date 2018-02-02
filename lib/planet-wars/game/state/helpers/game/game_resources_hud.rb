@@ -1,10 +1,10 @@
 class GameResourcesHUD
   def initialize(ship)
     @ship = ship
-    @resource_text = Text.new('Resources', x: $window.width-(30*10), y: 500, size: 32)
-    @diamond_text  = Text.new('', x: $window.width-(30*10), y: 530, size: 11)
-    @gold_text     = Text.new('', x: $window.width-(30*10), y: 540, size: 11)
-    @oil_text      = Text.new('', x: $window.width-(30*10), y: 550, size: 11)
+    @resource_text = Text.new('Resources', x: $window.width-(30*10), y: 520, size: 32)
+    @diamond_text  = Text.new('', x: $window.width-(30*10), y: 550, size: 18)
+    @gold_text     = Text.new('', x: $window.width-(30*10), y: 570, size: 18)
+    @oil_text      = Text.new('', x: $window.width-(30*10), y: 590, size: 18)
   end
 
   def draw

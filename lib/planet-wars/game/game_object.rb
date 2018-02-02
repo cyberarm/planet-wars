@@ -67,9 +67,9 @@ class GameObject
     @y = i
   end
 
-  def heading(ahead_by = 100)
+  def heading(ahead_by = 100, object = nil)
     direction = ((Gosu.angle(@last_x, @last_y, self.x, self.y)) - 90.0) * (Math::PI / 180.0)
-
+    ahead_by+object.speed*Engine.dt if object
     _x = @x+(ahead_by*Math.cos(direction))
     _y = @y+(ahead_by*Math.sin(direction))
     Vertex.new(_x, _y)

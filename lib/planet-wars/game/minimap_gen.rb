@@ -10,7 +10,7 @@ class MiniMapGenerator
     @asteroids=asteroid
     @ships   = ships
     @max_rect= 300
-    @devisor = 33.0
+    @devisor = 20.0
 
     @color_planet = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_habitable'])
     @color_planet_not_habitable = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_uninhabitable'])
