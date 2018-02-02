@@ -1,4 +1,6 @@
 class GameState
+  SCALE_X_BASE = 1920.0
+  SCALE_Y_BASE = 1080.0
   attr_accessor :options, :global_pause
   attr_reader :game_objects
 

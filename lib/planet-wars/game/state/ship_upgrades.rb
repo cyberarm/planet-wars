@@ -24,18 +24,17 @@ class ShipUpgrades < GameUI
 
   def draw
     super
-    fill_rect(10, 40, Gosu.screen_width-20, 4, Gosu::Color::WHITE, Float::INFINITY)
+    fill_rect(10, 40, $window.width-20, 4, Gosu::Color::WHITE, Float::INFINITY)
     @name.draw
     @current.draw
   end
 
   def update
     super
-    @name.text = "Ship Upgrades - #{@ship.gold.round(2)} Gold"
     if Base.all.count > 0
-      @current = MultiLineText.new("Current Upgrades\nShip Speed: #{@ship.speed}/5\nBoost Speed: #{@ship.boost_speed}/3\nBoost Capacity: #{@ship.max_boost}/400", x: 100, y: 270+50, size: 25, z: 10_000)
+      @current = MultiLineText.new("Your Gold: #{@ship.gold}\n\nCurrent Upgrades\nShip Speed: #{@ship.speed}/5\nBoost Speed: #{@ship.boost_speed}/3\nBoost Capacity: #{@ship.max_boost}/400", x: 100, y: 270+50, size: 25, z: 10_000)
     else
-      @current = MultiLineText.new("Current Upgrades\nShip Speed: #{@ship.speed}\nBoost Speed: #{@ship.boost_speed}\nBoost Capacity: #{@ship.max_boost}\n\nBuild bases on planets\nto enable upgrades", x: 100, y: 270+50, size: 25, z: 10_000)
+      @current = MultiLineText.new("Your Gold: #{@ship.gold}\n\nCurrent Upgrades\nShip Speed: #{@ship.speed}\nBoost Speed: #{@ship.boost_speed}\nBoost Capacity: #{@ship.max_boost}\n\nBuild bases on planets\nto enable upgrades", x: 100, y: 270+50, size: 25, z: 10_000)
     end
   end
 

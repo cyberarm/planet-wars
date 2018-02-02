@@ -24,9 +24,10 @@ class PlanetView < GameUI
     @diamond= Text.new('', x: 10, y: 130, size: 25, z: 10_000)
     @gold   = Text.new('', x: 10, y: 160, size: 25, z: 10_000)
     @oil    = Text.new('', x: 10, y: 190, size: 25, z: 10_000)
+    @resources = Text.new("")
 
     @clone  = @planet.clone
-    @clone.z = 10_000
+    @clone.z = 0
     @clone.x = @clone.width+20
     @clone.y = $window.height/2
   end
@@ -35,26 +36,26 @@ class PlanetView < GameUI
     super
     # previous_game_state.draw
     @clone.draw if @clone
-    fill_rect(10, 40, Gosu.screen_width-20, 4, Gosu::Color::WHITE, Float::INFINITY)
+    fill_rect(10, 40, $window.width-20, 4, Gosu::Color::WHITE, Float::INFINITY)
     @name.draw
     @base.draw
     @habitable.draw
     @diamond.draw
     @gold.draw
     @oil.draw
+    @resources.draw
   end
 
   def update
     super
-    @clone.update if @clone
-
+    @clone.rotate_self if @clone
     if @planet.habitable && @planet.base == nil
       @base.text = "No Base On This Planet"
     elsif @planet.habitable && @planet.base.is_a?(Base)
       @base.text = "Base On This Planet"
     end
 
-    @name.text = "Planet #{@planet.name} — #{@ship.diamond.round(2)} Diamond — #{@ship.gold.round(2)} Gold — #{@ship.oil.round(2)} Oil"
+    @resources = MultiLineText.new("Your Resources\n\n#{@ship.diamond.round(2)} Diamond\n#{@ship.gold.round(2)} Gold\n#{@ship.oil.round(2)} Oil", x: 10, y: 225, size: 25, z: 10_000)
 
     @habitable.text = "Habitable: #{@planet.habitable}"
     @diamond.text = "Diamond: #{@planet.diamond.to_f.round(2)}"
@@ -68,7 +69,7 @@ class PlanetView < GameUI
   end
 
   def return_to_game
-    @clone = nil
+    @clone.destroy if @clone
     $window.show_cursor = false
     push_game_state(@options[:game])
   end
