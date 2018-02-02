@@ -75,7 +75,7 @@ class PlanetView < GameUI
   def return_to_game
     @clone = nil
     $window.show_cursor = false
-    push_game_state(@options[:game], setup: false) if @tick >= 15
+    push_game_state(@options[:game], setup: false)# if @tick >= 15
   end
 
   def build_base

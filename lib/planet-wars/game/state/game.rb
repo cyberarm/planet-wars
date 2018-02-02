@@ -1,11 +1,12 @@
 class Game < GameState
   include GameMethods
+  attr_reader :viewport_x, :viewport_y
   ViewPortArea = Struct.new(:x, :y, :width, :height)
 
   def setup
     # clean up
     $window.show_cursor = false
-    Ship.destroy_all;Enemy.destroy_all;Planet.destroy_all;Background.new(x: 1500, y: 1500, z: -10)
+    Ship.destroy_all;Enemy.destroy_all;Planet.destroy_all
     unless defined?($music_manager)
       $music_manager  = MusicManager.new
     else
@@ -25,13 +26,14 @@ class Game < GameState
     @game_overlay_hud = GameOverlayHUD.new
     @game_upgrade_hud = GameUpgradeHUD.new(@ship)
     @game_resources_hud = GameResourcesHUD.new(@ship)
+    @background       = Background.new(viewport_area: @viewport_area,x: 1500, y: 1500, z: -10)
 
     NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
     NotificationManager.add("Press 'F1' to show help", Gosu::Color::GRAY)
     AchievementManager.new
     HazardManager.new(viewport_area: @viewport_area)
 
-    @fps           = Text.new('', x: 10, y: 0)
+    @fps           = Text.new('0', x: 10, y: 0)
     @paused_text   = Text.new("PAUSED", x:$window.width/2-200, y: $window.height/2, z: 1000, size: 100)
 
     @planet_check = 0

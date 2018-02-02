@@ -10,7 +10,7 @@ class MiniMapGenerator
     @asteroids=asteroid
     @ships   = ships
     @max_rect= 300
-    @devisor = 33
+    @devisor = 33.0
 
     @color_planet = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_habitable'])
     @color_planet_not_habitable = AssetManager.theme_color(AssetManager.theme_data['hud']['minimap']['planet_uninhabitable'])
@@ -31,14 +31,14 @@ class MiniMapGenerator
 
   def draw
     x = $window.width-(@area.width/@devisor)
-    $window.clip_to(x, 0, @area.width/10, @area.height/10) do
+    $window.clip_to(x, 0, @area.width/@devisor, @area.height/@devisor) do
       draw_call
     end
   end
 
   def draw_call
     x = $window.width-(@area.width/@devisor)
-    $window.draw_rect(x, 0, (@area.width/10), (@area.height/@devisor), @color_background, 999)
+    $window.draw_rect(x, 0, (@area.width/@devisor), (@area.height/@devisor), @color_background, 999)
     Planet.all.each do |planet|
       if planet.habitable
         $window.draw_rect(x+(planet.x/@devisor), planet.y/@devisor, 10, 10, @color_planet, 999) if planet.base.nil?

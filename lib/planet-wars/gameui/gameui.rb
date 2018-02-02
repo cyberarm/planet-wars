@@ -44,11 +44,11 @@ class GameUI < GameState
 
   def draw
     super
-    @elements.each do |element|
-      element[:object].draw
-    end
     @rects.each do |rect|
       fill_rect(rect[:x],rect[:y],rect[:width],rect[:height],rect[:color], 10)
+    end
+    @elements.each do |element|
+      element[:object].draw
     end
     @tooltip.draw
 

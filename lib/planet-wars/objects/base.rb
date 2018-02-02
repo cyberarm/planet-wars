@@ -7,11 +7,13 @@ class Base < GameObject
     @cannon_range      = 250 # screen pixels
     @cannon_last_fired = Engine.now
     @cannon_last_shown = Engine.now
-    @cannon_color      = Gosu::Color.rgb(rand(25..255), rand(25..255), rand(25..255))
+    @cannon_color      = Gosu::Color.rgb(rand(150..255), rand(150..255), rand(150..255))
     @target            = nil
+    @radius = 250
 
     @x = @options[:x]
     @y = @options[:y]
+    @z = 9999
   end
 
   def update
@@ -25,6 +27,8 @@ class Base < GameObject
   end
 
   def draw
+    super
+    $window.draw_line(self.x, self.y, @debug_color, @target.x, @target.y, @color, 9999) if @target && $debug
     line(@target) if @target && Engine.now-@cannon_last_shown <= 250.0
   end
 
@@ -98,10 +102,9 @@ class Base < GameObject
     x, y = obj_a.x, obj_a.y
     x2, y2 = obj_b.x, obj_b.y
 
-    return $window.draw_quad(x, y, color,
-                             x+width, y-width, color,
-                             x2, y2, color,
-                             x2+width, y2+width, color,
-                             z)
+    width.times do |i|
+      $window.draw_line(x+i,y+i,color,x2+i,y2+i,color,z)
+    end
+    # return $window.draw_rect(x, y, x2+width, y2+width, color, z)
   end
 end

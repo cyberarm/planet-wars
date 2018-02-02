@@ -24,7 +24,9 @@ class GameObject
     @debug_color = Gosu::Color::GREEN
 
     setup
-    @radius = options[:radius] ? options[:radius] : defined?(@image.width) ? ((@image.width+@image.height)/4)*scale : 1
+    if @radius == 0 || @radius == nil
+      @radius = options[:radius] ? options[:radius] : defined?(@image.width) ? ((@image.width+@image.height)/4)*scale : 1
+    end
   end
 
   def draw

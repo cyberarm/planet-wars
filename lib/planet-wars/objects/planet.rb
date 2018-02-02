@@ -60,16 +60,16 @@ class Planet < GameObject
     self.rotate_self
     collision_check
     @base.update if @base.is_a?(Base)
+    @text.x = (self.x-(self.width.to_f*scale)/2)+((@text.width.to_f/2)*scale)
+    @text.y = self.y
   end
 
   def x=(int)
     @x = int
-    @text.x = (self.x-(self.width.to_f*scale)/2)+((@text.width.to_f/2)*scale)
   end
 
   def y=(int)
     @y = int
-    @text.y = self.y
   end
 
   def collision_check
