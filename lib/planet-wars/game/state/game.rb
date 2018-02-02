@@ -13,8 +13,8 @@ class Game < GameState
       $music_manager.song.play if $music_manager.play_songs?
     end
 
-    @vewport_x = 0
-    @vewport_y = 0
+    @viewport_x = 0
+    @viewport_y = 0
     @viewport_area = ViewPortArea.new(0,0,6_000,6_000)
 
     WorldGen.new(42, GameInfo::Config.number_of_portals, @viewport_area.width, @viewport_area.height)
