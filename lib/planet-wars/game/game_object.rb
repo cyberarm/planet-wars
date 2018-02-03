@@ -91,12 +91,13 @@ class GameObject
        self.y.between?((@world_center_point.y)-($window.height/2), ($window.height/2)+@world_center_point.y)
      end
 
-  def heading(ahead_by = 100, object = nil)
+  def heading(ahead_by = 100, object = nil, angle_only = false)
     direction = ((Gosu.angle(@last_x, @last_y, self.x, self.y)) - 90.0) * (Math::PI / 180.0)
     ahead_by+object.speed*Engine.dt if object
     _x = @x+(ahead_by*Math.cos(direction))
     _y = @y+(ahead_by*Math.sin(direction))
-    Vertex.new(_x, _y)
+    return [Vertex.new(@last_x, @last_y), Vertex.new(self.x, self.y)] if angle_only
+    return Vertex.new(_x, _y) unless angle_only
   end
 
   def show_debug_heading
