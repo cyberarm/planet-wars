@@ -152,6 +152,7 @@ class Ship < GameObject
   def upgrade_speed
     if Base.all.count > 0 && self.gold >= 200
       unless @old_speed >= @lock_speed
+        @speed+=1
         @old_speed+=1
         self.gold-=200
       end

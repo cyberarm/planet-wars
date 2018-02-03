@@ -8,7 +8,10 @@ class Text
     @text = text || ""
     @options = options
     @size = options[:size] || AssetManager.theme_data['text']['font_size']
-    @font = options[:font] || "#{AssetManager.fonts_path}/#{AssetManager.theme_data['text']['font']}"
+    @font = options[:font] || "#{AssetManager.theme_data['text']['font']}"
+    if @font.include?(".")
+      @font = "#{AssetManager.fonts_path}/#{@font}"
+    end
     @x = options[:x] || 0
     @y = options[:y] || 0
     @z = options[:z] || 1025

@@ -17,7 +17,7 @@ class GameUI < GameState
 
     @options[:title] ||= "Planet Wars"
     @options[:title_size] ||= title_font_size
-    @options[:font] ||= "#{AssetManager.fonts_path}/#{AssetManager.theme_data['gameui']['font']}"
+    @options[:font] ||= "#{AssetManager.theme_data['gameui']['font']}"
     @tooltip  = Text.new("", x: 1, y: 80, size: tooltip_font_size, font: @options[:font], color: AssetManager.theme_color(AssetManager.theme_data['gameui']['tooltip_color']))
     @post_ui_create = true
     @released_left_mouse_button = false
