@@ -96,7 +96,7 @@ class GameObject
     ahead_by+object.speed*Engine.dt if object
     _x = @x+(ahead_by*Math.cos(direction))
     _y = @y+(ahead_by*Math.sin(direction))
-    return [Vertex.new(@last_x, @last_y), Vertex.new(self.x, self.y)] if angle_only
+    return direction if angle_only
     return Vertex.new(_x, _y) unless angle_only
   end
 

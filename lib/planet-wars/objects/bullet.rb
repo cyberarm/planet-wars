@@ -37,8 +37,6 @@ class Bullet < GameObject
   end
 
   def set_velocity
-    speed = @speed*Engine.dt
-
     @direction = (@host_angle - 90.0) * (Math::PI / 180.0)
   end
 
