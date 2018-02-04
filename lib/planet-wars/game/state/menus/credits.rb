@@ -21,7 +21,9 @@ class Credits < GameUI
 
   def draw
     super
-    @text.each(&:draw)
+    $window.clip_to(0, AssetManager.theme_data["gameui"]["title_font_size"]*2, $window.width, $window.height) do
+      @text.each(&:draw)
+    end
   end
 
   def update
@@ -34,7 +36,7 @@ class Credits < GameUI
         t.y-=0.6 unless $window.button_down?(Gosu::KbDown)
         t.y+=5 if $window.button_down?(Gosu::KbUp)
       end
-      push_game_state(MainMenu) if @text.last.y < -@text.last.height
+      push_game_state(MainMenu) if @text.last.y < (AssetManager.theme_data["gameui"]["title_font_size"]*2)-(@text.last.height+4)
     end
   end
 
