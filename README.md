@@ -32,10 +32,10 @@ Note: using `--debug_game` with also trigger `--debug` due to laziness. `ARGV.jo
 
 ## Special Keys
 In-Game:
-* `X` Toggles debug mode on or off; Only available with --debug cmd option
-* `C` Prints out data for debugging waves; Only available with --debug cmd option
-* `V` Runs Planet-to-Planet collision check, used internally to remove overlapping planets; Only available with --debug cmd option
-* `M` Toggles mute on or off. Affects --mute
+* `X` Toggles debug mode on or off; Only available with `--debug` option
+* `C` Prints out data for debugging waves; Only available with `--debug` option
+* `V` Runs Planet-to-Planet collision check, used internally to remove overlapping planets; Only available with `--debug` option
+* `M` Toggles mute on or off. If sound and/or music is disabled in the menu this will do nothing. Affects `--mute`
 
 ## Road map
 * Online high scores - Time survived
