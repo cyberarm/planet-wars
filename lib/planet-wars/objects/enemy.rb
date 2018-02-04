@@ -24,11 +24,13 @@ class Enemy < GameObject
     if @target_object && $debug
       $window.draw_line(self.x, self.y, Gosu::Color.rgb(200,100,100),
                         @target_object.x, @target_object.y, Gosu::Color.rgb(200,100,100), 9999)
-      distance = Gosu.distance(self.x, self.y, @target.x, @target.y)
-      _heading = @target_object.heading(distance*0.5, @target)
-      $window.draw_circle(_heading.x, _heading.y, 24, 9999, @debug_color)
-      $window.draw_line(self.x, self.y, @debug_color,
-                        _heading.x, _heading.y, @debug_color, 9999)
+      if @target_area.in_range
+        distance = Gosu.distance(self.x, self.y, @target.x, @target.y)
+        _heading = @target.heading(distance*0.5)
+        $window.draw_circle(_heading.x, _heading.y, 24, 9999, @debug_color)
+        $window.draw_line(self.x, self.y, @debug_color,
+                          _heading.x, _heading.y, @debug_color, 9999)
+      end
     end
   end
 
@@ -102,22 +104,6 @@ class Enemy < GameObject
   def despawn(portal)
     @despawn = true
     @portal  = portal
-  end
-
-  # TODO: Move to Chingu::GameObject to embed in all game objects
-  def find_closest(game_object)
-    best_object = nil
-    best_distance = 100_000_000_000 # Huge default number
-
-    game_object.all.each do |object|
-      distance = Gosu::distance(self.x, self.y, object.x, object.y)
-      if distance <= best_distance
-        best_object = object
-        best_distance = distance
-      end
-    end
-
-    return best_object
   end
 
   def look_at(object)

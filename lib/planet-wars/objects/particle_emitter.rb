@@ -1,10 +1,12 @@
 class ParticleEmitter < GameObject
   attr_accessor :emit, :particle_image, :angle
-  attr_accessor :image, :x, :y, :z, :alpha, :direction, :speed, :wobble, :decay
+  attr_accessor :image, :x, :y, :z, :alpha, :direction, :speed, :spread, :decay
 
   class Particle
-    attr_accessor :image, :x, :y, :z, :alpha, :direction, :speed, :decay, :wobble, :last_x, :last_y
+    attr_accessor :image, :x, :y, :z, :alpha, :direction, :speed, :decay, :spread, :last_x, :last_y
     def initialize(options={})
+      @debug_color = Gosu::Color::FUCHSIA
+
       @image = options[:image] ? options[:image] : nil
       @x = options[:x] ? options[:x] : 0
       @y = options[:y] ? options[:y] : 0
@@ -12,13 +14,27 @@ class ParticleEmitter < GameObject
       @alpha = options[:alpha] ? options[:alpha] : 255
       @direction = options[:direction] ? options[:direction] : 0
       @angle = options[:angle] ? options[:angle] : nil
-      @wobble = options[:wobble] ? options[:wobble] : 2.5
+      @spread = options[:spread] ? options[:spread] : 2.5
       @speed = options[:speed] ? options[:speed] : 1
       @decay = options[:decay] ? options[:decay] : 1
 
-      @debug_color = Gosu::Color::FUCHSIA
-
+      @spread_offset = 0
       @last_x,@last_y = @x, @y
+      @velocity_x = 0
+      @velocity_y = 0
+
+      if @angle
+        @spread_offset+=rand(-@spread..@spread)
+      end
+
+      if @direction == 0
+        it = self.direction * (Math::PI / 180.0)
+        @velocity_x = ((self.speed*60)*Engine.dt)*Math.cos(it)
+        @velocity_y = ((self.speed*60)*Engine.dt)*Math.sin(it)
+      else
+        @velocity_x = (((self.speed*60)*Engine.dt)*Math.cos(self.direction))
+        @velocity_y = (((self.speed*60)*Engine.dt)*Math.sin(self.direction))
+      end
     end
 
     def draw
@@ -32,18 +48,13 @@ class ParticleEmitter < GameObject
       end
     end
 
-    def animate(particle)
-      particle.alpha-=particle.decay
-      particle.last_x = particle.x
-      particle.last_y = particle.y
-      if @direction == 0
-        it = particle.direction * (Math::PI / 180.0)
-        particle.x+=((particle.speed*60)*Engine.dt)*Math.cos(it)
-        particle.y+=((particle.speed*60)*Engine.dt)*Math.sin(it)
-      else
-        particle.x-=((particle.speed*60)*Engine.dt)*Math.cos(particle.direction)
-        particle.y-=((particle.speed*60)*Engine.dt)*Math.sin(particle.direction)
-      end
+    def update
+      self.alpha-=((self.decay*60)*Engine.dt)
+      self.last_x = self.x
+      self.last_y = self.y
+
+      self.x-=@velocity_x+@spread_offset
+      self.y-=@velocity_y+@spread_offset
     end
   end
 
@@ -58,7 +69,7 @@ class ParticleEmitter < GameObject
     @angle = options[:angle] ? options[:angle] : nil
     @speed = options[:speed] ? options[:speed] : 2
     @decay = options[:decay] ? options[:decay] : 2.5
-    @wobble = options[:wobble] ? options[:wobble] : 2.5
+    @spread = options[:spread] ? options[:spread] : 2.5
     @max_particles = options[:max_particles] ? options[:max_particles] : 100
     @particles_per_second = options[:particles_per_second] ? options[:particles_per_second] : 200
 
@@ -76,15 +87,14 @@ class ParticleEmitter < GameObject
   end
 
   def update
-    # puts @particles.countv
-    @particles.each do |p|
-      p.animate(p)
-      @particles.delete(p) if p.alpha <= 0
+    @particles.each do |particle|
+      particle.update
+      @particles.delete(particle) if particle.alpha <= 0
     end
 
     if @emit && @particles.count < @max_particles
-      p "Particles This Frame: #{(Engine.dt*@particles_per_second)}->#{(Engine.dt*@particles_per_second).to_i}"
-      (Engine.dt*@particles_per_second).to_i.times do
+      # p "Particles This Frame: #{(Engine.dt*@particles_per_second)}->#{(Engine.dt*@particles_per_second).ceil}"
+      (Engine.dt*@particles_per_second).ceil.times do
         create_particle
       end
     end
@@ -115,7 +125,7 @@ class ParticleEmitter < GameObject
     end
 
 
-    particle = Particle.new(image: @particle_image, x: self.x, y: self.y, z: 299, alpha: 255, wobble: @wobble, direction: @particle_direction, speed: @speed, decay: @decay)
+    particle = Particle.new(image: @particle_image, x: self.x, y: self.y, z: 299, alpha: 255, spread: @spread, angle: @angle, direction: @particle_direction, speed: @speed, decay: @decay)
     @particles.push(particle)
   end
 

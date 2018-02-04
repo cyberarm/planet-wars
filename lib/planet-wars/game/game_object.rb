@@ -146,6 +146,21 @@ class GameObject
   def button_down?(id)
   end
 
+  def find_closest(game_object_class)
+    best_object = nil
+    best_distance = 100_000_000_000 # Huge default number
+
+    game_object_class.all.each do |object|
+      distance = Gosu::distance(self.x, self.y, object.x, object.y)
+      if distance <= best_distance
+        best_object = object
+        best_distance = distance
+      end
+    end
+
+    return best_object
+  end
+
   def circle_collision?(object)
     distance = Gosu.distance(self.x, self.y, object.x, object.y)
     if distance <= self.radius+object.radius
