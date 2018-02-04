@@ -9,6 +9,7 @@ class WorldGen
     @planet_column = 0
     @planet_size = 400
 
+    raise "Area must have the same width and height!" if width != height
     generate_grid
 
     number_of_planets.times do |i|
