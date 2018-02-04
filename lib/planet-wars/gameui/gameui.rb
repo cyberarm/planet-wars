@@ -253,10 +253,10 @@ class GameUI < GameState
   end
 
   def go_back
-    if previous_game_state.class.to_s.end_with?("Menu")
-      push_game_state(previous_game_state)
-      @action.play unless muted
-    end
+    # if $window.previous_game_state && $window.previous_game_state.class.to_s.end_with?("Menu")
+      # push_game_state($window.previous_game_state)
+      # @action.play unless muted
+    # end
   end
 
   def muted

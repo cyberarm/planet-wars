@@ -82,30 +82,31 @@ class Engine < Gosu::Window
   end
 
   def button_up(id)
-    {
-      "Gosu::GpButton0": Gosu::GpButton0,
-      "Gosu::GpButton1": Gosu::GpButton1,
-      "Gosu::GpButton2": Gosu::GpButton2,
-      "Gosu::GpButton3": Gosu::GpButton3,
-      "Gosu::GpButton4": Gosu::GpButton4,
-      "Gosu::GpButton5": Gosu::GpButton5,
-      "Gosu::GpButton6": Gosu::GpButton6,
-      "Gosu::GpButton7": Gosu::GpButton7,
-      "Gosu::GpButton8": Gosu::GpButton8,
-      "Gosu::GpButton9": Gosu::GpButton9,
-      "Gosu::GpButton10": Gosu::GpButton10,
-      "Gosu::GpButton11": Gosu::GpButton11,
-      "Gosu::GpButton12": Gosu::GpButton12,
-      "Gosu::GpButton13": Gosu::GpButton13,
-      "Gosu::GpButton14": Gosu::GpButton14,
-      "Gosu::GpButton15": Gosu::GpButton15
-    }.each do |constant, value|
-      puts "Button: #{id} = #{constant}" if value == id
-    end
+    # {
+    #   "Gosu::GpButton0": Gosu::GpButton0,
+    #   "Gosu::GpButton1": Gosu::GpButton1,
+    #   "Gosu::GpButton2": Gosu::GpButton2,
+    #   "Gosu::GpButton3": Gosu::GpButton3,
+    #   "Gosu::GpButton4": Gosu::GpButton4,
+    #   "Gosu::GpButton5": Gosu::GpButton5,
+    #   "Gosu::GpButton6": Gosu::GpButton6,
+    #   "Gosu::GpButton7": Gosu::GpButton7,
+    #   "Gosu::GpButton8": Gosu::GpButton8,
+    #   "Gosu::GpButton9": Gosu::GpButton9,
+    #   "Gosu::GpButton10": Gosu::GpButton10,
+    #   "Gosu::GpButton11": Gosu::GpButton11,
+    #   "Gosu::GpButton12": Gosu::GpButton12,
+    #   "Gosu::GpButton13": Gosu::GpButton13,
+    #   "Gosu::GpButton14": Gosu::GpButton14,
+    #   "Gosu::GpButton15": Gosu::GpButton15
+    # }.each do |constant, value|
+    #   puts "Button: #{id} = #{constant}" if value == id
+    # end
     @current_game_state.button_up(id)
   end
 
   def push_game_state(klass, options={})
+    @last_game_state = @current_game_state if @current_game_state
     if klass.instance_of?(klass.class) && defined?(klass.options)
       @current_game_state = klass
     else
@@ -117,11 +118,12 @@ class Engine < Gosu::Window
     @current_game_state = klass_instance
   end
 
-  # def previous_game_state
-  #   current_game_state = @current_game_state
-  #   @current_game_state = @last_frame_time
-  #   @last_game_state = current_game_state
-  # end
+  def previous_game_state
+    # current_game_state = @current_game_state
+    # @current_game_state = @last_frame_time
+    # @last_game_state = current_game_state
+    @last_game_state
+  end
 
   def fill_rect(x, y, width, height, color, z = 0)
     Gosu.fill_rect(x,y,width,height,color, z)
