@@ -23,16 +23,20 @@ See how long you can survive.
 ## Controls
 Note: Controller controls assume an Xbox compatible controller.
 ### Movement
-* W, Up or Right Bumper - Forwards/Brake
-* S, Down, or Left Bumper - Reverse/Brake
-* A, Left, Left D-Pad button, or Left Stick -X - Turn Left
-* D, Right, Right D-Pad button, or Left Stick +X - Turn Right
+* `W`, `Up` or `Right Bumper` **Forwards/Brake**
+* `S`, `Down`, or `Left Bumper` **Reverse/Brake**
+* `A`, `Left`, `Left D-Pad button`, or `Left Stick -X` **Turn Left**
+* `D`, `Right`, `Right D-Pad button`, or `Left Stick +X` **Turn Right**
+
 ### Weapon
-* Spacebar or A Button - Fire bullet
+* `Spacebar` or `A Button` **Fire bullet**
+
 ### Other
-U - Open Ship upgrades menu
-Enter - Open planet management menu if overtop a planet
-F1 - Pause game and show controls
+* `U` or `Y Button` **Open Ship upgrades menu**
+* `Enter` or `X Button` **Open planet management menu if over top a planet**
+* `F1` or `Left Stick Button` **Pause game and show controls**
+* `P` or `Start Button` **Pause game**
+* `Escape` or `Back Button` **Quit confirmation**
 
 ## Commandline Arguments
 * `--mute` Starts the game with music paused (can be resumed from the settings menu or by pressing 'm')
@@ -46,7 +50,7 @@ Note: using `--debug_game` with also trigger `--debug` due to laziness. `ARGV.jo
 
 ## Special Keys
 In-Game:
-* `X` Toggles debug mode on or off; Only available with `--debug` option
+* `X` or `Right Stick Button` Toggles debug mode on or off; Only available with `--debug` option
 * `C` Prints out data for debugging waves; Only available with `--debug` option
 * `V` Runs Planet-to-Planet collision check, used internally to remove overlapping planets; Only available with `--debug` option
 * `M` Toggles mute on or off. If sound and/or music is disabled in the menu this will do nothing. Affects `--mute`

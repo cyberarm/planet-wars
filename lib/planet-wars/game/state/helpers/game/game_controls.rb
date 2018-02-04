@@ -22,7 +22,7 @@ class GameControls
   end
 
   def update
-    if $window.button_down?(Gosu::KbF1)
+    if $window.button_down?(Gosu::KbF1) || $window.button_down?(Gosu::GpButton7)
       $window.current_game_state.global_pause = true
       @show = true
     else
@@ -31,6 +31,6 @@ class GameControls
   end
 
   def button_up(id)
-    $window.current_game_state.global_pause = false if id == Gosu::KbF1 && $window.current_game_state.global_pause
+    $window.current_game_state.global_pause = false if (id == Gosu::KbF1 || id == Gosu::GpButton7) && $window.current_game_state.global_pause
   end
 end

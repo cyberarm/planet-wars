@@ -29,7 +29,7 @@ class Game < GameState
     @background       = Background.new(viewport_area: @viewport_area,x: 1500, y: 1500, z: -10)
 
     NotificationManager.add("GAME STARTING IN 10 SECONDS...", Gosu::Color::GRAY)
-    NotificationManager.add("Press 'F1' to show help", Gosu::Color::GRAY)
+    NotificationManager.add("Press 'F1' or 'Left Stick' to show help", Gosu::Color::GRAY)
     AchievementManager.new
     HazardManager.new(viewport_area: @viewport_area)
 
@@ -93,13 +93,13 @@ class Game < GameState
     @game_controls.button_up(id)
 
     mute if id == Gosu::KbM
-    enter if id == Gosu::KbEnter || id == Gosu::KbReturn || Gosu::GpButton2
-    escape if id == Gosu::KbEscape || Gosu::GpButton6
-    pause_game if id == Gosu::KbP# || Gosu::GpButton7
-    upgrades_menu if id == Gosu::KbU# || Gosu::GpButton3
-    debugging_waves if id == Gosu::KbC || id == Gosu::GpButton11 if $debug
+    enter if id == Gosu::KbEnter || id == Gosu::KbReturn || id == Gosu::GpButton2
+    upgrades_menu if id == Gosu::KbU || id == Gosu::GpButton3
+    escape if id == Gosu::KbEscape || id == Gosu::GpButton4
+    pause_game if id == Gosu::KbP || id == Gosu::GpButton6
+    debugging_waves if id == Gosu::KbC if $debug
     planet_check if id == Gosu::KbV if $debug
-    if id == Gosu::KbX && ARGV.join.include?("--debug")
+    if (id == Gosu::KbX || id == Gosu::GpButton8) && ARGV.join.include?("--debug")
       if $debug
         $debug = false
       else
