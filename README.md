@@ -26,6 +26,9 @@ See how long you can survive.
 * `--debug_game` Jumps the game straight to the `Game` game state
 * `--quick` Skips intro and jumps to `MainMenu`
 * `--no-shadow` Disables text shadow/highlighting
+* `--low` Sets the update_interval to 30 frames per second
+
+Note: using `--debug_game` with also trigger `--debug` due to laziness. `ARGV.join.include?(string)`
 
 ## Special Keys
 In-Game:
