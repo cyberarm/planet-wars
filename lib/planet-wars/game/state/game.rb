@@ -93,11 +93,11 @@ class Game < GameState
     @game_controls.button_up(id)
 
     mute if id == Gosu::KbM
-    enter if id == Gosu::KbEnter || id == Gosu::KbReturn# || Gosu::Gp3
-    escape if id == Gosu::KbEscape# || Gosu::Gp6
-    pause_game if id == Gosu::KbP# || Gosu::Gp4
-    upgrades_menu if id == Gosu::KbU# || Gosu::Gp2
-    debugging_waves if id == Gosu::KbC if $debug
+    enter if id == Gosu::KbEnter || id == Gosu::KbReturn || Gosu::GpButton2
+    escape if id == Gosu::KbEscape || Gosu::GpButton6
+    pause_game if id == Gosu::KbP# || Gosu::GpButton7
+    upgrades_menu if id == Gosu::KbU# || Gosu::GpButton3
+    debugging_waves if id == Gosu::KbC || id == Gosu::GpButton11 if $debug
     planet_check if id == Gosu::KbV if $debug
     if id == Gosu::KbX && ARGV.join.include?("--debug")
       if $debug

@@ -20,6 +20,20 @@ Bases act as mines, collecting available resources on the planet, bases also act
 
 See how long you can survive.
 
+## Controls
+Note: Controller controls assume an Xbox compatible controller.
+### Movement
+* W, Up or Right Bumper - Forwards/Brake
+* S, Down, or Left Bumper - Reverse/Brake
+* A, Left, Left D-Pad button, or Left Stick -X - Turn Left
+* D, Right, Right D-Pad button, or Left Stick +X - Turn Right
+### Weapon
+* Spacebar or A Button - Fire bullet
+### Other
+U - Open Ship upgrades menu
+Enter - Open planet management menu if overtop a planet
+F1 - Pause game and show controls
+
 ## Commandline Arguments
 * `--mute` Starts the game with music paused (can be resumed from the settings menu or by pressing 'm')
 * `--debug` Shows debugging information, e.g. collision radius visualization

@@ -72,15 +72,15 @@ class Ship < GameObject
     @moving = false
     @boosting = false
 
-    boost_key if button_down?(Gosu::KbLeftShift) || button_down?(Gosu::KbRightShift)# || button_down?(Gosu::Gp1)
-    move_up if button_down?(Gosu::KbW) || button_down?(Gosu::KbUp)# || button_down?(Gosu::Gp10)
-    move_down if button_down?(Gosu::KbS) || button_down?(Gosu::KbDown)# || button_down?(Gosu::Gp9)
-    move_left if button_down?(Gosu::KbA) || button_down?(Gosu::KbLeft)# || button_down?(Gosu::GpLeft)
-    move_right if button_down?(Gosu::KbD) || button_down?(Gosu::KbRight)# || button_down?(Gosu::GpRight)
+    boost_key if button_down?(Gosu::KbLeftShift) || button_down?(Gosu::KbRightShift) || button_down?(Gosu::GpButton1)
+    move_up if button_down?(Gosu::KbW) || button_down?(Gosu::KbUp) || button_down?(Gosu::GpButton10)
+    move_down if button_down?(Gosu::KbS) || button_down?(Gosu::KbDown) || button_down?(Gosu::GpButton9)
+    move_left if button_down?(Gosu::KbA) || button_down?(Gosu::KbLeft) || button_down?(Gosu::GpLeft)
+    move_right if button_down?(Gosu::KbD) || button_down?(Gosu::KbRight) || button_down?(Gosu::GpRight)
   end
 
   def button_up(id)
-    if id == Gosu::KbSpace# || id == Gosu::Gp0
+    if id == Gosu::KbSpace || id == Gosu::GpButton0
       fire_weapon
     end
   end
