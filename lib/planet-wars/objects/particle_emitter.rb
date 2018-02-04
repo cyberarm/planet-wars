@@ -23,10 +23,6 @@ class ParticleEmitter < GameObject
       @velocity_x = 0
       @velocity_y = 0
 
-      if @angle
-        @spread_offset+=rand(-@spread..@spread)
-      end
-
       if @direction == 0
         it = self.direction * (Math::PI / 180.0)
         @velocity_x = ((self.speed*60)*Engine.dt)*Math.cos(it)
@@ -53,8 +49,8 @@ class ParticleEmitter < GameObject
       self.last_x = self.x
       self.last_y = self.y
 
-      self.x-=@velocity_x+@spread_offset
-      self.y-=@velocity_y+@spread_offset
+      self.x-=@velocity_x
+      self.y-=@velocity_y
     end
   end
 
@@ -114,7 +110,10 @@ class ParticleEmitter < GameObject
       @particle_direction+=15*Math::PI
       @particle_direction%=360
     else
-      _direction = (self.angle - 90.0) * (Math::PI / 180.0)
+      if @angle
+        @spread_offset = rand(-@spread..@spread)
+      end
+      _direction = (self.angle+@spread_offset - 90.0) * (Math::PI / 180.0)
       @particle_direction = _direction
       # @particle_direction%=360
     end

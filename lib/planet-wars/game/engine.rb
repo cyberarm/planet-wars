@@ -29,6 +29,10 @@ class Engine < Gosu::Window
     height= Gosu.screen_height if ConfigManager.config["screen"]["height"] == 'max'
     height= ConfigManager.config["screen"]["height"] if ConfigManager.config["screen"]["height"].is_a?(Integer)
 
+    if ARGV.join.include?("--low")
+      update_interval = 1000.0/30
+    end
+
     super(width, height, ConfigManager.config["screen"]["fullscreen"], update_interval)
     $window = self
     @last_frame_time = Gosu.milliseconds-1

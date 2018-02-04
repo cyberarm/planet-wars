@@ -161,6 +161,10 @@ class GameObject
     return best_object
   end
 
+  def look_at(object)
+    # TODO: Implement
+  end
+
   def circle_collision?(object)
     distance = Gosu.distance(self.x, self.y, object.x, object.y)
     if distance <= self.radius+object.radius

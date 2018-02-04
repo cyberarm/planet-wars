@@ -1,5 +1,5 @@
 class GameUI < GameState
-  MousePosition = Struct.new(:x, :y)
+  Mouse = Struct.new(:x, :y)
   attr_accessor :selected
   def setup
     @elements = []
@@ -26,8 +26,8 @@ class GameUI < GameState
     @selected = nil
     @old_selected = nil
 
-    @mouse = MousePosition.new($window.mouse_x, $window.mouse_y)
-    @old_mouse = MousePosition.new($window.mouse_x, $window.mouse_y)
+    @mouse = Mouse.new($window.mouse_x, $window.mouse_y)
+    @old_mouse = Mouse.new($window.mouse_x, $window.mouse_y)
     @mouse_tick=0
     @first_passed=false
 
@@ -103,13 +103,13 @@ class GameUI < GameState
     if id == Gosu::MsLeft
       @released_left_mouse_button = true
 
-    elsif id == Gosu::KbEnter or id == Gosu::KbReturn or id == Gosu::GpButton0
+    elsif id == Gosu::KbEnter || id == Gosu::KbReturn || id == Gosu::KbSpace || id == Gosu::GpButton0
       @released_return = true
 
-    elsif id == Gosu::KbUp or id == Gosu::GpUp
+    elsif id == Gosu::KbUp || id == Gosu::GpUp || id == Gosu::KbW
       ui_select(:up)
 
-    elsif id == Gosu::KbDown or id == Gosu::GpDown
+    elsif id == Gosu::KbDown || id == Gosu::GpDown || id == Gosu::KbS
       ui_select(:down)
 
     elsif id == Gosu::GpButton1

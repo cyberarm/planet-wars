@@ -105,7 +105,4 @@ class Enemy < GameObject
     @despawn = true
     @portal  = portal
   end
-
-  def look_at(object)
-  end
 end

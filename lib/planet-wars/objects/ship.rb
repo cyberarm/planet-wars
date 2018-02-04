@@ -31,7 +31,7 @@ class Ship < GameObject
 
     @border= @options[:world]
     @image = AssetManager.get_image("#{AssetManager.ships_path}/ship.png")
-    @particle = ParticleEmitter.new(x: self.x, y: self.y, z: 1, spread: 2.0, max_particles: 500, particles_per_second: 200, speed: 0, decay: 5)
+    @particle = ParticleEmitter.new(x: self.x, y: self.y, z: 1, spread: 20.0, max_particles: 500, particles_per_second: 200, speed: 0, decay: 5)
     @ship_size = @image.width/2
 
     @lock_max_boost = 400
