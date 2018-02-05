@@ -10,7 +10,7 @@ class Credits < GameUI
     set_title "#{GameInfo::NAME}//Credits"
 
     button "Back" do
-      push_game_state(MainMenu)
+      go_back
     end
 
     @text=[]
@@ -38,6 +38,10 @@ class Credits < GameUI
       end
       push_game_state(MainMenu) if @text.last.y < (AssetManager.theme_data["gameui"]["title_font_size"]*2)-(@text.last.height+4)
     end
+  end
+
+  def go_back
+    push_game_state(MainMenu)
   end
 
   def header_color

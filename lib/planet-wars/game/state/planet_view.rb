@@ -63,6 +63,10 @@ class PlanetView < GameUI
     @oil.text     = "Oil: #{@planet.oil.to_f.round(2)}"
   end
 
+  def go_back
+    return_to_game
+  end
+
 
   def created_base
     Base.new(ship: @ship, planet: @planet, x: @planet.x, y: @planet.y)

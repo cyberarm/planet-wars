@@ -112,7 +112,7 @@ class GameUI < GameState
     elsif id == Gosu::KbDown || id == Gosu::GpDown || id == Gosu::KbS
       ui_select(:down)
 
-    elsif id == Gosu::GpButton1
+    elsif id == Gosu::KbEscape || id == Gosu::GpButton1
       go_back
     end
   end

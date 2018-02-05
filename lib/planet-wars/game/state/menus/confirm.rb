@@ -9,7 +9,12 @@ class Confirm < GameUI
 
     button "No", tooltip: "Return to Game" do
       $window.show_cursor = false
-      push_game_state(options[:state], setup: false)
+      push_game_state(options[:state])
     end
+  end
+
+  def go_back
+    $window.show_cursor = false
+    push_game_state(options[:state])
   end
 end

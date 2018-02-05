@@ -15,7 +15,11 @@ class MultiPlayerMenu < GameUI
     end
 
     button "Back" do
-      push_game_state(MainMenu)
+      go_back
     end
+  end
+
+  def go_back
+    push_game_state(MainMenu)
   end
 end

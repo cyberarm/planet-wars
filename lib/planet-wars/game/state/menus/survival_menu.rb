@@ -28,7 +28,11 @@ class SurvivalMenu < GameUI
     end
 
     button "Back" do
-      push_game_state(ModeMenu)
+      go_back
     end
+  end
+
+  def go_back
+    push_game_state(ModeMenu)
   end
 end

@@ -32,9 +32,9 @@ class ShipUpgrades < GameUI
   def update
     super
     if Base.all.count > 0
-      @current = MultiLineText.new("Your Gold: #{@ship.gold}\n\nCurrent Upgrades\nShip Speed: #{@ship.speed}/5\nBoost Speed: #{@ship.boost_speed}/3\nBoost Capacity: #{@ship.max_boost}/400", x: 100, y: 270+50, size: 25, z: 10_000)
+      @current = MultiLineText.new("Your Gold: #{@ship.gold.round(2)}\n\nCurrent Upgrades\nShip Speed: #{@ship.speed}/5\nBoost Speed: #{@ship.boost_speed}/3\nBoost Capacity: #{@ship.max_boost}/400", x: 100, y: 270+50, size: 25, z: 10_000)
     else
-      @current = MultiLineText.new("Your Gold: #{@ship.gold}\n\nCurrent Upgrades\nShip Speed: #{@ship.speed}\nBoost Speed: #{@ship.boost_speed}\nBoost Capacity: #{@ship.max_boost}\n\nBuild bases on planets\nto enable upgrades", x: 100, y: 270+50, size: 25, z: 10_000)
+      @current = MultiLineText.new("Your Gold: #{@ship.gold.round(2)}\n\nCurrent Upgrades\nShip Speed: #{@ship.speed}\nBoost Speed: #{@ship.boost_speed}\nBoost Capacity: #{@ship.max_boost}\n\nBuild bases on planets\nto enable upgrades", x: 100, y: 270+50, size: 25, z: 10_000)
     end
   end
 
@@ -51,6 +51,9 @@ class ShipUpgrades < GameUI
   #   @ship.upgrade_boost_capacity if id == (Gosu::Kb3)
   #   return_to_game if id == (Gosu::KbEnter) || id == (Gosu::KbReturn) || id == (Gosu::KbEscape)
   # end
+  def go_back
+    return_to_game
+  end
 
   def return_to_game
     $window.show_cursor = false

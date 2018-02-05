@@ -36,6 +36,10 @@ class SettingsMenu < GameUI
       push_game_state AssetPackMenu
     end
 
-    button("Back"){push_game_state(MainMenu)}
+    button("Back"){go_back}
+  end
+
+  def go_back
+    push_game_state(MainMenu)
   end
 end
