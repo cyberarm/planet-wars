@@ -29,16 +29,16 @@ class MainMenu < GameUI
       @image_l = AssetManager.get_image("./assets/kenney_gameicons/import.png")
     end
 
-    @cx, @cy = $window.width/2, $window.height/2
-    @cwidth, @cheight = $window.width/2, $window.height/2
+    @cx, @cy = 0, 0
+    @cwidth, @cheight = $window.width, 0
   end
 
   def update
     super
-    @cx-=20 unless @cx < 1
-    @cy-=12 unless @cy < 1
-    @cwidth+=12 unless @cwidth > $window.width
-    @cheight+=20 unless @cheight > $window.height
+    # @cx-=20 unless @cx < 1
+    # @cy-=12 unless @cy < 1
+    # @cwidth+=12 unless @cwidth > $window.width
+    @cheight+=15 unless @cheight > $window.height
 
     if $latest_release_data
       if $window.button_down?(Gosu::MsLeft)
