@@ -17,6 +17,10 @@ class Target < GameObject
   end
 
   def speed
-    @target.speed
+    if defined?(@target.active_speed)
+      @target.active_speed
+    else
+      @target.speed
+    end
   end
 end

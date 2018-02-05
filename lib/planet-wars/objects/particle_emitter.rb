@@ -5,7 +5,7 @@ class ParticleEmitter < GameObject
   class Particle
     attr_accessor :image, :x, :y, :z, :alpha, :direction, :speed, :decay, :spread, :last_x, :last_y
     def initialize(options={})
-      @debug_color = Gosu::Color::FUCHSIA
+      @debug_color = Gosu::Color.rgb(255, 165, 0)
 
       @image = options[:image] ? options[:image] : nil
       @x = options[:x] ? options[:x] : 0

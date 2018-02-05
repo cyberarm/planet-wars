@@ -141,6 +141,7 @@ class Ship < GameObject
     if self.x <= @border[0]+@ship_size
       self.x+=speed
     end
+    @active_speed = 0 if @active_speed <= 0.1 && !@moving
   end
 
   def set_active_speed
