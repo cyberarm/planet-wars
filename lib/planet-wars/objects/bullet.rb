@@ -51,18 +51,21 @@ class Bullet < GameObject
         if true # TODO: Check pixel collision
           self.die(collided: true)
           ship.hit(@damage, self)
+          break;
         end
       end
     else
       self.each_circle_collision(Enemy) do |bullet, enemy|
         self.die(collided: true)
         enemy.hit(@damage, self)
+        break;
       end
     end
 
     self.each_circle_collision(Asteroid) do |bullet, asteroid|
       self.die(collided: true)
       asteroid.hit(@damage, self)
+      break;
     end
   end
 end
