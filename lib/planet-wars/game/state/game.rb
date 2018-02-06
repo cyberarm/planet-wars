@@ -106,6 +106,9 @@ class Game < GameState
         $debug = true
       end
     end
+    if (id == Gosu::KbZ && $debug)
+      $heading ? $heading = false : $heading = true
+    end
     super
   end
 

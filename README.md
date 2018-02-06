@@ -46,11 +46,13 @@ Note: Controller controls assume an Xbox compatible controller.
 * `--no-shadow` Disables text shadow/highlighting
 * `--low` Sets the update_interval to 30 frames per second
 * `--no-damage` Ship will not take damage
+* `--heading` Show object headings, requires `--debug`
 
 Note: using `--debug_game` with also trigger `--debug` due to laziness. `ARGV.join.include?(string)`
 
 ## Special Keys
 In-Game:
+* `Z` Toggles heading display on or off; Only available with `--debug` option
 * `X` or `Right Stick Button` Toggles debug mode on or off; Only available with `--debug` option
 * `C` Prints out data for debugging waves; Only available with `--debug` option
 * `V` Runs Planet-to-Planet collision check, used internally to remove overlapping planets; Only available with `--debug` option

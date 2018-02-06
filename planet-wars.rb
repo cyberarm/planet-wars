@@ -90,6 +90,7 @@ rescue => e
     file.write BUILD
   end
 end
+
 if ARGV.join.include?("--mute")
   $mute = true
 end
@@ -101,6 +102,9 @@ if ARGV.join.include?('--debug')
       puts "#{key}: #{value}"
     end
   end
+end
+if ARGV.join.include?("--heading")
+  $heading = true
 end
 
 Engine.new.show if not defined?(Ocra)

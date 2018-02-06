@@ -43,7 +43,7 @@ class GameObject
     end
 
     if $debug
-      show_debug_heading
+      show_debug_heading if $heading
       $window.draw_circle(self.x, self.y, radius, 9999, @debug_color)
       if @debug_text.text != ""
         $window.draw_rect(@debug_text.x-10, (@debug_text.y-10), @debug_text.width+20, @debug_text.height+20, Gosu::Color.rgba(0,0,0,200), 9999)

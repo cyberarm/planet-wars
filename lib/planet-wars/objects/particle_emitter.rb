@@ -36,7 +36,7 @@ class ParticleEmitter < GameObject
     def draw
       @image.draw(@x, @y, @z, 1, 1, Gosu::Color.rgba(255,255,255, @alpha))
 
-      if $debug
+      if $debug && $heading
         direction = ((Gosu.angle(@last_x, @last_y, self.x, self.y)) - 90.0) * (Math::PI / 180.0)
         _x = @x+(50*Math.cos(direction))
         _y = @y+(50*Math.sin(direction))
