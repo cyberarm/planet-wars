@@ -34,6 +34,7 @@ class GameState
         o.world_center_point.y = @_4ship.y
 
         o.update
+        o.update_debug_text if $debug
       end
     end
   end

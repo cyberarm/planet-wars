@@ -1,5 +1,5 @@
 class MultiLineText
-  attr_accessor :x, :y, :width, :height
+  attr_accessor :options, :x, :y, :width, :height
 
   def initialize(text, options={})
     @texts = []
@@ -8,18 +8,50 @@ class MultiLineText
       _options[:y]+=_options[:size]
       @texts << Text.new(line, _options)
     end
-    @x = @texts.first.x
-    @y = @texts.first.y
+    @options = options
+    @x = @texts.first ? @texts.first.x : 0
+    @y = @texts.first ? @texts.first.y : 0
+    @width  = 0
     @height = 0
-    @texts.each {|t| @height+=t.height}
-  end
-
-  def y=(int)
-    @y = int
-    @texts.each_with_index {|t, i| puts ("y:#{y} int:#{int} m:#{int+(i*t.size)}");t.y=int+(i*t.size)}
+    calculate_boundry
   end
 
   def draw
     @texts.each(&:draw)
+  end
+
+  def text
+    string = ""
+    @texts.each {|t| string << t.text}
+    return string
+  end
+
+  def text=(text)
+    text.split("\n").each_with_index do |line, i|
+      if @texts[i]
+        @texts[i].text = line
+      else
+        @texts << Text.new(line, @options)
+      end
+    end
+
+    calculate_boundry
+  end
+
+  def x=(int)
+    @x = int
+    @texts.each {|t| t.x = int}
+  end
+
+  def y=(int)
+    @y = int
+    @texts.each_with_index {|t, i| t.y=int+(i*t.size)}
+  end
+
+  def calculate_boundry
+    @width = 0
+    @height= 0
+    @texts.each {|t| @width = t.width if t.width > @width}
+    @texts.each {|t| @height+=t.height}
   end
 end

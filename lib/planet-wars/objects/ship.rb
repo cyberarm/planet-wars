@@ -77,6 +77,8 @@ class Ship < GameObject
     move_down if button_down?(Gosu::KbS) || button_down?(Gosu::KbDown) || button_down?(Gosu::GpButton9)
     move_left if button_down?(Gosu::KbA) || button_down?(Gosu::KbLeft) || button_down?(Gosu::GpLeft)
     move_right if button_down?(Gosu::KbD) || button_down?(Gosu::KbRight) || button_down?(Gosu::GpRight)
+
+    debug_text("#{self}\nSpeed: #{@active_speed.round(2)}\nBoost: #{@boost.round(2)}")
   end
 
   def button_up(id)
@@ -91,7 +93,7 @@ class Ship < GameObject
 
   def hit(damage, object)
     @object = object
-    @health-=damage
+    @health-=damage unless ARGV.join.include?("--no-damage")
   end
 
   def health_check
