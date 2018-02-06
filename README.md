@@ -45,6 +45,7 @@ Note: Controller controls assume an Xbox compatible controller.
 * `--quick` Skips intro and jumps to `MainMenu`
 * `--no-shadow` Disables text shadow/highlighting
 * `--low` Sets the update_interval to 30 frames per second
+* `--no-damage` Ship will not take damage
 
 Note: using `--debug_game` with also trigger `--debug` due to laziness. `ARGV.join.include?(string)`
 
