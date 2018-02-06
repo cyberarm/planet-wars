@@ -1,6 +1,6 @@
 class Ship < GameObject
   attr_accessor :boost, :max_boost, :health, :max_health, :dead, :speed, :boost_speed, :diamond, :gold, :oil
-  attr_reader   :active_speed, :lock_speed, :lock_max_boost, :lock_boost_speed, :ship_size, :border
+  attr_reader   :active_speed, :lock_speed, :lock_max_boost, :lock_boost_speed, :radius, :border
 
   def setup
     @debug_color = Gosu::Color::YELLOW
@@ -32,7 +32,6 @@ class Ship < GameObject
     @border= @options[:world]
     @image = AssetManager.get_image("#{AssetManager.ships_path}/ship.png")
     @particle = ParticleEmitter.new(x: self.x, y: self.y, z: 1, spread: 20.0, max_particles: 500, particles_per_second: 200, speed: 0, decay: 5)
-    @ship_size = @image.width/2
 
     @lock_max_boost = 400
     @lock_boost_speed = 3
@@ -78,7 +77,7 @@ class Ship < GameObject
     move_left if button_down?(Gosu::KbA) || button_down?(Gosu::KbLeft) || button_down?(Gosu::GpLeft)
     move_right if button_down?(Gosu::KbD) || button_down?(Gosu::KbRight) || button_down?(Gosu::GpRight)
 
-    debug_text("#{self}\nSpeed: #{@active_speed.round(2)}\nBoost: #{@boost.round(2)}")
+    debug_text("#{self}\nHealth: #{self.health.round(2)}\nSpeed: #{@active_speed.round(2)}\nBoost: #{@boost.round(2)}")
   end
 
   def button_up(id)
@@ -128,22 +127,22 @@ class Ship < GameObject
     active_speed = (@active_speed*60)*Engine.dt
     _x = active_speed * Math.cos((90.0 + angle) * Math::PI / 180)
     _y = active_speed * Math.sin((90.0 + angle) * Math::PI / 180)
-    self.x -= _x
-    self.y -= _y
+    self.x -= _x if (self.x-_x).between?(@border[0]+@radius, @border[1]-@radius)
+    self.y -= _y if (self.y-_y).between?(@border[2]+@radius, @border[3]-@radius)
 
-    if self.y >= @border[3]-@ship_size
+    if self.y >= @border[3]-@radius
       self.y-=speed
     end
-    if self.x >= @border[1]-@ship_size
+    if self.x >= @border[1]-@radius
       self.x-=speed
     end
-    if self.y <= @border[2]+@ship_size
+    if self.y <= @border[2]+@radius
       self.y+=speed
     end
-    if self.x <= @border[0]+@ship_size
+    if self.x <= @border[0]+@radius
       self.x+=speed
     end
-    @active_speed = 0 if @active_speed <= 0.1 && !@moving
+    @active_speed = 0 if @active_speed.abs <= 0.1 && !@moving
   end
 
   def set_active_speed

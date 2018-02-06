@@ -73,6 +73,12 @@ class GameObject
     end
   end
 
+  def scale=(int)
+    self.scale_x = int
+    self.scale_y = int
+    self.radius = ((@image.width+@image.height)/4)*self.scale
+  end
+
   def x=(i)
     @last_x = @x
     @x = i
@@ -134,11 +140,6 @@ class GameObject
 
   def unpause
     @paused = false
-  end
-
-  def scale=(int)
-    self.scale_x = int
-    self.scale_y = int
   end
 
   def rotate(int)

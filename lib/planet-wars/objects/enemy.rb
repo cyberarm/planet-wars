@@ -58,7 +58,7 @@ class Enemy < GameObject
     end
 
     check_health
-    debug_text("#{self}\nAlpha: #{self.alpha.round}\nDespawn: #{@despawn}\nPortal Alpha: #{@portal ? @portal.alpha : 'nil'}")
+    debug_text("#{self}\nHealth: #{self.health.round(2)}\nAlpha: #{self.alpha.round}\nDespawn: #{@despawn}\nPortal Alpha: #{@portal ? @portal.alpha : 'nil'}")
   end
 
   def fire_bullet!

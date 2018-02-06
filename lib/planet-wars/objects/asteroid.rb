@@ -23,6 +23,8 @@ class Asteroid < GameObject
     check_for_collisions
     update_velocity
     destroy_self?
+
+    debug_text("#{self}\nHealth: #{self.health.round(2)}\nSpeed: #{(@speed*Engine.dt).round(2)}")
   end
 
   def check_for_collisions
