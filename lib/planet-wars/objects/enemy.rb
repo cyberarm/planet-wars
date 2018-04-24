@@ -26,7 +26,7 @@ class Enemy < GameObject
                         @target_object.x, @target_object.y, Gosu::Color.rgb(200,100,100), 9999)
       if @target_area.in_range
         distance = Gosu.distance(self.x, self.y, @target.x, @target.y)
-        if distance >= 250 && target.speed >= 1
+        if distance >= 250 && target.speed.abs >= 1
           _heading = @target.heading(distance*0.5)
           $window.draw_circle(_heading.x, _heading.y, 24, 9999, @debug_color)
           $window.draw_line(self.x, self.y, @debug_color,
@@ -66,7 +66,7 @@ class Enemy < GameObject
     distance   = Gosu.distance(self.x, self.y, @target.x, @target.y)
     dx = 0
     dy = 0
-    if distance >= 250 && @target.speed >= 1
+    if distance >= 250 && @target.speed.abs >= 1
       _heading = @target.heading(distance*0.5, @target)
       dx = _heading.x - self.x
       dy = _heading.y - self.y
