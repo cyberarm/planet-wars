@@ -4,17 +4,17 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     chroma (0.2.0)
-    excon (0.60.0)
-    gosu (0.13.2)
-    gosu (0.13.2-x86-mingw32)
-    humanize (1.7.0)
+    excon (0.62.0)
+    gosu (0.14.4)
+    gosu (0.14.4-x86-mingw32)
+    humanize (2.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    msgpack (1.2.2)
-    msgpack (1.2.2-x86-mingw32)
-    oj (3.4.0)
-    public_suffix (3.0.1)
-    rake (12.3.0)
+    msgpack (1.2.4)
+    msgpack (1.2.4-x86-mingw32)
+    oj (3.7.4)
+    public_suffix (3.0.3)
+    rake (12.3.2)
 
 PLATFORMS
   ruby
@@ -31,4 +31,4 @@ DEPENDENCIES
   rake
 
 BUNDLED WITH
-   1.16.1
+   1.17.2

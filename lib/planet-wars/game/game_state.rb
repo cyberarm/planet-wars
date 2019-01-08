@@ -30,9 +30,6 @@ class GameState
   def update
     @game_objects.each do |o|
       unless o.paused || @global_pause
-        o.world_center_point.x = @_4ship.x
-        o.world_center_point.y = @_4ship.y
-
         o.update
         o.update_debug_text if $debug
       end

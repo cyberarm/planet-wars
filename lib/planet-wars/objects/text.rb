@@ -76,20 +76,20 @@ class Text
     if @shadow && !ARGV.join.include?("--no-shadow")
       _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, @shadow_alpha) if @shadow_alpha <= @color.alpha
       _color = Gosu::Color.rgba(@color.red, @color.green, @color.blue, @color.alpha) unless @shadow_alpha <= @color.alpha
-      @textobject.draw(@text, @x-@shadow_size, @y, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x-@shadow_size, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x-@shadow_size, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x-@shadow_size, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x+@shadow_size, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x+@shadow_size, @y-@shadow_size, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x-@shadow_size, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x-@shadow_size, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
 
-      @textobject.draw(@text, @x+@shadow_size, @y, @z, @factor_x, @factor_y, _color)
-      @textobject.draw(@text, @x+@shadow_size, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x+@shadow_size, @y, @z, @factor_x, @factor_y, _color)
+      @textobject.draw_markup(@text, @x+@shadow_size, @y+@shadow_size, @z, @factor_x, @factor_y, _color)
     end
 
-    @textobject.draw(@text, @x, @y, @z, @factor_x, @factor_y, @color)
+    @textobject.draw_markup(@text, @x, @y, @z, @factor_x, @factor_y, @color)
   end
 
   def update; end
